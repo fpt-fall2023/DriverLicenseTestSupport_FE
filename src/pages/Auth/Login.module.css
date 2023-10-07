@@ -5,7 +5,13 @@
 
 .loginBanner {
     width: 40rem;
-    height: 120vh;
+    height: auto;
+}
+
+.websiteLogo {
+    width: 10rem;
+    height: 10rem;
+    margin-bottom: 1rem;
 }
 
 .loginBox {
@@ -15,6 +21,10 @@
     align-items: center;
     background-color: #fff;
     padding: 2rem;
+}
+
+.loginBox > a {
+    text-decoration: none;
 }
 
 .loginBox__title {
@@ -35,7 +45,6 @@
     height: 2.4rem;
     margin-left: 5rem;
     border-radius: 0.5rem;
-    background-color: rgb(61, 107, 233);
     color: #fff;
     font-size: 1.2rem;
     font-weight: 500;
@@ -63,4 +72,3 @@
     cursor: pointer;
     width: 2.5rem;
 }
-
