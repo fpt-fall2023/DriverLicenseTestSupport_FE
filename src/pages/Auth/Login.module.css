@@ -1,0 +1,66 @@
+.login {
+    display: grid;
+    grid-template-columns: 40% 60%;
+}
+
+.loginBanner {
+    width: 40rem;
+    height: 120vh;
+}
+
+.loginBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    padding: 2rem;
+}
+
+.loginBox__title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.loginBox__subtitle {
+    font-size: 1.2rem;
+    font-weight: 500;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.loginBox__button {
+    width: 11rem;
+    height: 2.4rem;
+    margin-left: 5rem;
+    border-radius: 0.5rem;
+    background-color: rgb(61, 107, 233);
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.loginBox__formItem {
+    margin-top: 2rem;
+}
+
+.loginBox__formItem__input {
+    width: 20rem;
+    height: 3rem;
+}
+
+.loginBox__line {
+    width: 30%;
+    height: 0.1rem;
+    background-color: #000;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.loginBox__social {
+    cursor: pointer;
+    width: 2.5rem;
+}
+
