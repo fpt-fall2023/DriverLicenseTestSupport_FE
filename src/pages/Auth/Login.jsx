@@ -2,6 +2,7 @@ import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Button, Form, Input, Space } from 'antd';
 import { UserOutlined } from '@ant-design/icons'
 import styles from './Login.module.css'
+import { useEffect } from 'react';
 const Login = () => {
     const [form] = Form.useForm()
 
@@ -10,13 +11,17 @@ const Login = () => {
         wrapperCol: { span: 16 }
     }
 
+    useEffect (() => {
+        document.getElementById('header').style.display = 'none'
+    }, [])
+
     return (
         <div className={styles.login}>
             <div>
-                <img src='./images/Login_Banner_2.jpg' alt='Login_Banner' className={styles.loginBanner} />
+                <img src='src/assets/images/Login_Banner_2.jpg' alt='Login_Banner' className={styles.loginBanner} />
             </div>
             <div className={styles.loginBox}>
-                <img src='./images/Website_Logo.png' alt="logo" />
+                <img src='src/assets/images/Website_Logo.png' alt="logo" />
                 <div className={styles.loginBox__title}>Welcome to Driver License Test Support</div>
                 <div className={styles.loginBox__subtitle}>Drift like a Pro - Gotta Go Fast</div>
                 <Form
@@ -61,7 +66,7 @@ const Login = () => {
                     Login with Google:
                 </div>
                 <div>
-                    <img src='./images/google.png' alt='google_login' className={styles.loginBox__social} />
+                    <img src='src/assets/images/google.png' alt='google_login' className={styles.loginBox__social} />
                 </div>
             </div>
         </div>

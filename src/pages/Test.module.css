@@ -1,22 +1,26 @@
 .main_container {
-    background-image: url(../assets/banner_homepage.jpg);
-    background-position: center;
-    background-size: cover;
-    background-repeat: repeat;
-    background-attachment: fixed;
-    align-items: center;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    display: flex;
-    height: 30vh;
-  }
-  
-  .homepage {
-    max-height: fit-content;
-  }
-  
-  .homebody img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+  background-image: url(../assets/images/banner_homepage.jpg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: repeat;
+  background-attachment: fixed;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  display: flex;
+  height: 30vh;
+}
+
+.homepage {
+  max-height: fit-content;
+}
+
+.quizpage {
+  min-height: 100vh;
+}
+
+.homebody img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
