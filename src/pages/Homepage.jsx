@@ -1,6 +1,6 @@
 import styles from "./Test.module.css";
 import { Typography, Button, Row, Col, Divider, Card } from "antd";
-import driving_theory from "../assets/driving_theory.jpg";
+import driving_theory from "../assets/images/driving_theory.jpg";
 
 const { Title } = Typography;
 const Homepage = () => {
@@ -16,7 +16,7 @@ const Homepage = () => {
               Hãy để chúng tôi giúp bạn củng cố kiến thức trong thời gian ngắn
               nhất
             </Typography.Paragraph>
-            <a href="#jobs">
+            <a href="quizpage">
               <Button
                 className="home1_button"
                 type="primary"

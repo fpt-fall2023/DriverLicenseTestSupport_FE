@@ -2,7 +2,7 @@ import Login from "../pages/Auth/Login"
 import Register from "../pages/Auth/Register"
 import Homepage from "../pages/Homepage"
 import Dashboard from "../pages/Dashboard"
-import Quiz from "../pages/Quiz"
+import QuizPage from "../pages/Auth/QuizPage"
 
 const RouteData = [
     {
@@ -26,9 +26,9 @@ const RouteData = [
         element: <Dashboard />
     },
     {
-        title: "Quiz",
-        path: "/quiz",
-        element: <Quiz />
+        title: "QuizPage",
+        path: "/quizpage",
+        element: <QuizPage />
     }
 ]
 
