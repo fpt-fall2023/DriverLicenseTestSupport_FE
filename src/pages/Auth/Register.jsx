@@ -4,6 +4,7 @@ import { UserOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons'
 import styles from './Login.module.css'
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
+import { registerAccount } from '../../apis/UserService'
 const Login = () => {
     const [form] = Form.useForm()
 
@@ -13,7 +14,11 @@ const Login = () => {
     }
 
     const onFinish = (values) => {
-        console.log(values)
+        registerAccount(values.email, values.password, values.fullname).then(res => {
+            console.log(res)
+        }).catch(err => {
+            console.log(err)
+        })
     }
 
     // useEffect (() => {
@@ -64,6 +69,31 @@ const Login = () => {
                         </Space>
                     </Form.Item>
                     <Form.Item
+                        name="confirm"
+                        dependencies={['password']}
+                        hasFeedback
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Vui lòng nhập lại mật khẩu',
+                            },
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                    if (!value || getFieldValue('password') === value) {
+                                        return Promise.resolve();
+                                    }
+                                    return Promise.reject(new Error('Mật khẩu không khớp!'));
+                                },
+                            }),
+                        ]}
+                    >
+                        <Input.Password
+                            placeholder="Nhập lại password của bạn"
+                            iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                            className={styles.loginBox__formItem__input}
+                        />
+                    </Form.Item>
+                    <Form.Item
                         name="fullname"
                         rules={[
                             { required: true, message: "Nhập họ tên của bạn" }
@@ -78,35 +108,20 @@ const Login = () => {
                             }
                         />
                     </Form.Item>
-                    <Form.Item
-                        name="phone"
-                        rules={[
-                            { required: true, message: "Nhập số điện thoại của bạn" }
-                        ]}
-                        className={styles.loginBox__formItem}
-                    >
-                        <Input
-                            placeholder='Nhập số điện thoại của bạn'
-                            className={styles.loginBox__formItem__input}
-                            suffix={
-                                <PhoneOutlined />
-                            }
-                        />
-                    </Form.Item>
                     <Form.Item>
                         <Button type='primary' className={styles.loginBox__button} htmlType='submit'>Đăng Ký</Button>
                     </Form.Item>
                 </Form>
                 <div className={styles.loginBox__line}></div>
-                <div style={{fontWeight: "bold"}}>
+                <div style={{ fontWeight: "bold" }}>
                     Đăng Ký Bằng Google:
                 </div>
                 <div>
                     <img src='src/assets/images/google.png' alt='google_login' className={styles.loginBox__social} />
                 </div>
                 <div className={styles.loginBox__line}></div>
-                <div style={{fontWeight: "bold"}}>
-                    Đã có tài khoản? <Link to='/login' style={{textDecoration: "none", color: "#1677ff"}}>Đăng nhập</Link>
+                <div style={{ fontWeight: "bold" }}>
+                    Đã có tài khoản? <Link to='/login' style={{ textDecoration: "none", color: "#1677ff" }}>Đăng nhập</Link>
                 </div>
             </div>
         </div>

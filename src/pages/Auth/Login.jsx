@@ -2,6 +2,7 @@ import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
 import { Button, Form, Input, Space } from 'antd'
 import { MailOutlined } from '@ant-design/icons'
 import styles from './Login.module.css'
+import { loginAccount } from '../../apis/UserService'
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 const Login = () => {
@@ -13,7 +14,13 @@ const Login = () => {
     }
 
     const onFinish = (values) => {
-        console.log(values)
+        loginAccount(values.email, values.password).then((res) => {
+            if (res.status === 200) {
+                console.log(res.data)
+            }
+        }).catch((err) => {
+            console.log(err)
+        })
     }
 
     // useEffect (() => {
