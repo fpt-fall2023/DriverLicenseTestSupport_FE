@@ -41,7 +41,9 @@ const LearningCard = (question) => {
             </ul>
           </div>
         </div>
-        <h2 className="back">D</h2>
+        <h1 className="back" style={{ fontSize: '1.6rem' }}>
+          {question.question.ans}
+        </h1>
       </Col>
 
       <Col className={LearningCss.cardQuestionImg} span={8}>

@@ -1,6 +1,6 @@
 // import React from "react";
 import { useState } from 'react';
-import { Button, Col, Progress, Row, Tooltip } from 'antd';
+import { Avatar, Button, Col, Progress, Row, Tooltip } from 'antd';
 
 import LearningCss from './Learning.module.css';
 import './Flip.css';
@@ -14,6 +14,9 @@ import startIcon from '../../assets/icons/play.png';
 import fullScreenIcon from '../../assets/icons/fullScreen.png';
 import nextQuesIcon from '../../assets/icons/navigate_next.png';
 import prevQuesIcon from '../../assets/icons/navigate_before.png';
+import shareCourseIcon from '../../assets/icons/ios_share.png';
+import duplicateIcon from '../../assets/icons/content_copy.png';
+import moreItemsIcon from '../../assets/icons/more_horiz.png';
 
 import LearningCard from './LearningCard';
 
@@ -148,7 +151,9 @@ const Learning = () => {
                   onClick={handlePrevQues}
                   icon={<img src={prevQuesIcon} alt="Prev Question" />}
                 />
-                <span style={{ margin: '0 1rem' }}>1/258</span>
+                <span style={{ margin: '0 1rem' }}>
+                  {curQues + 1}/{rawQuestion.length}
+                </span>
                 <Button
                   title="Search"
                   shape="circle"
@@ -168,7 +173,7 @@ const Learning = () => {
                 </Tooltip>
               </Col>
             </Row>
-            <div className="progressBar">
+            <div className={LearningCss.progressBar}>
               <Progress
                 percent={((curQues + 1) / rawQuestion.length) * 100}
                 size="small"
@@ -180,8 +185,54 @@ const Learning = () => {
         </Row>
       </div>
       {/* Post Publisher------------------------------- */}
-      <div></div>
-      <div style={{ padding: '80px 0' }}></div>
+      <div className={LearningCss.postPublisher}>
+        <Row>
+          <Col span={14}>
+            <Row justify="space-between" gutter={16}>
+              <Col
+                className={[LearningCss.authorShortInfo, 'gutter-row']}
+                span={12}
+              >
+                <Avatar
+                  src={
+                    'https://i1.sndcdn.com/artworks-58zqzq1zBNTFqO1T-yfxFSQ-t240x240.jpg'
+                  }
+                  size={{ xs: 22, sm: 30, md: 38, lg: 62, xl: 78, xxl: 98 }}
+                ></Avatar>
+                <div className={LearningCss.postAuthor}>Nguyễn Đức</div>
+              </Col>
+              <Col
+                className={[LearningCss.courseOptionsContainer, 'gutter-row']}
+                span={12}
+              >
+                <Button
+                  className={LearningCss.courseOptionsBtn}
+                  type="default"
+                  icon={<img src={shareCourseIcon} alt="Share" />}
+                  size={'middle'}
+                >
+                  Chia sẻ
+                </Button>
+                <Button
+                  className={LearningCss.courseOptionsBtn}
+                  type="default"
+                  icon={<img src={duplicateIcon} alt="Save" />}
+                  size={'middle'}
+                ></Button>
+                <Button
+                  className={LearningCss.courseOptionsBtn}
+                  type="default"
+                  icon={<img src={moreItemsIcon} alt="More" />}
+                  size={'middle'}
+                ></Button>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </div>
+      <div className="terminologySection">
+        <h2>Thuật ngữ trong học phần này (120)</h2>
+      </div>
     </div>
   );
 };
