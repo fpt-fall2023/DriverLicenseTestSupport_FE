@@ -5,6 +5,7 @@ import Dashboard from "../pages/Dashboard"
 import QuizPage from "../pages/Auth/QuizPage"
 import AboutUs from "../pages/AboutUs"
 import News from "../pages/News"
+import LearningCard from "../pages/LearningCard/Learning"
 
 const RouteData = [
     {
