@@ -41,6 +41,11 @@ const RouteData = [
         title: "News",
         path: "/news",
         element: <News />
+    },
+    {
+        title: "News",
+        path: "/quizpage/learn",
+        element: <LearningCard />
     }
 ]
 
