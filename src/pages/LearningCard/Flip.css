@@ -1,12 +1,4 @@
-/* 
-.card-grid {
-  display: grid;
-  align-items: center;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-} */
-
-.card {
+.card_3d_note {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,22 +7,13 @@
   transition: 180ms;
   cursor: pointer;
   transform: perspective(1500px) rotateX(var(--rotate-x, 0));
-  /* border-radius: 0.25rem;
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3); */
-  /* background-color: white; */
-  /* translateY(var(--translate-y, 0)); */
 }
 
-/* .card:hover {
-  --translate-y: -2px;
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.5);
-} */
-
-.card.flip {
+.card_3d_note.flip {
   --rotate-x: 180deg;
 }
 
-.card .front {
+.card_3d_note .front {
   max-height: 19.75rem;
   overflow: auto;
   left: 0;
@@ -38,15 +21,15 @@
   width: 95%;
 }
 
-.card .front,
-.card .back {
+.card_3d_note .front,
+.card_3d_note .back {
   position: absolute;
   padding: 1rem;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
 
-.card .back {
+.card_3d_note .back {
   transform: rotateX(180deg);
   backface-visibility: hidden;
   text-align: center;

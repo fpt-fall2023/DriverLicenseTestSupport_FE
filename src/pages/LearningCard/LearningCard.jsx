@@ -16,7 +16,7 @@ const LearningCard = (question) => {
         className={[
           LearningCss.studyModeCard,
           LearningCss.cardQuestion,
-          `card ${isFlipped ? 'flip' : ''}`,
+          `card_3d_note ${isFlipped ? 'flip' : ''}`,
         ]}
         onClick={handleFlip}
         span={14}
@@ -41,7 +41,7 @@ const LearningCard = (question) => {
             </ul>
           </div>
         </div>
-        <h1 className="back" style={{ fontSize: '1.6rem' }}>
+        <h1 className="back" style={{ fontSize: '1.6rem', fontWeight: 400 }}>
           {question.question.ans}
         </h1>
       </Col>
