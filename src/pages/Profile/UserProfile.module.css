@@ -1,0 +1,4 @@
+.userProfile {
+    display: flex;
+    grid-template-columns: 30% 70%;
+}
