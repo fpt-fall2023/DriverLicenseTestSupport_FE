@@ -16,7 +16,7 @@ const Login = () => {
     const onFinish = (values) => {
         loginAccount(values.email, values.password).then((res) => {
             if (res.status === 200) {
-                console.log(res.data)
+                toast
             }
         }).catch((err) => {
             console.log(err)
