@@ -1,0 +1,18 @@
+.container{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    color: white;
+   }
+   /* .SideMenuAndPageContent{
+    display: flex;
+    flex: 1;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: rgba(0, 0, 0, 0.05) ;
+  } */
+  .App{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
