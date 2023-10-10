@@ -5,8 +5,9 @@ import QuestionPage from "../pages/Dashboard/QuestionPage"
 import AddQuestionPage from "../pages/Dashboard/AddQuestionPage"
 import Learning from "../pages/LearningCard/Learning"
 import QuizPage from "../pages/Auth/QuizPage"
-import AboutUs from "../pages/AboutUs"
-import News from "../pages/News"
+import AboutUs from "../pages/AboutUs/AboutUs"
+import News from "../pages/News/News"
+import UserProfile from "../pages/Profile/UserProfile"
 
 const RouteData = [
     {
@@ -58,6 +59,11 @@ const RouteData = [
         title: "News",
         path: "/quizpage/learn",
         element: <Learning />
+    },
+    {
+        title: "UserProfile",
+        path: "/profile",
+        element: <UserProfile />
     }
 ]
 
