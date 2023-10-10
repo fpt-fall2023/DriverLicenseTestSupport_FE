@@ -16,8 +16,8 @@ const updateQuestion = () => {
 
 }
 
-const deleteQuestion = () => {
-    
+const deleteQuestion = (questionId) => {
+    axios.delete(QUESTION_API_URL +"/"+questionId)
 }
 
 export {getQuestions, addQuestion, updateQuestion, deleteQuestion}
