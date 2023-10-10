@@ -1,11 +1,11 @@
 import Login from "../pages/Auth/Login"
 import Register from "../pages/Auth/Register"
 import Homepage from "../pages/Homepage"
-import Dashboard from "../pages/Dashboard"
+import QuestionPage from "../pages/Dashboard/QuestionPage"
+import AddQuestionPage from "../pages/Dashboard/AddQuestionPage"
 import QuizPage from "../pages/Auth/QuizPage"
 import AboutUs from "../pages/AboutUs"
 import News from "../pages/News"
-import LearningCard from "../pages/LearningCard/Learning"
 
 const RouteData = [
     {
@@ -27,6 +27,16 @@ const RouteData = [
         title: "Dashboard",
         path: "/dashboard",
         element: <Dashboard />
+    },
+    {
+        title: "QuestionPage",
+        path: "/dashboard/QuestionPage",
+        element: <QuestionPage />
+    },
+    {
+        title: "AddQuestionPage",
+        path: "/dashboard/AddQuestionPage",
+        element: <AddQuestionPage />
     },
     {
         title: "QuizPage",
