@@ -19,6 +19,7 @@ import duplicateIcon from '../../assets/icons/content_copy.png';
 import moreItemsIcon from '../../assets/icons/more_horiz.png';
 
 import LearningCard from './LearningCard';
+import QuestionSlide from './Question';
 
 const rawQuestion = [
   {
@@ -66,7 +67,7 @@ const Learning = () => {
   return (
     <div className={LearningCss.learningContainer}>
       <div className="learningHeader">
-        <h2 className={LearningCss.learningPageTitle}>PRM391</h2>
+        <div className={LearningCss.learningPageTitle}>PRM391</div>
 
         <Row
           style={{ marginRight: '10px' }}
@@ -199,7 +200,7 @@ const Learning = () => {
                   }
                   size={{ xs: 22, sm: 30, md: 38, lg: 62, xl: 78, xxl: 98 }}
                 ></Avatar>
-                <div className={LearningCss.postAuthor}>Nguyễn Đức</div>
+                <div className={LearningCss.postAuthor}>Rick Astley</div>
               </Col>
               <Col
                 className={[LearningCss.courseOptionsContainer, 'gutter-row']}
@@ -230,9 +231,18 @@ const Learning = () => {
           </Col>
         </Row>
       </div>
-      <div className="terminologySection">
-        <h2>Thuật ngữ trong học phần này (120)</h2>
-      </div>
+      <Row className={LearningCss.terminologySection}>
+        <Col span={20}>
+          <h2 style={{ fontSize: '1.25rem' }}>
+            Thuật ngữ trong học phần này ({rawQuestion.length})
+          </h2>
+          <div>
+            {rawQuestion.map((ques, i) => {
+              return <QuestionSlide key={i} question={ques} />;
+            })}
+          </div>
+        </Col>
+      </Row>
     </div>
   );
 };

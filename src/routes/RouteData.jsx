@@ -1,11 +1,13 @@
 import Login from "../pages/Auth/Login"
 import Register from "../pages/Auth/Register"
 import Homepage from "../pages/Homepage"
-import Dashboard from "../pages/Dashboard"
+import QuestionPage from "../pages/Dashboard/QuestionPage"
+import AddQuestionPage from "../pages/Dashboard/AddQuestionPage"
+import Learning from "../pages/LearningCard/Learning"
 import QuizPage from "../pages/Auth/QuizPage"
-import AboutUs from "../pages/AboutUs"
-import News from "../pages/News"
-import LearningCard from "../pages/LearningCard/Learning"
+import AboutUs from "../pages/AboutUs/AboutUs"
+import News from "../pages/News/News"
+import UserProfile from "../pages/Profile/UserProfile"
 
 const RouteData = [
     {
@@ -23,10 +25,20 @@ const RouteData = [
         path: "/",
         element: <Homepage />
     },
+    // {
+    //     title: "Dashboard",
+    //     path: "/dashboard",
+    //     element: <Dashboard />
+    // },
     {
-        title: "Dashboard",
-        path: "/dashboard",
-        element: <Dashboard />
+        title: "QuestionPage",
+        path: "/dashboard/QuestionPage",
+        element: <QuestionPage />
+    },
+    {
+        title: "AddQuestionPage",
+        path: "/dashboard/AddQuestionPage",
+        element: <AddQuestionPage />
     },
     {
         title: "QuizPage",
@@ -46,7 +58,12 @@ const RouteData = [
     {
         title: "News",
         path: "/quizpage/learn",
-        element: <LearningCard />
+        element: <Learning />
+    },
+    {
+        title: "UserProfile",
+        path: "/profile",
+        element: <UserProfile />
     }
 ]
 
