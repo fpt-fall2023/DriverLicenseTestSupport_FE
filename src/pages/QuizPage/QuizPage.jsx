@@ -112,21 +112,23 @@ const QuizPage = () => {
             </Link>
           </Col>
           <Col span={5}>
-            <Card
-              hoverable
-              style={{
-                width: 240,
-              }}
-              bordered={false}
-              cover={
-                <img
-                  alt="example"
-                  src="https://daotaolaixeoto.com.vn/Images/ontap/bien-bao.png"
-                />
-              }
-            >
-              <Meta title="Biến báo" />
-            </Card>
+            <Link to="trafficsigns">
+              <Card
+                hoverable
+                style={{
+                  width: 240,
+                }}
+                bordered={false}
+                cover={
+                  <img
+                    alt="example"
+                    src="https://daotaolaixeoto.com.vn/Images/ontap/bien-bao.png"
+                  />
+                }
+              >
+                <Meta title="Biến báo" />
+              </Card>
+            </Link>
           </Col>
           <Col span={5}>
             <Card
@@ -142,7 +144,7 @@ const QuizPage = () => {
                 />
               }
             >
-              <Meta title="Tra cứu luật" />
+              <Meta title="Ôn đề" />
             </Card>
           </Col>
         </Row>
