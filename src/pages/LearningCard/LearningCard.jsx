@@ -48,7 +48,12 @@ const LearningCard = (question) => {
 
       <Col className={LearningCss.cardQuestionImg} span={8}>
         {question.question.image ? (
-          <Image movable={'false'} width={250} src={question.question.image} />
+          <Image
+            movable={'false'}
+            width={250}
+            preview={false}
+            src={question.question.image}
+          />
         ) : (
           ''
         )}

@@ -1,5 +1,5 @@
 // import React from "react";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Avatar, Button, Col, Progress, Row, Tooltip } from 'antd';
 
 import LearningCss from './Learning.module.css';
@@ -20,6 +20,8 @@ import moreItemsIcon from '../../assets/icons/more_horiz.png';
 
 import LearningCard from './LearningCard';
 import QuestionSlide from './Question';
+
+import { getQuestions } from '../../apis/QuestionService';
 
 const rawQuestion = [
   {
@@ -50,7 +52,26 @@ const rawQuestion = [
 ];
 
 const Learning = () => {
+  const [questions, setQuestions] = useState([]);
   const [curQues, setCurQues] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getQuestions();
+        console.log(result.data.data);
+        setQuestions(result.data.data.Question);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    console.log(questions[0]);
+  }, [questions]);
 
   const handleNextQues = () => {
     if (curQues < rawQuestion.length - 1) {
@@ -243,6 +264,28 @@ const Learning = () => {
           </div>
         </Col>
       </Row>
+      <div>
+        {questions.length > 0 ? (
+          <div>
+            {questions.map((item) => {
+              return (
+                <div key={item._id}>
+                  <div>Name: {item.questionName}</div>
+                  <div>Is danger: {item.isDanger.toString()}</div>
+                  {/* {item.} */}
+                  <ul>
+                    {item.answers.map((ans) => (
+                      <li key={ans.answerName}>{ans.answerName}</li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div>Loading...</div>
+        )}
+      </div>
     </div>
   );
 };
