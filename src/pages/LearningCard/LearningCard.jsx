@@ -5,6 +5,7 @@ import LearningCss from './Learning.module.css';
 import { useState } from 'react';
 
 const LearningCard = (question) => {
+  const questionInfo = question.question;
   const [isFlipped, setIsFlipped] = useState(false);
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
@@ -26,15 +27,15 @@ const LearningCard = (question) => {
             style={{ marginBottom: '1.25rem' }}
             className={LearningCss.cardQuestionText}
           >
-            {question.question.question}
+            {questionInfo.questionName}
           </div>
           <div>
             <span className={LearningCss.cardQuestionText}>Select One:</span>
             <ul className={LearningCss.cardQuestionText}>
-              {question.question.options.map((ques, index) => {
+              {questionInfo.answers.map((ques, index) => {
                 return (
                   <li key={index}>
-                    {ansTypical[index]}. {ques}
+                    {ansTypical[index]}. {ques.answerName}
                   </li>
                 );
               })}
@@ -42,17 +43,25 @@ const LearningCard = (question) => {
           </div>
         </div>
         <h1 className="back" style={{ fontSize: '1.6rem', fontWeight: 400 }}>
-          {question.question.ans}
+          {questionInfo.answers.map((ques, index) => {
+            if (ques.isCorrect) {
+              return (
+                <div key={index}>
+                  {ansTypical[index]}. {ques.answerName}
+                </div>
+              );
+            }
+          })}
         </h1>
       </Col>
 
       <Col className={LearningCss.cardQuestionImg} span={8}>
-        {question.question.image ? (
+        {questionInfo.questionImage ? (
           <Image
             movable={'false'}
             width={250}
             preview={false}
-            src={question.question.image}
+            src={questionInfo.questionImage}
           />
         ) : (
           ''

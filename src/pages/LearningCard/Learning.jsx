@@ -22,6 +22,7 @@ import LearningCard from './LearningCard';
 import QuestionSlide from './Question';
 
 import { getQuestions } from '../../apis/QuestionService';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const rawQuestion = [
   {
@@ -74,7 +75,7 @@ const Learning = () => {
   }, [questions]);
 
   const handleNextQues = () => {
-    if (curQues < rawQuestion.length - 1) {
+    if (curQues < questions.length - 1) {
       setCurQues(curQues + 1);
     }
   };
@@ -88,7 +89,7 @@ const Learning = () => {
   return (
     <div className={LearningCss.learningContainer}>
       <div className="learningHeader">
-        <div className={LearningCss.learningPageTitle}>PRM391</div>
+        <div className={LearningCss.learningPageTitle}>Câu hỏi lái xe</div>
 
         <Row
           style={{ marginRight: '10px' }}
@@ -139,73 +140,82 @@ const Learning = () => {
           </Col>
         </Row>
       </div>
+      {questions.length > 0 ? (
+        <div className={LearningCss.learningCardSection}>
+          <LearningCard question={questions[curQues]} />
 
-      <div className={LearningCss.learningCardSection}>
-        <LearningCard question={rawQuestion[curQues]} />
+          {/* Navigate Section------------------------------------------- */}
+          <Row justify={'space-between'}>
+            <Col span={14} className="navigation">
+              <Row>
+                <Col className={LearningCss.firstAction} span={8}>
+                  <Tooltip title="Start">
+                    <Button
+                      style={{ marginRight: '10px' }}
+                      title="Search"
+                      shape="circle"
+                      icon={<img src={startIcon} alt="Start" />}
+                    />
+                  </Tooltip>
+                  <Tooltip title="Shuffle">
+                    <Button
+                      title="Search"
+                      shape="circle"
+                      icon={<img src={shuffleIcon} alt="Shuffle" />}
+                    />
+                  </Tooltip>
+                </Col>
 
-        {/* Navigate Section------------------------------------------- */}
-        <Row justify={'space-between'}>
-          <Col span={14} className="navigation">
-            <Row>
-              <Col className={LearningCss.firstAction} span={8}>
-                <Tooltip title="Start">
+                <Col className={LearningCss.secondAction} span={8}>
                   <Button
-                    style={{ marginRight: '10px' }}
                     title="Search"
                     shape="circle"
-                    icon={<img src={startIcon} alt="Start" />}
+                    size="large"
+                    onClick={handlePrevQues}
+                    icon={<img src={prevQuesIcon} alt="Prev Question" />}
                   />
-                </Tooltip>
-                <Tooltip title="Shuffle">
+                  <span style={{ margin: '0 1rem' }}>
+                    {curQues + 1}/{questions.length}
+                  </span>
                   <Button
                     title="Search"
                     shape="circle"
-                    icon={<img src={shuffleIcon} alt="Shuffle" />}
+                    size="large"
+                    onClick={handleNextQues}
+                    icon={<img src={nextQuesIcon} alt="Next Question" />}
                   />
-                </Tooltip>
-              </Col>
+                </Col>
 
-              <Col className={LearningCss.secondAction} span={8}>
-                <Button
-                  title="Search"
-                  shape="circle"
-                  size="large"
-                  onClick={handlePrevQues}
-                  icon={<img src={prevQuesIcon} alt="Prev Question" />}
+                <Col className={LearningCss.thirdAction} span={8}>
+                  <Tooltip title="Full Screen">
+                    <Button
+                      title="Search"
+                      shape="circle"
+                      icon={<img src={fullScreenIcon} alt="Full Screen" />}
+                    />
+                  </Tooltip>
+                </Col>
+              </Row>
+              <div className={LearningCss.progressBar}>
+                <Progress
+                  percent={((curQues + 1) / questions.length) * 100}
+                  size="small"
+                  status="active"
+                  showInfo={false}
                 />
-                <span style={{ margin: '0 1rem' }}>
-                  {curQues + 1}/{rawQuestion.length}
-                </span>
-                <Button
-                  title="Search"
-                  shape="circle"
-                  size="large"
-                  onClick={handleNextQues}
-                  icon={<img src={nextQuesIcon} alt="Next Question" />}
-                />
-              </Col>
+              </div>
+            </Col>
+          </Row>
+        </div>
+      ) : (
+        <LoadingOutlined
+          style={{
+            fontSize: 24,
+          }}
+          spin
+        />
+      )}
 
-              <Col className={LearningCss.thirdAction} span={8}>
-                <Tooltip title="Full Screen">
-                  <Button
-                    title="Search"
-                    shape="circle"
-                    icon={<img src={fullScreenIcon} alt="Full Screen" />}
-                  />
-                </Tooltip>
-              </Col>
-            </Row>
-            <div className={LearningCss.progressBar}>
-              <Progress
-                percent={((curQues + 1) / rawQuestion.length) * 100}
-                size="small"
-                status="active"
-                showInfo={false}
-              />
-            </div>
-          </Col>
-        </Row>
-      </div>
       {/* Post Publisher------------------------------- */}
       <div className={LearningCss.postPublisher}>
         <Row>
