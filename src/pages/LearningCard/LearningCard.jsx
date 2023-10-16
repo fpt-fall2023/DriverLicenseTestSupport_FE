@@ -2,7 +2,7 @@ import { Col, Image, Row } from 'antd';
 
 import LearningCss from './Learning.module.css';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const LearningCard = (question) => {
   const questionInfo = question.question;
@@ -10,6 +10,11 @@ const LearningCard = (question) => {
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
   };
+
+  useEffect(() => {
+    setIsFlipped(false);
+  }, [question]);
+
   const ansTypical = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 't', 'q'];
   return (
     <Row className={LearningCss.cardQuestionContainer} justify="space-between">

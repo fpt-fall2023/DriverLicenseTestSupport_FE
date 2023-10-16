@@ -3,21 +3,31 @@ import { Col, Divider, Image, Row } from 'antd';
 import LearningCss from './Learning.module.css';
 
 const QuestionSlide = (question) => {
+  const questionInfo = question.question;
   const ansTypical = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 't', 'q'];
-
+  const multipleChoice = () => {
+    let count = 0;
+    questionInfo.answers.map((ques) => {
+      if (ques.isCorrect) count += 1;
+    });
+    if (count >= 2) {
+      return true;
+    }
+    return false;
+  };
   return (
     <Row className={LearningCss.questionSlideContainer}>
       <Col span={14}>
         <div className={LearningCss.questionSlideText}>
-          {question.question.question}
+          {questionInfo.questionName}
         </div>
         <div style={{ marginBottom: '1.25rem' }}>
-          {question.question.image ? (
+          {questionInfo.questionImage ? (
             <Image
               movable={'false'}
               width={100}
               preview={false}
-              src={question.question.image}
+              src={questionInfo.questionImage}
             />
           ) : (
             ''
@@ -25,13 +35,13 @@ const QuestionSlide = (question) => {
         </div>
         <div>
           <span className={LearningCss.questionSlideText}>
-            Select {question.question.ans.length == 1 ? 'One' : 'Many'}:
+            Select {multipleChoice() ? 'Many' : 'One'}:
           </span>
           <div className={LearningCss.questionSlideText}>
-            {question.question.options.map((ques, index) => {
+            {questionInfo.answers.map((ques, index) => {
               return (
                 <div key={index}>
-                  {ansTypical[index]}. {ques}
+                  {ansTypical[index]}. {ques.answerName}
                 </div>
               );
             })}
@@ -40,7 +50,15 @@ const QuestionSlide = (question) => {
       </Col>
       <Divider style={{ height: 'auto' }} type="vertical" />
       <Col className={LearningCss.questionSlideText} span={9}>
-        {question.question.ans}
+        {questionInfo.answers.map((ques, index) => {
+          if (ques.isCorrect) {
+            return (
+              <div key={index}>
+                {ansTypical[index]}. {ques.answerName}
+              </div>
+            );
+          }
+        })}
       </Col>
     </Row>
   );

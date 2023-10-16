@@ -1,0 +1,75 @@
+.examinationMode {
+  position: relative;
+  padding: 1.5rem 0rem;
+}
+
+.referenceQues {
+  position: absolute;
+  /* width: fit-content; */
+  /* height: fit-content; */
+  top: 0;
+  bottom: 0;
+}
+
+.stickyRefQues {
+  position: sticky;
+  top: 5rem;
+  padding: 0 1rem;
+  z-index: 10;
+}
+
+.stickyRefList {
+  overflow: auto;
+  height: 75vh;
+  padding: 0;
+  width: 90%;
+  list-style: none;
+}
+
+.stickyRefItem {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  height: 1.75rem;
+  width: 100%;
+  text-indent: 0.3rem;
+}
+
+.stickyRefItem:hover {
+  background-color: #edeff4;
+  cursor: pointer;
+}
+
+.titleInfoText {
+  color: rgb(88, 99, 128);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.questionTitleText {
+  color: rgb(46, 56, 86);
+  font-size: 1.25rem;
+  line-height: 1.8rem;
+}
+
+.selectAnsCard {
+  border: 2px solid #edeff4;
+  display: flex;
+  border-radius: 0.6rem;
+  align-items: center;
+  padding: 0.8rem;
+  font-size: 1rem;
+}
+
+.selectAnsCard:hover {
+  border: 2px solid #939bb4;
+  cursor: pointer;
+}
+
+.selectAnsCard.selected {
+  background-color: #edefff;
+  border: 2px solid #4255ffcb;
+}

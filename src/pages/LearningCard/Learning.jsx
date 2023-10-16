@@ -19,36 +19,65 @@ import duplicateIcon from '../../assets/icons/content_copy.png';
 import moreItemsIcon from '../../assets/icons/more_horiz.png';
 
 import LearningCard from './LearningCard';
-import QuestionSlide from './Question';
+import QuestionSlide from './QuestionSlide';
 
 import { getQuestions } from '../../apis/QuestionService';
 import { LoadingOutlined } from '@ant-design/icons';
 
 const rawQuestion = [
   {
-    id: 1,
-    question:
-      'Biển báo hiệu hình chữ nhật hoặc hình vuông hoặc hình mũi tên nền xanh lam là loại biển gì dưới đây ?',
-    ans: 'Biển báo chỉ dẫn',
-    options: [
-      'Biển báo nguy hiểm',
-      'Biển báo cấm',
-      'Biển báo hiệu lệnh phải thi hành',
-      'Biển báo chỉ dẫn',
+    _id: '652b4d834a816de656f99bcc',
+    questionName:
+      'Khái niệm "Khổ giới hạn của đường bộ" được hiểu như thế nào là đúng?',
+    isDanger: false,
+    answers: [
+      {
+        answerName:
+          'Là khoảng trống có kích thước giới hạn về chiều cao, chiều rộng của đường, cầu, bến phà, hầm đường bộ để các xe kể cả hàng hóa xếp trên xe đi qua được an toàn.',
+        isCorrect: true,
+      },
+      {
+        answerName:
+          'Là khoảng trống có kích thước giới hạn về chiều rộng của đường, cầu, bến phà, hầm trên đường bộ để các xe kể cả hàng hóa xếp trên xe đi qua được an toàn.',
+        isCorrect: false,
+      },
+      {
+        answerName:
+          'Là khoảng trống có kích thước giới hạn về chiều cao của cầu, bến phà, hầm trên đường bộ để các xe đi qua được an toàn.',
+        isCorrect: false,
+      },
     ],
-    image:
-      'https://hondamydinh.com.vn/wp-content/uploads/2021/07/Logo-bie%CC%82%CC%89n-ba%CC%81o-chi%CC%89-da%CC%82%CC%83n.jpeg',
+    category: {
+      _id: '65236e4b232393147808b9e8',
+      questionType: 'khái niệm',
+    },
   },
   {
-    id: 2,
-    question: 'Khi lùi xe người lái xe phải làm gì để đảm bảo an toàn ?',
-    ans: 'Phải quan sát phía sau, có tín hiệu cần thiết và chỉ nào thấy không nguy hiểm mới được lùi',
-    options: [
-      'Quan sát phía trước và cho lùi xe ở tốc độ chậm',
-      'Lợi dụng nơi đường giao nhau đủ chiều rộng để lùi',
-      'Phải quan sát phía sau, có tín hiệu cần thiết và chỉ nào thấy không nguy hiểm mới được lùi',
+    _id: '652b4d834a816de656f99bcd',
+    questionName:
+      'Trong các khái niệm dưới đây, "dải phân cách" được hiểu như thế nào là đúng?',
+    isDanger: false,
+    answers: [
+      {
+        answerName:
+          'Là bộ phận của đường để ngăn cách không cho các loại xe vào những nơi không được phép.',
+        isCorrect: false,
+      },
+      {
+        answerName:
+          'Là bộ phận của đường để phân tách phần đường xe chạy và hành lang an toàn giao thông.',
+        isCorrect: false,
+      },
+      {
+        answerName:
+          'Là bộ phận của đường để phân chia mặt đường thành hai chiều xe chạy riêng biệt hoặc để phân chia phần đường của xe cơ giới và xe thô sơ.',
+        isCorrect: true,
+      },
     ],
-    image: null,
+    category: {
+      _id: '65236e4b232393147808b9e8',
+      questionType: 'khái niệm',
+    },
   },
 ];
 
@@ -60,7 +89,6 @@ const Learning = () => {
     const fetchData = async () => {
       try {
         const result = await getQuestions();
-        console.log(result.data.data);
         setQuestions(result.data.data.Question);
       } catch (err) {
         console.log(err);
@@ -69,10 +97,6 @@ const Learning = () => {
 
     fetchData();
   }, []);
-
-  useEffect(() => {
-    console.log(questions[0]);
-  }, [questions]);
 
   const handleNextQues = () => {
     if (curQues < questions.length - 1) {
