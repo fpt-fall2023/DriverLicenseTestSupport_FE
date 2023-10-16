@@ -4,10 +4,11 @@ import Homepage from '../pages/Homepage';
 import QuestionPage from '../pages/Dashboard/QuestionPage';
 import AddQuestionPage from '../pages/Dashboard/AddQuestionPage';
 import Learning from '../pages/LearningCard/Learning';
-import QuizPage from '../pages/Auth/QuizPage';
+import QuizPage from '../pages/QuizPage/QuizPage';
 import AboutUs from '../pages/AboutUs/AboutUs';
 import News from '../pages/News/News';
 import UserProfile from '../pages/Profile/UserProfile';
+import TrafficSignsPage from '../pages/TrafficSigns/TrafficSignsPage';
 import Examination from '../pages/LearningCard/Examination/Examination';
 
 const RouteData = [
@@ -47,16 +48,6 @@ const RouteData = [
     element: <QuizPage />,
   },
   {
-    title: 'Learning',
-    path: '/quizpage/learn',
-    element: <Learning />,
-  },
-  {
-    title: 'Examination',
-    path: '/quizpage/examination',
-    element: <Examination />,
-  },
-  {
     title: 'About Us',
     path: '/about',
     element: <AboutUs />,
@@ -67,9 +58,24 @@ const RouteData = [
     element: <News />,
   },
   {
+    title: 'Learn',
+    path: '/quizpage/learn',
+    element: <Learning />,
+  },
+  {
+    title: 'Examination',
+    path: '/quizpage/examination',
+    element: <Examination />,
+  },
+  {
     title: 'UserProfile',
     path: '/profile',
     element: <UserProfile />,
+  },
+  {
+    title: 'TrafficSignsPage',
+    path: '/quizpage/trafficsigns',
+    element: <TrafficSignsPage />,
   },
 ];
 

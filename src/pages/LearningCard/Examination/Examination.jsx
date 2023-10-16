@@ -1406,16 +1406,11 @@ const Examination = () => {
     }
   }, [time]);
 
-  const onRef = () => {
-    this.drawer.current.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
     <div className={ExaminationCss.examinationMode}>
       <div className={ExaminationCss.referenceQues}>
         <div className={ExaminationCss.stickyRefQues}>
           <div>
-            <button>Check check</button>
             <div>Thời gian làm bài:</div>
             <div>
               {minutes}:{seconds}
@@ -1459,13 +1454,6 @@ const Examination = () => {
               />
             );
           })}
-          <button
-            onClick={() => {
-              console.log(selectedAnswers[0]);
-            }}
-          >
-            Check var
-          </button>
           <button onClick={handleSubmitExam}>Submit exam</button>
         </Col>
       </Row>
