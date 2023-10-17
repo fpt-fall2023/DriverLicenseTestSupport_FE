@@ -1,22 +1,20 @@
 import { Button, Col, Popconfirm, Row, Space, Table, notification } from "antd"
 import Sidebar from "../../../components/sidebar/sidebar"
 import { useEffect, useState } from "react"
-import { deleteCategory, getCategory } from "../../../apis/QuestionService"
+import { deleteTrafficCategory, getTrafficCategory } from "../../../apis/TrafficSignService"
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
-import AddModal from "./QuestionCategoryModal/AddModal"
-import EditModal from "./QuestionCategoryModal/EditModal"
-
-const Category = () => {
+import AddModal from "./TrafficCategoryModal/AddModal"
+import EditModal from "./TrafficCategoryModal/EditModal"
+const TrafficCategory = () => {
     const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
     const [isAdding, setIsAdding] = useState(false)
     const [categoryData, setCategoryData] = useState()
-
     const columns = [
         {
             title: "Tên danh mục",
-            dataIndex: "questionType",
+            dataIndex: "trafficType",
         },
         {
             title: 'Tác vụ',
@@ -44,10 +42,10 @@ const Category = () => {
         },
     ]
 
-    const getQuestionCategory = () => {
+    const getTrafficCategories = () => {
         setLoading(true)
-        getCategory().then((res) => {
-            setCategories(res.data.data.QuestionType)
+        getTrafficCategory().then((res) => {
+            setCategories(res.data.data.TrafficType)
             setLoading(false)
         }).catch((err) => {
             console.log(err)
@@ -61,18 +59,18 @@ const Category = () => {
     }
 
     const onDelete = (categoryId) => {
-        deleteCategory(categoryId).then((res) => {
+        deleteTrafficCategory(categoryId).then((res) => {
             if (res.status === 204) {
                 notification.success({
                     message: "Xóa thành công",
                 });
-                getQuestionCategory();
+                getTrafficCategories();
             }
         })
     }
 
     useEffect(() => {
-        getQuestionCategory();
+        getTrafficCategories();
     }, []);
 
     return (
@@ -84,12 +82,12 @@ const Category = () => {
                         <Button type="primary" onClick={() => setIsAdding(true)}>Thêm Danh Mục Mới</Button>
                     </Space>
                     <Table loading={loading} pagination={{ pageSize: 8 }} columns={columns} dataSource={categories} />
-                    <AddModal isAdding={isAdding} setIsAdding={setIsAdding} getQuestionCategory={getQuestionCategory} />
-                    <EditModal isEditing={isEditing} setIsEditing={setIsEditing} categoryData={categoryData} getQuestionCategory={getQuestionCategory} />
+                    <AddModal isAdding={isAdding} setIsAdding={setIsAdding} getTrafficCategories={getTrafficCategories} />
+                    <EditModal isEditing={isEditing} setIsEditing={setIsEditing} categoryData={categoryData} getTrafficCategories={getTrafficCategories} />
                 </Col>
             </Row>
         </div>
     )
 }
 
-export default Category
+export default TrafficCategory

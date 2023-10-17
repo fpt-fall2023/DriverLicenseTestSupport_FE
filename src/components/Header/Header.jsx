@@ -35,8 +35,12 @@ const Header = () => {
       link: '/quizpage',
     },
     {
-      label: 'Thi thử',
+      label: 'Thi Thử',
       link: '/',
+    },
+    {
+      label: 'Lịch Học',
+      link: '/'
     },
     {
       label: 'Tin tức',

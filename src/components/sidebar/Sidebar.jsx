@@ -2,7 +2,9 @@ import {
     AppstoreOutlined,
     UserOutlined,
     QuestionOutlined,
-    UnorderedListOutlined
+    UnorderedListOutlined,
+    QuestionCircleOutlined,
+    BookOutlined
   } from "@ant-design/icons";
   import { Menu } from "antd";
   import { useEffect, useState } from "react";
@@ -49,6 +51,21 @@ import {
               label: "QUẢN LÍ DANH MỤC CÂU HỎI",
               key: "/dashboard/CategoryPage",
               icon: <UnorderedListOutlined />,
+            },
+            {
+              label: "QUẢN LÍ DANH MỤC BIỂN BÁO",
+              key: "/dashboard/TrafficCategoryPage",
+              icon: <UnorderedListOutlined />,
+            },
+            {
+              label: "QUẢN LÍ NGÂN HÀNG CÂU HỎI",
+              key: "/dashboard/QuestionBankPage",
+              icon: <QuestionCircleOutlined />,
+            },
+            {
+              label: "QUẢN LÍ ĐỀ THI THỬ",
+              key: "/dashboard/SampleTestPage",
+              icon: <BookOutlined />,
             },
           ]}
         ></Menu>
