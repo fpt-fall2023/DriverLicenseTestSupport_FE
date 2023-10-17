@@ -1,7 +1,8 @@
 import {
     AppstoreOutlined,
     UserOutlined,
-    QuestionOutlined
+    QuestionOutlined,
+    UnorderedListOutlined
   } from "@ant-design/icons";
   import { Menu } from "antd";
   import { useEffect, useState } from "react";
@@ -43,6 +44,11 @@ import {
               label: "QUẢN LÍ CÂU HỎI",
               key: "/dashboard/QuestionPage",
               icon: <QuestionOutlined />,
+            },
+            {
+              label: "QUẢN LÍ DANH MỤC CÂU HỎI",
+              key: "/dashboard/CategoryPage",
+              icon: <UnorderedListOutlined />,
             },
           ]}
         ></Menu>

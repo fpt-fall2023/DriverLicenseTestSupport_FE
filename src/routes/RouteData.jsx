@@ -10,6 +10,8 @@ import News from '../pages/News/News';
 import UserProfile from '../pages/Profile/UserProfile';
 import TrafficSignsPage from '../pages/TrafficSigns/TrafficSignsPage';
 import Examination from '../pages/LearningCard/Examination/Examination';
+import Category from "../pages/Dashboard/Category/QuestionCategory"
+      
 
 const RouteData = [
   {
@@ -41,6 +43,11 @@ const RouteData = [
     title: 'AddQuestionPage',
     path: '/dashboard/AddQuestionPage',
     element: <AddQuestionPage />,
+  },
+  {
+    title: "AddCategoryPage",
+    path: "dashboard/CategoryPage",
+    element: <Category />
   },
   {
     title: 'QuizPage',
