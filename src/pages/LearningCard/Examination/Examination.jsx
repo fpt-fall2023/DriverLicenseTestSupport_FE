@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ExaminationCss from '../FullScreen.module.css';
 import ExamSlide from './ExamSlide';
 import { Col, Row } from 'antd';
@@ -1350,7 +1350,6 @@ const Examination = () => {
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;
   const scrollToItem = (targetId) => {
-    console.log('hihi');
     const targetElement = document.getElementById(targetId);
 
     if (targetElement) {
