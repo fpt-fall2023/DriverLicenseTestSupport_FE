@@ -13,6 +13,14 @@ const Footer = () => {
             link: '/QuizPage'
         },
         {
+            title: 'Thi Thử',
+            link: '/'
+        },
+        {
+            title: 'Lịch Học',
+            link: '/'
+        },
+        {
             title: 'Tin Tức',
             link: '/news'
         },

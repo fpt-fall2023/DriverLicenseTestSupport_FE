@@ -11,6 +11,8 @@ import UserProfile from '../pages/Profile/UserProfile';
 import TrafficSignsPage from '../pages/TrafficSigns/TrafficSignsPage';
 import Examination from '../pages/LearningCard/Examination/Examination';
 import Category from "../pages/Dashboard/Category/QuestionCategory"
+import EditProfile from '../pages/Profile/EditProfile';
+import TrafficCategory from '../pages/Dashboard/Category/TrafficCategory';
       
 
 const RouteData = [
@@ -50,6 +52,11 @@ const RouteData = [
     element: <Category />
   },
   {
+    title: "AddTrafficCategoryPage",
+    path: "dashboard/TrafficCategoryPage",
+    element: <TrafficCategory />
+  },
+  {
     title: 'QuizPage',
     path: '/quizpage',
     element: <QuizPage />,
@@ -78,6 +85,11 @@ const RouteData = [
     title: 'UserProfile',
     path: '/profile',
     element: <UserProfile />,
+  },
+  {
+    title: 'EditProfile',
+    path: '/profile/edit',
+    element: <EditProfile />
   },
   {
     title: 'TrafficSignsPage',

@@ -1,28 +1,27 @@
-import { Button, Form, Input, Modal, notification } from "antd"
-import { addCategory } from "../../../../apis/QuestionService"
-
-const AddModal = ({ isAdding, setIsAdding, getQuestionCategory }) => {
+import { Form, Input, Modal, notification } from "antd"
+import { updateTrafficCategory } from "../../../../apis/TrafficSignService"
+const EditModal = ({ isEditing, setIsEditing, categoryData, getTrafficCategories }) => {
+    const [form] = Form.useForm()
     const mainLayout = {
         labelCol: { span: 4 },
         wrapperCol: { span: 20 },
         size: "large"
     }
 
-    const [form] = Form.useForm()
-
     const onFinish = (values) => {
         form.resetFields()
-        addCategory(values.questionType).then((res) => {
-            if (res.status === 201) {
+        console.log(categoryData._id)
+        updateTrafficCategory(categoryData._id, values.trafficType).then((res) => {
+            if (res.status === 200) {
                 notification.success({
-                    message: "Thêm danh mục thành công!"
+                    message: "Sửa danh mục thành công!"
                 })
-                setIsAdding(false)
-                getQuestionCategory()
+                setIsEditing(false)
+                getTrafficCategories()
             }
         }).catch((err) => {
             notification.error({
-                message: "Thêm danh mục thất bại!"
+                message: "Sửa danh mục thất bại!"
             })
             console.log(err)
         })
@@ -31,22 +30,22 @@ const AddModal = ({ isAdding, setIsAdding, getQuestionCategory }) => {
     return (
         <div>
             <Modal
-                title="Thêm danh mục"
-                open={isAdding}
-                okText="Thêm"
-                onCancel={() => setIsAdding(false)}
+                title="Sửa danh mục"
+                open={isEditing}
+                okText="Sửa"
+                onCancel={() => setIsEditing(false)}
                 onOk={() => {
                     form.submit();
-                }}
-            >
+            }}>
                 <Form
                     form={form}
                     {...mainLayout}
                     onFinish={onFinish}
+                    initialValues={form.setFieldsValue(categoryData)}
                 >
                     <Form.Item
                         label="Danh mục"
-                        name="questionType"
+                        name="trafficType"
                         rules={[{ required: true, message: "Vui lòng nhập tên danh mục!" }]}
                     >
                         <Input />
@@ -56,4 +55,4 @@ const AddModal = ({ isAdding, setIsAdding, getQuestionCategory }) => {
         </div>
     )
 }
-export default AddModal
+export default EditModal
