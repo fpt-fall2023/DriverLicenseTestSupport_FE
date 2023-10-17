@@ -9,7 +9,7 @@ const Footer = () => {
             link: '/'
         },
         {
-            title: 'Quiz',
+            title: 'Ôn Tập',
             link: '/QuizPage'
         },
         {

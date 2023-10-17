@@ -50,7 +50,7 @@ const Header = () => {
 
     return (
         <div id='header' className={styles.header}>
-            <img src='src/assets/images/Website_Logo.png' alt='logo' className={styles.logo} />
+            <img src='/src/assets/images/Website_Logo.png' alt='logo' className={styles.logo} />
             <div className={styles.centerName}>Ôn Tập Lái Xe</div>
             <Row className={styles.header__section}>
                 {headerSection.map((item, index) => (
