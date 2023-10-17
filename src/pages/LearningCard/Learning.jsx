@@ -1,5 +1,5 @@
 // import React from "react";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Avatar, Button, Col, Progress, Row, Tooltip } from 'antd';
 
 import LearningCss from './Learning.module.css';
@@ -19,41 +19,87 @@ import duplicateIcon from '../../assets/icons/content_copy.png';
 import moreItemsIcon from '../../assets/icons/more_horiz.png';
 
 import LearningCard from './LearningCard';
-import QuestionSlide from './Question';
+import QuestionSlide from './QuestionSlide';
+
+import { getQuestions } from '../../apis/QuestionService';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const rawQuestion = [
   {
-    id: 1,
-    question:
-      'Biển báo hiệu hình chữ nhật hoặc hình vuông hoặc hình mũi tên nền xanh lam là loại biển gì dưới đây ?',
-    ans: 'Biển báo chỉ dẫn',
-    options: [
-      'Biển báo nguy hiểm',
-      'Biển báo cấm',
-      'Biển báo hiệu lệnh phải thi hành',
-      'Biển báo chỉ dẫn',
+    _id: '652b4d834a816de656f99bcc',
+    questionName:
+      'Khái niệm "Khổ giới hạn của đường bộ" được hiểu như thế nào là đúng?',
+    isDanger: false,
+    answers: [
+      {
+        answerName:
+          'Là khoảng trống có kích thước giới hạn về chiều cao, chiều rộng của đường, cầu, bến phà, hầm đường bộ để các xe kể cả hàng hóa xếp trên xe đi qua được an toàn.',
+        isCorrect: true,
+      },
+      {
+        answerName:
+          'Là khoảng trống có kích thước giới hạn về chiều rộng của đường, cầu, bến phà, hầm trên đường bộ để các xe kể cả hàng hóa xếp trên xe đi qua được an toàn.',
+        isCorrect: false,
+      },
+      {
+        answerName:
+          'Là khoảng trống có kích thước giới hạn về chiều cao của cầu, bến phà, hầm trên đường bộ để các xe đi qua được an toàn.',
+        isCorrect: false,
+      },
     ],
-    image:
-      'https://hondamydinh.com.vn/wp-content/uploads/2021/07/Logo-bie%CC%82%CC%89n-ba%CC%81o-chi%CC%89-da%CC%82%CC%83n.jpeg',
+    category: {
+      _id: '65236e4b232393147808b9e8',
+      questionType: 'khái niệm',
+    },
   },
   {
-    id: 2,
-    question: 'Khi lùi xe người lái xe phải làm gì để đảm bảo an toàn ?',
-    ans: 'Phải quan sát phía sau, có tín hiệu cần thiết và chỉ nào thấy không nguy hiểm mới được lùi',
-    options: [
-      'Quan sát phía trước và cho lùi xe ở tốc độ chậm',
-      'Lợi dụng nơi đường giao nhau đủ chiều rộng để lùi',
-      'Phải quan sát phía sau, có tín hiệu cần thiết và chỉ nào thấy không nguy hiểm mới được lùi',
+    _id: '652b4d834a816de656f99bcd',
+    questionName:
+      'Trong các khái niệm dưới đây, "dải phân cách" được hiểu như thế nào là đúng?',
+    isDanger: false,
+    answers: [
+      {
+        answerName:
+          'Là bộ phận của đường để ngăn cách không cho các loại xe vào những nơi không được phép.',
+        isCorrect: false,
+      },
+      {
+        answerName:
+          'Là bộ phận của đường để phân tách phần đường xe chạy và hành lang an toàn giao thông.',
+        isCorrect: false,
+      },
+      {
+        answerName:
+          'Là bộ phận của đường để phân chia mặt đường thành hai chiều xe chạy riêng biệt hoặc để phân chia phần đường của xe cơ giới và xe thô sơ.',
+        isCorrect: true,
+      },
     ],
-    image: null,
+    category: {
+      _id: '65236e4b232393147808b9e8',
+      questionType: 'khái niệm',
+    },
   },
 ];
 
 const Learning = () => {
+  const [questions, setQuestions] = useState([]);
   const [curQues, setCurQues] = useState(0);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getQuestions();
+        setQuestions(result.data.data.Question);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleNextQues = () => {
-    if (curQues < rawQuestion.length - 1) {
+    if (curQues < questions.length - 1) {
       setCurQues(curQues + 1);
     }
   };
@@ -67,7 +113,7 @@ const Learning = () => {
   return (
     <div className={LearningCss.learningContainer}>
       <div className="learningHeader">
-        <div className={LearningCss.learningPageTitle}>PRM391</div>
+        <div className={LearningCss.learningPageTitle}>Câu hỏi lái xe</div>
 
         <Row
           style={{ marginRight: '10px' }}
@@ -118,73 +164,82 @@ const Learning = () => {
           </Col>
         </Row>
       </div>
+      {questions.length > 0 ? (
+        <div className={LearningCss.learningCardSection}>
+          <LearningCard question={questions[curQues]} />
 
-      <div className={LearningCss.learningCardSection}>
-        <LearningCard question={rawQuestion[curQues]} />
+          {/* Navigate Section------------------------------------------- */}
+          <Row justify={'space-between'}>
+            <Col span={14} className="navigation">
+              <Row>
+                <Col className={LearningCss.firstAction} span={8}>
+                  <Tooltip title="Start">
+                    <Button
+                      style={{ marginRight: '10px' }}
+                      title="Search"
+                      shape="circle"
+                      icon={<img src={startIcon} alt="Start" />}
+                    />
+                  </Tooltip>
+                  <Tooltip title="Shuffle">
+                    <Button
+                      title="Search"
+                      shape="circle"
+                      icon={<img src={shuffleIcon} alt="Shuffle" />}
+                    />
+                  </Tooltip>
+                </Col>
 
-        {/* Navigate Section------------------------------------------- */}
-        <Row justify={'space-between'}>
-          <Col span={14} className="navigation">
-            <Row>
-              <Col className={LearningCss.firstAction} span={8}>
-                <Tooltip title="Start">
+                <Col className={LearningCss.secondAction} span={8}>
                   <Button
-                    style={{ marginRight: '10px' }}
                     title="Search"
                     shape="circle"
-                    icon={<img src={startIcon} alt="Start" />}
+                    size="large"
+                    onClick={handlePrevQues}
+                    icon={<img src={prevQuesIcon} alt="Prev Question" />}
                   />
-                </Tooltip>
-                <Tooltip title="Shuffle">
+                  <span style={{ margin: '0 1rem' }}>
+                    {curQues + 1}/{questions.length}
+                  </span>
                   <Button
                     title="Search"
                     shape="circle"
-                    icon={<img src={shuffleIcon} alt="Shuffle" />}
+                    size="large"
+                    onClick={handleNextQues}
+                    icon={<img src={nextQuesIcon} alt="Next Question" />}
                   />
-                </Tooltip>
-              </Col>
+                </Col>
 
-              <Col className={LearningCss.secondAction} span={8}>
-                <Button
-                  title="Search"
-                  shape="circle"
-                  size="large"
-                  onClick={handlePrevQues}
-                  icon={<img src={prevQuesIcon} alt="Prev Question" />}
+                <Col className={LearningCss.thirdAction} span={8}>
+                  <Tooltip title="Full Screen">
+                    <Button
+                      title="Search"
+                      shape="circle"
+                      icon={<img src={fullScreenIcon} alt="Full Screen" />}
+                    />
+                  </Tooltip>
+                </Col>
+              </Row>
+              <div className={LearningCss.progressBar}>
+                <Progress
+                  percent={((curQues + 1) / questions.length) * 100}
+                  size="small"
+                  status="active"
+                  showInfo={false}
                 />
-                <span style={{ margin: '0 1rem' }}>
-                  {curQues + 1}/{rawQuestion.length}
-                </span>
-                <Button
-                  title="Search"
-                  shape="circle"
-                  size="large"
-                  onClick={handleNextQues}
-                  icon={<img src={nextQuesIcon} alt="Next Question" />}
-                />
-              </Col>
+              </div>
+            </Col>
+          </Row>
+        </div>
+      ) : (
+        <LoadingOutlined
+          style={{
+            fontSize: 24,
+          }}
+          spin
+        />
+      )}
 
-              <Col className={LearningCss.thirdAction} span={8}>
-                <Tooltip title="Full Screen">
-                  <Button
-                    title="Search"
-                    shape="circle"
-                    icon={<img src={fullScreenIcon} alt="Full Screen" />}
-                  />
-                </Tooltip>
-              </Col>
-            </Row>
-            <div className={LearningCss.progressBar}>
-              <Progress
-                percent={((curQues + 1) / rawQuestion.length) * 100}
-                size="small"
-                status="active"
-                showInfo={false}
-              />
-            </div>
-          </Col>
-        </Row>
-      </div>
       {/* Post Publisher------------------------------- */}
       <div className={LearningCss.postPublisher}>
         <Row>
@@ -243,6 +298,28 @@ const Learning = () => {
           </div>
         </Col>
       </Row>
+      <div>
+        {questions.length > 0 ? (
+          <div>
+            {questions.map((item) => {
+              return (
+                <div key={item._id}>
+                  <div>Name: {item.questionName}</div>
+                  <div>Is danger: {item.isDanger.toString()}</div>
+                  {/* {item.} */}
+                  <ul>
+                    {item.answers.map((ans) => (
+                      <li key={ans.answerName}>{ans.answerName}</li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div>Loading...</div>
+        )}
+      </div>
     </div>
   );
 };
