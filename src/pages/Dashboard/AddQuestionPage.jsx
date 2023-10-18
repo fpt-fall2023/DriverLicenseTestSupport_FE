@@ -8,7 +8,8 @@ import axios from 'axios';
 
 const AddQuestionPage = () => {
     const [dataSrc, setDataSrc] = useState([]);
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTFkOTFkNWRiNDFmMTEyMGM0ZmI3ZTMiLCJpYXQiOjE2OTc2MDM5MDQsImV4cCI6MTcwNTM3OTkwNH0.0mdxc18kBAW7B5d77tVlJoQUvr3CPXsh50gXE7IkT9E"
+    const [data, setData] = useState([]);
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTFkOTFkNWRiNDFmMTEyMGM0ZmI3ZTMiLCJpYXQiOjE2OTc2MTQwMjgsImV4cCI6MTcwNTM5MDAyOH0.UYl7u1yXvULAALdEjLksjxtSNagtI1XhHK6F3hh5Gho"
 
     const onFinish = (values) => {
         console.log('Received values of form:', values);
@@ -20,13 +21,13 @@ const AddQuestionPage = () => {
 
     };
 
-    
+
     const GetAllCategory = () => {
-        axios.get(CATEGORY_API_URL, {headers: {Authorization: `Bearer ${token}`}})
+        axios.get(CATEGORY_API_URL, { headers: { Authorization: `Bearer ${token}` } })
             .then((res) => {
                 if (res.status === 200) {
                     console.log(res.data.data.QuestionType)
-                    setDataSrc(res.data.data)
+                    setDataSrc(res.data.data.QuestionType)
                 }
             }).catch((err) => {
                 console.log(err)
@@ -37,7 +38,23 @@ const AddQuestionPage = () => {
     useEffect(() => {
         GetAllCategory();
     }, []);
+    // useEffect(()=>{
+    //     dataSrc?.map((item) => {
+    //         console.log(item);
 
+    //             const b = {
+    //                 value: item._id,
+    //                 label: item.questionType
+    //             }
+    //             setData([...data,{
+    //                 value: item._id,
+    //                 label: item.questionType
+    //             }])
+    //         })
+    // },[dataSrc])
+
+    // console.log(data);
+    // console.log(dataSrc);
     return (
         <Form
             name="dynamic_form_nest_item"
@@ -84,14 +101,22 @@ const AddQuestionPage = () => {
             </Form.List>
             <Form.Item name={"category"} label="Nội dung câu hỏi" required>
                 <Select
-                    // showSearch
-                    placeholder="Search to Select"
-                    options={dataSrc.map((category) => ({
-                        value: category._id,
-                        label: item.questionType,
-                      }))}
-                />
+                    placeholder="Chọn loại câu hỏi"
+                // options={dataSrc.map((category) => ({
 
+                //     value: category._id,
+                //     label: item.questionType,
+
+                //   }))}   
+
+                >
+                    {dataSrc.map((item) => (
+                        <Option key={item._id} value={item._id}>
+                            {item.questionType}
+                        </Option>
+                    ))}
+
+                </Select>
             </Form.Item>
             <Form.Item>
                 <Button type="primary" htmlType="submit">
