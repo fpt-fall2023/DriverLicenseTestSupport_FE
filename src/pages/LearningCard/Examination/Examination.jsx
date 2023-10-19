@@ -1345,7 +1345,7 @@ const rawData = [
 ];
 
 const Examination = () => {
-  const initialTime = 1 * 60; // 20 minutes in seconds
+  const initialTime = 20 * 60; // 20 minutes in seconds
   const [time, setTime] = useState(initialTime);
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;
@@ -1355,7 +1355,7 @@ const Examination = () => {
     if (targetElement) {
       targetElement.scrollIntoView({
         behavior: 'smooth',
-        block: 'start',
+        block: 'center',
       });
     }
   };
