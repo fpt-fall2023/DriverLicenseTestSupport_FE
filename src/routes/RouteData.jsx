@@ -10,10 +10,10 @@ import News from '../pages/News/News';
 import UserProfile from '../pages/Profile/UserProfile';
 import TrafficSignsPage from '../pages/TrafficSigns/TrafficSignsPage';
 import Examination from '../pages/LearningCard/Examination/Examination';
-import Category from "../pages/Dashboard/Category/QuestionCategory"
+import Category from '../pages/Dashboard/Category/QuestionCategory';
 import EditProfile from '../pages/Profile/EditProfile';
 import TrafficCategory from '../pages/Dashboard/Category/TrafficCategory';
-      
+import PracticeTest from '../pages/LearningCard/PracticeTest/PracticeTest';
 
 const RouteData = [
   {
@@ -47,14 +47,14 @@ const RouteData = [
     element: <AddQuestionPage />,
   },
   {
-    title: "AddCategoryPage",
-    path: "dashboard/CategoryPage",
-    element: <Category />
+    title: 'AddCategoryPage',
+    path: 'dashboard/CategoryPage',
+    element: <Category />,
   },
   {
-    title: "AddTrafficCategoryPage",
-    path: "dashboard/TrafficCategoryPage",
-    element: <TrafficCategory />
+    title: 'AddTrafficCategoryPage',
+    path: 'dashboard/TrafficCategoryPage',
+    element: <TrafficCategory />,
   },
   {
     title: 'QuizPage',
@@ -89,12 +89,17 @@ const RouteData = [
   {
     title: 'EditProfile',
     path: '/profile/edit',
-    element: <EditProfile />
+    element: <EditProfile />,
   },
   {
     title: 'TrafficSignsPage',
     path: '/quizpage/trafficsigns',
     element: <TrafficSignsPage />,
+  },
+  {
+    title: 'PracticeTest',
+    path: '/practice-test',
+    element: <PracticeTest />,
   },
 ];
 
