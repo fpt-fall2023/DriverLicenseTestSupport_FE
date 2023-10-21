@@ -1,8 +1,8 @@
 .container{
-    width: 100%;
-    display: flex;
+    max-height: fit-content;
+    /* display: flex;
     flex-direction: column;
-    color: white;
+    color: white; */
    }
 
   .App{

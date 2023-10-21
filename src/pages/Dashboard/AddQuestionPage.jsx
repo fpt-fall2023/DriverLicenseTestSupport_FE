@@ -4,6 +4,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Radio, Select, Space } from 'antd';
 import { addQuestion } from '../../apis/QuestionService';
 import { CATEGORY_API_URL } from "../../apis/APIConfig";
+import styles from "./AddQuestionPage.module.css"
 import axios from 'axios';
 
 const AddQuestionPage = () => {
@@ -38,24 +39,10 @@ const AddQuestionPage = () => {
     useEffect(() => {
         GetAllCategory();
     }, []);
-    // useEffect(()=>{
-    //     dataSrc?.map((item) => {
-    //         console.log(item);
 
-    //             const b = {
-    //                 value: item._id,
-    //                 label: item.questionType
-    //             }
-    //             setData([...data,{
-    //                 value: item._id,
-    //                 label: item.questionType
-    //             }])
-    //         })
-    // },[dataSrc])
-
-    // console.log(data);
-    // console.log(dataSrc);
     return (
+        <div>
+        <div className={styles.container}>
         <Form
             name="dynamic_form_nest_item"
             onFinish={onFinish}
@@ -81,7 +68,7 @@ const AddQuestionPage = () => {
                                     {...restField}
                                     name={[name, 'isCorrect']}
                                 >
-                                    <Radio.Group value={false}>
+                                    <Radio.Group defaultValue={false}>
                                         <Radio value={true} >câu đúng </Radio>
                                         <Radio value={false}>câu sai </Radio>
                                     </Radio.Group>
@@ -102,13 +89,6 @@ const AddQuestionPage = () => {
             <Form.Item name={"category"} label="Nội dung câu hỏi" required>
                 <Select
                     placeholder="Chọn loại câu hỏi"
-                // options={dataSrc.map((category) => ({
-
-                //     value: category._id,
-                //     label: item.questionType,
-
-                //   }))}   
-
                 >
                     {dataSrc.map((item) => (
                         <Option key={item._id} value={item._id}>
@@ -124,6 +104,8 @@ const AddQuestionPage = () => {
                 </Button>
             </Form.Item>
         </Form>
+        </div>
+        </div>
     );
 };
 
