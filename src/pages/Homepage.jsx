@@ -152,6 +152,7 @@ const Homepage = () => {
               height: '660px',
               width: '1300px',
               margin: 'auto',
+              padding: '20px',
             }}
           />
         </Row>
