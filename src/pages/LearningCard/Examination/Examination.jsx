@@ -100,12 +100,14 @@ const Examination = () => {
                 <li
                   key={index}
                   onClick={() => scrollToItem(`refTo_${index}`)}
-                  className={[
-                    ExaminationCss.stickyRefItem,
-                    // selectedAnswers[index] != undefined
-                    //   ? ExaminationCss.selected
-                    //   : '',
-                  ]}
+                  className={`
+                  ${ExaminationCss.stickyRefItem} 
+                  ${
+                    selectedAnswers[index] != undefined
+                      ? ExaminationCss.refItemSelected
+                      : ''
+                  }
+                  `}
                 >
                   {index + 1}
                 </li>

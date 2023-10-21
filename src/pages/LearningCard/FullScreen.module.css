@@ -40,9 +40,14 @@
   cursor: pointer;
 }
 
-.stickyRefItem.selected {
+.refItemSelected {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  height: 1.75rem;
+  width: 100%;
+  text-indent: 0.3rem;
   color: #4255ffcb;
-  background-color: red;
 }
 
 .titleInfoText {
