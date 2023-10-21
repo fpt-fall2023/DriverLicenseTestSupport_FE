@@ -9,7 +9,6 @@ import axios from 'axios';
 
 const AddQuestionPage = () => {
     const [dataSrc, setDataSrc] = useState([]);
-    const [data, setData] = useState([]);
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTFkOTFkNWRiNDFmMTEyMGM0ZmI3ZTMiLCJpYXQiOjE2OTc2MTQwMjgsImV4cCI6MTcwNTM5MDAyOH0.UYl7u1yXvULAALdEjLksjxtSNagtI1XhHK6F3hh5Gho"
 
     const onFinish = (values) => {
@@ -41,28 +40,35 @@ const AddQuestionPage = () => {
     }, []);
 
     return (
+        <div className={styles.main}>
+        <div className={styles.AddBlock}>
         <div>
-        <div className={styles.container}>
         <Form
             name="dynamic_form_nest_item"
             onFinish={onFinish}
-            style={{ maxWidth: 600 }}
+            style={{ maxWidth: 700 }}
             autoComplete="off"
         >
             <Form.Item name={"questionName"} label="Nội dung câu hỏi" required>
-                <Input placeholder='Nhập câu hỏi' />
+                <Input.TextArea 
+                placeholder='Nhập câu hỏi'
+                autoSize={{ minRows: 3, maxRows: 5 }}
+                />
             </Form.Item>
             <Form.List name="answers">
                 {(fields, { add, remove }) => (
                     <>
                         {fields.map(({ key, name, ...restField }) => (
-                            <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+                            <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="center">
                                 <Form.Item
                                     {...restField}
                                     name={[name, 'answerName']}
                                     rules={[{ required: true, message: 'Chưa có câu trả lời' }]}
                                 >
-                                    <Input placeholder="Nhập câu trả lời" />
+                                    <Input.TextArea
+                                     placeholder="Nhập câu trả lời" 
+                                     autoSize={{ minRows: 3, maxRows: 5 }}
+                                     style={{width:'360px'}}/>
                                 </Form.Item>
                                 <Form.Item
                                     {...restField}
@@ -74,7 +80,9 @@ const AddQuestionPage = () => {
                                     </Radio.Group>
 
                                 </Form.Item>
-                                <MinusCircleOutlined onClick={() => remove(name)} />
+                                <MinusCircleOutlined 
+                                style={{marginBottom:"25px"}}
+                                onClick={() => remove(name)} />
                             </Space>
                         ))}
                         <Form.Item>
@@ -104,6 +112,7 @@ const AddQuestionPage = () => {
                 </Button>
             </Form.Item>
         </Form>
+        </div>
         </div>
         </div>
     );
