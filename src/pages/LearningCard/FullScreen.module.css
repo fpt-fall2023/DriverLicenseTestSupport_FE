@@ -40,6 +40,11 @@
   cursor: pointer;
 }
 
+.stickyRefItem.selected {
+  color: #4255ffcb;
+  background-color: red;
+}
+
 .titleInfoText {
   color: rgb(88, 99, 128);
   font-size: 1rem;

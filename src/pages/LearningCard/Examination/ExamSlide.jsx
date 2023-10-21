@@ -1,8 +1,8 @@
+import { useState } from 'react';
 import { Col, Image, Row } from 'antd';
 
 import LearningCss from '../Learning.module.css';
 import FullScreenCss from '../FullScreen.module.css';
-import { useState } from 'react';
 
 const ExamSlide = (question) => {
   const [currentSelected, setCurrentSelected] = useState();
@@ -79,17 +79,6 @@ const ExamSlide = (question) => {
             })}
           </Row>
         </div>
-        {/* <div className={FullScreenCss.selectAnswerBox}>
-          <div className={LearningCss.questionSlideText}>
-          {questionInfo.answers.map((ques, index) => {
-            return (
-              <div key={index}>
-              {ansTypical[index]}. {ques.answerName}
-              </div>
-              );
-            })}
-            </div>
-          </div> */}
       </Col>
     </Row>
   );
