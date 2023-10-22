@@ -6,10 +6,11 @@ import { addQuestion } from '../../apis/QuestionService';
 import { CATEGORY_API_URL } from "../../apis/APIConfig";
 import styles from "./AddQuestionPage.module.css"
 import axios from 'axios';
-import { redirect } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 
 const AddQuestionPage = () => {
     const [dataSrc, setDataSrc] = useState([]);
+    const navigate = useNavigate();
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTFkOTFkNWRiNDFmMTEyMGM0ZmI3ZTMiLCJpYXQiOjE2OTc2MTQwMjgsImV4cCI6MTcwNTM5MDAyOH0.UYl7u1yXvULAALdEjLksjxtSNagtI1XhHK6F3hh5Gho"
 
     const onFinish = (values) => {
@@ -20,7 +21,7 @@ const AddQuestionPage = () => {
                 notification.success({
                     message: "thêm câu hỏi thành công"
                 })  
-                res.redirect("/Dashboard/QuestionPage");
+                navigate("/Dashboard/QuestionPage")
             }
             
         }).catch(err => {
