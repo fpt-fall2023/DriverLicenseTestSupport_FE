@@ -5,7 +5,7 @@ import { addQuestion } from '../../apis/QuestionService';
 import { CATEGORY_API_URL } from "../../apis/APIConfig";
 import styles from "./AddQuestionPage.module.css"
 import axios from 'axios';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const AddQuestionPage = () => {
     const [dataSrc, setDataSrc] = useState([]);
@@ -14,18 +14,18 @@ const AddQuestionPage = () => {
 
     const onFinish = (values) => {
         console.log('Received values of form:', values);
-        addQuestion(values.questionName, values.answers, values.category).then(res => {
-            if (res.status === 200) {
-                console.log(res)
-                notification.success({
-                    message: "thêm câu hỏi thành công"
-                })  
-                navigate("/Dashboard/QuestionPage")
-            }
+        // addQuestion(values.questionName, values.answers, values.category).then(res => {
+        //     if (res.status === 200) {
+        //         console.log(res)
+        //         notification.success({
+        //             message: "thêm câu hỏi thành công"
+        //         })  
+        //         navigate("/Dashboard/QuestionPage")
+        //     }
             
-        }).catch(err => {
-            console.log(err)
-        })
+        // }).catch(err => {
+        //     console.log(err)
+        // })
 
     };
 
@@ -43,7 +43,6 @@ const AddQuestionPage = () => {
             })
     }
 
-
     useEffect(() => {
         GetAllCategory();
     }, []);
@@ -57,6 +56,12 @@ const AddQuestionPage = () => {
             onFinish={onFinish}
             style={{ maxWidth: 700 }}
             autoComplete="off"
+            initialValues={{
+                answers:[
+                    {isCorrect : true}
+                ]
+            }}
+
         >
             <Form.Item name={"questionName"} label="Nội dung câu hỏi" rules={[{ required: true, message: 'Chưa có câu hỏi' }]}>
                 <Input.TextArea 
@@ -64,7 +69,8 @@ const AddQuestionPage = () => {
                 autoSize={{ minRows: 3, maxRows: 5 }}
                 />
             </Form.Item>
-            <Form.List name="answers">
+            <Form.List name="answers"
+            >
                 {(fields, { add, remove }) => (
                     <>
                         {fields.map(({ key, name, ...restField }) => (
@@ -82,8 +88,14 @@ const AddQuestionPage = () => {
                                 <Form.Item
                                     {...restField}
                                     name={[name, 'isCorrect']}
+                                    rules={[
+                                        {
+                                          required: true,
+                                          message: 'chưa chọn',
+                                        },
+                                      ]}
                                 >
-                                    <Radio.Group defaultValue={false}>
+                                    <Radio.Group >
                                         <Radio value={true} >câu đúng </Radio>
                                         <Radio value={false}>câu sai </Radio>
                                     </Radio.Group>
@@ -103,7 +115,14 @@ const AddQuestionPage = () => {
                 )}
 
             </Form.List>
-            <Form.Item name={"category"} label="Nội dung câu hỏi" required>
+            <Form.Item name={"category"} label="Nội dung câu hỏi" 
+            rules={[
+                {
+                  required: true,
+                  message: 'chưa chọn loại câu hỏi',
+                },
+              ]}
+              >
                 <Select
                     placeholder="Chọn loại câu hỏi"
                 >

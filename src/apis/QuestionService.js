@@ -11,7 +11,7 @@ const addQuestion = (questionName, answers, category) => {
     return axios.post(QUESTION_API_URL, {
         questionName,
         answers,
-        category: categoryData,
+        category,
     })
 }
 
