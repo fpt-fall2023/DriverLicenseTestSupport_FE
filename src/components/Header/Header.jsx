@@ -8,6 +8,7 @@ import { logoutAccount } from '../../apis/UserService';
 
 const Header = () => {
   const navigate = useNavigate();
+  const isAdmin = 1;
   const items = [
     {
       label: 'Hồ Sơ',
@@ -15,6 +16,14 @@ const Header = () => {
       onClick: () => {
         navigate('/profile');
       },
+    },
+    {
+      label: 'Quản Lý',
+      key: 'dashboard',
+      onClick: () => {
+        navigate('/dashboard/QuestionPage');
+      },
+      hidden: !isAdmin,
     },
     {
       label: 'Đăng Xuất',
