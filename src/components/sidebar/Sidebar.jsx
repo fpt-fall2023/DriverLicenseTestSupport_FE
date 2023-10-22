@@ -63,7 +63,7 @@ import {
               icon: <QuestionCircleOutlined />,
             },
             {
-              label: "QUẢN LÍ ĐỀ THI THỬ",
+              label: "QUẢN LÍ BÀI THI THỬ",
               key: "/dashboard/SampleTestPage",
               icon: <BookOutlined />,
             },
