@@ -5,6 +5,10 @@ const getSampleTest = () => {
     return axios.get(SAMPLE_TEST_API_URL)
 }
 
+const getAllSampleTest = () => {
+  return axios.get(SAMPLE_TEST_API_URL);
+};
+
 const addSampleTest = (testName, questionBank) => {
     return axios.post(SAMPLE_TEST_API_URL, {
         testName,

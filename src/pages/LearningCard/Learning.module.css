@@ -152,3 +152,11 @@
   font-size: 1rem;
   overflow-wrap: break-word;
 }
+
+/* Practice test */
+.testCardHeader {
+  padding: 4px 10px;
+  background-color: #edefff;
+  width: fit-content;
+  border-radius: 0.8rem;
+}
