@@ -1,0 +1,11 @@
+.News_card{
+margin-bottom: 1rem;
+/* width: 80%; */
+}
+.NewsPage {
+    /* max-height: fit-content; */
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }

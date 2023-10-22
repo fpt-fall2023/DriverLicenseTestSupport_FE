@@ -102,6 +102,7 @@ const QuestionPage = () => {
         getQuestion();
     }, []);
 
+
     const getQuestion = () => {
         setLoading(true);
         getQuestions().then((res) => {
