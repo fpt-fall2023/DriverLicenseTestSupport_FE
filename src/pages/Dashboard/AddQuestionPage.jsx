@@ -1,11 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Radio, Select, Space } from 'antd';
+import { Button, Form, Input, Radio, Select, Space, notification  } from 'antd';
 import { addQuestion } from '../../apis/QuestionService';
 import { CATEGORY_API_URL } from "../../apis/APIConfig";
 import styles from "./AddQuestionPage.module.css"
 import axios from 'axios';
+import { redirect } from 'react-router-dom';
 
 const AddQuestionPage = () => {
     const [dataSrc, setDataSrc] = useState([]);
@@ -14,7 +15,14 @@ const AddQuestionPage = () => {
     const onFinish = (values) => {
         console.log('Received values of form:', values);
         addQuestion(values.questionName, values.answers, values.category).then(res => {
-            console.log(res)
+            if (res.status === 200) {
+                console.log(res)
+                notification.success({
+                    message: "thêm câu hỏi thành công"
+                })  
+                res.redirect("/Dashboard/QuestionPage");
+            }
+            
         }).catch(err => {
             console.log(err)
         })
@@ -28,6 +36,7 @@ const AddQuestionPage = () => {
                 if (res.status === 200) {
                     console.log(res.data.data.QuestionType)
                     setDataSrc(res.data.data.QuestionType)
+                    
                 }
             }).catch((err) => {
                 console.log(err)
@@ -49,7 +58,7 @@ const AddQuestionPage = () => {
             style={{ maxWidth: 700 }}
             autoComplete="off"
         >
-            <Form.Item name={"questionName"} label="Nội dung câu hỏi" required>
+            <Form.Item name={"questionName"} label="Nội dung câu hỏi" rules={[{ required: true, message: 'Chưa có câu hỏi' }]}>
                 <Input.TextArea 
                 placeholder='Nhập câu hỏi'
                 autoSize={{ minRows: 3, maxRows: 5 }}
