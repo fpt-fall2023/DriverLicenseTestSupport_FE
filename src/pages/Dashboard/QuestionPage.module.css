@@ -16,3 +16,8 @@
     flex-direction: column;
     height: 100vh;
   }
+
+  .editBoxTitle{
+    font-weight: bold;
+    text-transform: uppercase;
+  }

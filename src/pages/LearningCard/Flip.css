@@ -24,7 +24,8 @@
 .card_3d_note .front,
 .card_3d_note .back {
   position: absolute;
-  padding: 1rem;
+  padding: 0 1rem;
+  width: fit-content;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }

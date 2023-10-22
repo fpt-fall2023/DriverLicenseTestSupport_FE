@@ -3,7 +3,34 @@ import { Link } from 'react-router-dom'
 import styles from './Footer.module.css'
 
 const Footer = () => {
-    return(
+    const helpfulLinks = [
+        {
+            title: 'Trang Chủ',
+            link: '/'
+        },
+        {
+            title: 'Ôn Tập',
+            link: '/QuizPage'
+        },
+        {
+            title: 'Thi Thử',
+            link: '/'
+        },
+        {
+            title: 'Lịch Học',
+            link: '/'
+        },
+        {
+            title: 'Tin Tức',
+            link: '/news'
+        },
+        {
+            title: 'Về Chúng Tôi',
+            link: '/about'
+        },
+    ]
+
+    return (
         <div className={styles.footer}>
             <Row>
                 <Col span={10}>
@@ -18,10 +45,9 @@ const Footer = () => {
                 <Col span={4}>
                     <h3>Liên Kết</h3>
                     <ul>
-                        <li><Link to="/">Trang Chủ</Link></li>
-                        <li><Link to="/QuizPage">Quiz</Link></li>
-                        <li><Link to="/news">Tin Tức</Link></li>
-                        <li><Link to="/about">Về Chúng Tôi</Link></li>
+                        {helpfulLinks.map((link, index) => (
+                            <li key={index}><Link to={link.link}>{link.title}</Link></li>
+                        ))}
                     </ul>
                 </Col>
             </Row>

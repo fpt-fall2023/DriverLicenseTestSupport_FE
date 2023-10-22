@@ -1,9 +1,8 @@
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
-import { Button, Form, Input, Space } from 'antd'
+import { Button, Form, Input, Space, notification } from 'antd'
 import { UserOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons'
 import styles from './Login.module.css'
 import { Link } from 'react-router-dom'
-import { useEffect } from 'react'
 import { registerAccount } from '../../apis/UserService'
 const Login = () => {
     const [form] = Form.useForm()
@@ -15,15 +14,20 @@ const Login = () => {
 
     const onFinish = (values) => {
         registerAccount(values.email, values.password, values.fullname).then(res => {
-            console.log(res)
+            if(res.status === 200) {
+                notification.success({
+                    message: 'Đăng ký thành công',
+                    placement: 'bottomRight'
+                })
+            }
         }).catch(err => {
             console.log(err)
+            notification.error({
+                message: 'Đăng ký thất bại. Vui lòng thử lại',
+                placement: 'bottomRight'
+            })
         })
     }
-
-    // useEffect (() => {
-    //     document.getElementById('header').style.display = 'none'
-    // }, [])
 
     return (
         <div className={styles.login}>
@@ -51,6 +55,21 @@ const Login = () => {
                             className={styles.loginBox__formItem__input}
                             suffix={
                                 <MailOutlined />
+                            }
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        name="fullname"
+                        rules={[
+                            { required: true, message: "Nhập họ tên của bạn" }
+                        ]}
+                        className={styles.loginBox__formItem}
+                    >
+                        <Input
+                            placeholder='Nhập họ tên của bạn'
+                            className={styles.loginBox__formItem__input}
+                            suffix={
+                                <UserOutlined />
                             }
                         />
                     </Form.Item>
@@ -91,21 +110,6 @@ const Login = () => {
                             placeholder="Nhập lại password của bạn"
                             iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                             className={styles.loginBox__formItem__input}
-                        />
-                    </Form.Item>
-                    <Form.Item
-                        name="fullname"
-                        rules={[
-                            { required: true, message: "Nhập họ tên của bạn" }
-                        ]}
-                        className={styles.loginBox__formItem}
-                    >
-                        <Input
-                            placeholder='Nhập họ tên của bạn'
-                            className={styles.loginBox__formItem__input}
-                            suffix={
-                                <UserOutlined />
-                            }
                         />
                     </Form.Item>
                     <Form.Item>

@@ -114,3 +114,4 @@ style={{
 };
 
 export default News;
+

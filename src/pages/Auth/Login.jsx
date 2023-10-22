@@ -1,5 +1,5 @@
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
-import { Button, Form, Input, Space } from 'antd'
+import { Button, Form, Input, Space, notification } from 'antd'
 import { MailOutlined } from '@ant-design/icons'
 import styles from './Login.module.css'
 import { loginAccount } from '../../apis/UserService'
@@ -13,13 +13,29 @@ const Login = () => {
         wrapperCol: { span: 16 }
     }
 
+    useEffect(() => {
+        if(localStorage.getItem('token')?.length > 0) {
+            window.location.href = '/'
+        }
+    }, [])
+
     const onFinish = (values) => {
-        loginAccount(values.email, values.password).then((res) => {
-            if (res.status === 200) {
-                toast
+        loginAccount(values.email, values.password).then(res => {
+            if(res.status === 200) {
+                notification.success({
+                    message: 'Đăng nhập thành công',
+                    placement: 'bottomRight'
+                })
+                localStorage.setItem('token', res.data.data.accessToken)
+                localStorage.setItem('user', JSON.stringify(res.data.data.user))    
+                window.location.href = '/'
             }
-        }).catch((err) => {
+        }).catch(err => {
             console.log(err)
+            notification.error({
+                message: 'Đăng nhập thất bại',
+                placement: 'bottomRight'
+            })
         })
     }
 

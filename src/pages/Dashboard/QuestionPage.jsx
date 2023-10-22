@@ -1,11 +1,9 @@
 import styles from "./QuestionPage.module.css"
 import React, { useEffect, useState } from 'react';
-import { Button, Input, Space, Table } from 'antd';
+import { Button, Form, Select, Space, Table, Input } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { getQuestions } from "../../apis/QuestionService";
-import { QUESTION_API_URL } from "../../apis/APIConfig";
+import { getQuestions, deleteQuestion, updateQuestion } from "../../apis/QuestionService";
 import Sidebar from '../../components/sidebar/sidebar';
-import axios from "axios";
 import { Col, Row } from 'antd';
 import Modal from "antd/es/modal/Modal";
 import { Link } from "react-router-dom";
@@ -16,23 +14,13 @@ const QuestionPage = () => {
     const [loading, setLoading] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [editQuestion, setEditQuestion] = useState([]);
-    const [editQuestion2, setEditQuestion2] = useState([]);
 
-    const answers = [
-        {
-            answer: 'Đáp án 1',
-            isCorrect: true
-        },
-        {
-            answer: 'Đáp án 2',
-            isCorrect: false
-        },
-        {
-            answer: 'Đáp án 3',
-            isCorrect: false
-        }
-
-    ]
+    const [form] = Form.useForm()
+    const mainLayout = {
+        labelCol: { span: 4 },
+        wrapperCol: { span: 20 },
+        size: "large"
+    }
 
     const columns = [
         // {
@@ -55,7 +43,8 @@ const QuestionPage = () => {
             render: (record) => (
                 <Space size="middle">
                     <EditOutlined onClick={() => {
-                        onEditStudent(record);
+                        form.resetFields();
+                        onEditQuestion(record);
                     }}
                         style={{ color: "blue" }} />
                     <DeleteOutlined onClick={() => {
@@ -68,15 +57,10 @@ const QuestionPage = () => {
     ]
 
 
-    const onEditStudent = (record) => {
+    const onEditQuestion = (record) => {
         setIsEditing(true);
         console.log(record)
-        setEditQuestion(record)
-    };
-
-    const resetEditing = () => {
-        setIsEditing(false);
-        setEditQuestion(null);
+        setEditQuestion(record);
     };
 
     const onDelete = (record) => {
@@ -86,41 +70,50 @@ const QuestionPage = () => {
             okType: "danger",
             onOk: () => {
                 setLoading(true);
-                axios.delete(QUESTION_API_URL + "/" + record._id).then(res => {
+                deleteQuestion(record._id).then(res => {
                     console.log(res);
                     setLoading(false);
                     getData();
                 }).catch(err => {
                     console.log(err)
                 });
-
             }
         });
     };
 
+    const onFinish = (values) => {
+        const questionId = values._id
+        const questionName = values.questionName
+        const answers = values.answers
+        console.log(questionId, questionName, answers)
+        updateQuestion(questionId, questionName, answers).then(res => {
+            if (res.status === 200) {
+                console.log(res.data.data)
+                setIsEditing(false)
+                getQuestion()
+            }
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+
 
     useEffect(() => {
-        getData();
+        getQuestion();
     }, []);
 
-    useEffect(() => {
-        if(editQuestion.length > 0){
-            setEditQuestion2(editQuestion);
-        }
-    }, [editQuestion]);
 
-    const getData = () => {
+    const getQuestion = () => {
         setLoading(true);
-        axios.get(QUESTION_API_URL)
-            .then((res) => {
-                if (res.status === 200) {
-                    console.log(res.data.data.Question)
-                    setDataSrc(res.data.data)
-                    setLoading(false);
-                }
-            }).catch((err) => {
-                console.log(err)
-            })
+        getQuestions().then((res) => {
+            if (res.status === 200) {
+                console.log(res.data.data.Question)
+                setDataSrc(res.data.data)
+                setLoading(false);
+            }
+        }).catch((err) => {
+            console.log(err)
+        })
     }
 
     return (
@@ -133,17 +126,66 @@ const QuestionPage = () => {
                     <Table loading={loading} pagination={{ pageSize: 8 }} columns={columns} dataSource={dataSrc.Question} />
                     <Modal
                         open={isEditing}
-                        title="Chỉnh sửa câu hỏi"
                         okText="Save"
                         onCancel={() => {
                             setIsEditing(false);
                         }}
                         onOk={() => {
-                            setIsEditing(false);
+                            form.submit()
                         }}
                     >
-                        <TextArea  value={editQuestion?.questionName} />
-                        <TextArea  value={editQuestion2} />
+                        <Form
+                            {...mainLayout}
+                            form={form}
+                            onFinish={onFinish}
+                            initialValues={form.setFieldsValue(editQuestion)}
+                        >
+                            <div className={styles.editBoxTitle}>Câu Hỏi</div>
+                            <Form.Item name="_id" hidden={true}/>
+                            <Form.Item name="questionName">
+                                <TextArea />
+                            </Form.Item>
+                            {/* <div className={styles.editBoxTitle}>Loại Câu Hỏi</div>
+                            <Form.Item name="category">
+                                <Select>
+                                    <Select.Option value="khái niệm và quy tắc giao thông đường bộ" />
+                                    <Select.Option value="quy tắc giao thông" />
+                                    <Select.Option value="nghiệp vụ vận tải" />
+                                    <Select.Option value="văn hóa & đạo đức người lái xe" />
+                                    <Select.Option value="kỹ thuật lái xe" />
+                                    <Select.Option value="cấu tạo sữa chữa" />
+                                    <Select.Option value="hệ thống biển báo hiệu đường bộ" />
+                                    <Select.Option value="mất an toàn giao thông nghiêm trọng" />
+                                </Select>
+                            </Form.Item> */}
+                            <div className={styles.editBoxTitle}>Đáp Án</div>
+                            <Form.List name="answers">
+                                {(fields) => (
+                                    <>
+                                        {fields.map(field => (
+                                            <Space key={field.key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+                                                <Form.Item
+                                                    {...field}
+                                                    name={[field.name, 'answerName']}
+                                                    style={{ width: "20rem" }}
+                                                >
+                                                    <TextArea />
+                                                </Form.Item>
+                                                <Form.Item
+                                                    {...field}
+                                                    name={[field.name, 'isCorrect']}
+                                                >
+                                                    <Select style={{ width: "5.5rem" }}>
+                                                        <Select.Option value={true}>Đúng</Select.Option>
+                                                        <Select.Option value={false}>Sai</Select.Option>
+                                                    </Select>
+                                                </Form.Item>
+                                            </Space>
+                                        ))}
+                                    </>
+                                )}
+                            </Form.List>
+                        </Form>
                     </Modal>
                 </div></Col>
             </Row>
