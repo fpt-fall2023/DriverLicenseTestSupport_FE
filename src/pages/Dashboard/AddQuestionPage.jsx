@@ -14,18 +14,18 @@ const AddQuestionPage = () => {
 
     const onFinish = (values) => {
         console.log('Received values of form:', values);
-        // addQuestion(values.questionName, values.answers, values.category).then(res => {
-        //     if (res.status === 200) {
-        //         console.log(res)
-        //         notification.success({
-        //             message: "thêm câu hỏi thành công"
-        //         })  
-        //         navigate("/Dashboard/QuestionPage")
-        //     }
+        addQuestion(values.questionName, values.answers, values.category).then(res => {
+            if (res.status === 200) {
+                console.log(res)
+                notification.success({
+                    message: "thêm câu hỏi thành công"
+                })  
+                navigate("/Dashboard/QuestionPage")
+            }
             
-        // }).catch(err => {
-        //     console.log(err)
-        // })
+        }).catch(err => {
+            console.log(err)
+        })
 
     };
 

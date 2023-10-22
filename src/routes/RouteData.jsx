@@ -3,6 +3,7 @@ import Register from '../pages/Auth/Register';
 import Homepage from '../pages/Homepage';
 import QuestionPage from '../pages/Dashboard/QuestionPage';
 import AddQuestionPage from '../pages/Dashboard/AddQuestionPage';
+import UserPage from '../pages/Dashboard/UserPage'
 import Learning from '../pages/LearningCard/Learning';
 import QuizPage from '../pages/QuizPage/QuizPage';
 import AboutUs from '../pages/AboutUs/AboutUs';
@@ -45,6 +46,11 @@ const RouteData = [
     title: 'AddQuestionPage',
     path: '/dashboard/AddQuestionPage',
     element: <AddQuestionPage />,
+  },
+  {
+    title: 'UserPage',
+    path: '/dashboard/UserPage',
+    element: <UserPage />,
   },
   {
     title: 'AddCategoryPage',
