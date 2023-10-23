@@ -6,9 +6,12 @@ import { useNavigate } from 'react-router-dom';
 const TestCard = (data) => {
   const navigate = useNavigate();
   const testInfo = data.data;
+  const testType = data.data.testType;
 
   const navigateToExam = (data) => {
-    navigate('/quizPage/examination', { state: { questionBankId: data } });
+    navigate('/practice-test/examination', {
+      state: { questionBankId: data, testType: testType },
+    });
   };
   return (
     <Card

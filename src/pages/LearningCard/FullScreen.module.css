@@ -83,3 +83,34 @@
   background-color: #edefff;
   border: 2px solid #4255ffcb;
 }
+
+.scoreModalContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.chartContainer {
+  width: 14rem;
+  height: 14rem;
+}
+
+.scoreNotification {
+}
+
+.notifyHeader {
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+.notifyHeader.warning {
+  color: rgb(255, 99, 132);
+}
+
+.notifyHeader.success {
+  color: #72a360;
+}
+
+.notifyRightAns {
+  color: #72a360;
+}
