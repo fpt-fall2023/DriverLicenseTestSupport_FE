@@ -1,9 +1,9 @@
 import styles from "./QuestionPage.module.css"
-import React, { useEffect, useState } from 'react';
-import { Button, Form, Select, Space, Table, Input } from 'antd';
+import { useEffect, useState } from 'react';
+import { Button, Form, Select, Space, Table } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { getQuestions, deleteQuestion, updateQuestion } from "../../apis/QuestionService";
-import Sidebar from '../../components/sidebar/sidebar';
+import Sidebar from '../../components/sidebar/Sidebar';
 import { Col, Row } from 'antd';
 import Modal from "antd/es/modal/Modal";
 import { Link } from "react-router-dom";
@@ -73,7 +73,7 @@ const QuestionPage = () => {
                 deleteQuestion(record._id).then(res => {
                     console.log(res);
                     setLoading(false);
-                    getData();
+                    // getData();
                 }).catch(err => {
                     console.log(err)
                 });
