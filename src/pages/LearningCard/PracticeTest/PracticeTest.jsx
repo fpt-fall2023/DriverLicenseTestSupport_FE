@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Col, Row, Spin } from 'antd';
 
 import TestCard from './TestCard';
-import { getAllSampleTest } from '../../../apis/SampleTestService';
+import { getSampleTest } from '../../../apis/SampleTestService';
 
 import LearningCss from '../Learning.module.css';
 
@@ -10,7 +10,7 @@ const PracticeTest = () => {
   const [sampleTests, setSampleTests] = useState([]);
 
   useEffect(() => {
-    getAllSampleTest().then((result) => {
+    getSampleTest().then((result) => {
       setSampleTests(result.data.data.SampleTest);
     });
   }, []);

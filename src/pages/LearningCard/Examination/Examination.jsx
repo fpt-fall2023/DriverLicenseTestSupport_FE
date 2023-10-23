@@ -7,7 +7,7 @@ import ExaminationCss from '../FullScreen.module.css';
 import { getAQuestionBank } from '../../../apis/QuestionBankService';
 import ExamSlide from './ExamSlide';
 
-//not delete this
+//Do not delete this
 import Chart from 'chart.js/auto';
 import { Doughnut } from 'react-chartjs-2';
 
