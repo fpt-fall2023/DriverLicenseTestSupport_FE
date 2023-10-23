@@ -100,11 +100,7 @@ const RouteData = [
     path: '/quizpage/learn',
     element: <Learning />,
   },
-  {
-    title: 'Examination',
-    path: '/quizpage/examination',
-    element: <Examination />,
-  },
+
   {
     title: 'UserProfile',
     path: '/profile',
@@ -124,6 +120,11 @@ const RouteData = [
     title: 'PracticeTest',
     path: '/practice-test',
     element: <PracticeTest />,
+  },
+  {
+    title: 'Examination',
+    path: '/practice-test/examination',
+    element: <Examination />,
   },
 ];
 
