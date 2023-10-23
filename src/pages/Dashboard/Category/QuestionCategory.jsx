@@ -1,5 +1,5 @@
 import { Button, Col, Popconfirm, Row, Space, Table, notification } from "antd"
-import Sidebar from "../../../components/sidebar/sidebar"
+import Sidebar from "../../../components/sidebar/Sidebar"
 import { useEffect, useState } from "react"
 import { deleteCategory, getCategory } from "../../../apis/QuestionService"
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
