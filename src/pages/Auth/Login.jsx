@@ -26,8 +26,14 @@ const Login = () => {
                     message: 'Đăng nhập thành công',
                     placement: 'bottomRight'
                 })
+                console.log(res.data.data)
                 localStorage.setItem('token', res.data.data.accessToken)
-                localStorage.setItem('user', JSON.stringify(res.data.data.user))    
+                localStorage.setItem('user', JSON.stringify(res.data.data.user))
+                if(res.data.data.user.role === 'admin') {
+                    localStorage.setItem('isAdmin', 'true')
+                }else {
+                    localStorage.setItem('isAdmin', 'false')
+                }
                 window.location.href = '/'
             }
         }).catch(err => {

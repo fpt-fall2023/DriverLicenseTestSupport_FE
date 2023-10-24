@@ -43,7 +43,7 @@ const QuestionBank = () => {
         getQuestionBank().then((res) => {
             if(res.status === 200) {
                 setLoading(false)
-                setQuestionBank(res.data.data)
+                setQuestionBank(res.data.data.QuestionBank)
             }
         })
     }

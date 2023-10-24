@@ -5,10 +5,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Avatar, Dropdown } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { logoutAccount } from '../../apis/UserService';
+import { useEffect } from 'react';
 
 const Header = () => {
+
   const navigate = useNavigate();
-  const isAdmin = 1;
+  
   const items = [
     {
       label: 'Hồ Sơ',
@@ -16,14 +18,6 @@ const Header = () => {
       onClick: () => {
         navigate('/profile');
       },
-    },
-    {
-      label: 'Quản Lý',
-      key: 'dashboard',
-      onClick: () => {
-        navigate('/dashboard/QuestionPage');
-      },
-      hidden: !isAdmin,
     },
     {
       label: 'Đăng Xuất',
@@ -59,7 +53,15 @@ const Header = () => {
       label: 'Về chúng tôi',
       link: '/about',
     },
-  ];
+  ]
+
+  const isAdmin = localStorage.getItem('isAdmin') === 'true'? items.splice(1,0,{
+    label: 'Quản lý',
+    key: 'admin',
+    onClick: () => {
+      navigate('/dashboard/QuestionPage');
+    },
+  }) : null;
 
   return (
     <div id="header" className={styles.header}>
