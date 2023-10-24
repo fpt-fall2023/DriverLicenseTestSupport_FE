@@ -8,6 +8,7 @@ import { logoutAccount } from '../../apis/UserService';
 
 const Header = () => {
   const navigate = useNavigate();
+  const isAdmin = 1;
   const items = [
     {
       label: 'Hồ Sơ',
@@ -15,6 +16,14 @@ const Header = () => {
       onClick: () => {
         navigate('/profile');
       },
+    },
+    {
+      label: 'Quản Lý',
+      key: 'dashboard',
+      onClick: () => {
+        navigate('/dashboard/QuestionPage');
+      },
+      hidden: !isAdmin,
     },
     {
       label: 'Đăng Xuất',
@@ -36,11 +45,11 @@ const Header = () => {
     },
     {
       label: 'Thi Thử',
-      link: '/',
+      link: '/practice-test',
     },
     {
       label: 'Lịch Học',
-      link: '/'
+      link: '/',
     },
     {
       label: 'Tin tức',
@@ -51,34 +60,38 @@ const Header = () => {
       link: '/about',
     },
   ];
-  
-    return (
-        <div id='header' className={styles.header}>
-            <img src='/src/assets/images/Website_Logo.png' alt='logo' className={styles.logo} />
-            <div className={styles.centerName}>Ôn Tập Lái Xe</div>
-            <Row className={styles.header__section}>
-                {headerSection.map((item, index) => (
-                    <Col span={4} key={index}>
-                        <Link to={item.link}>
-                            {item.label}
-                        </Link>
-                    </Col>
-                ))}
-            </Row>
-            <div>
-                {localStorage.getItem('token')?.length > 0 ? (
-                    <div>
-                        <Dropdown menu={{items}} trigger={['hover']}>
-                            <Avatar className={styles.profile} icon={<UserOutlined />} />
-                        </Dropdown>
-                    </div>
-                ) : (
-                    <Link to='/login'>
-                        <Button className={styles.button} type='primary'>Đăng Nhập</Button>
-                    </Link>
-                )}
-            </div>
-        </div>
-    )
-}
-export default Header
+
+  return (
+    <div id="header" className={styles.header}>
+      <img
+        src="/src/assets/images/Website_Logo.png"
+        alt="logo"
+        className={styles.logo}
+      />
+      <div className={styles.centerName}>Ôn Tập Lái Xe</div>
+      <Row className={styles.header__section}>
+        {headerSection.map((item, index) => (
+          <Col span={4} key={index}>
+            <Link to={item.link}>{item.label}</Link>
+          </Col>
+        ))}
+      </Row>
+      <div>
+        {localStorage.getItem('token')?.length > 0 ? (
+          <div>
+            <Dropdown menu={{ items }} trigger={['hover']}>
+              <Avatar className={styles.profile} icon={<UserOutlined />} />
+            </Dropdown>
+          </div>
+        ) : (
+          <Link to="/login">
+            <Button className={styles.button} type="primary">
+              Đăng Nhập
+            </Button>
+          </Link>
+        )}
+      </div>
+    </div>
+  );
+};
+export default Header;

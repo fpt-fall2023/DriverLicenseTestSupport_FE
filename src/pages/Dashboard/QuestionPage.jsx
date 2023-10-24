@@ -102,6 +102,7 @@ const QuestionPage = () => {
         getQuestion();
     }, []);
 
+
     const getQuestion = () => {
         setLoading(true);
         getQuestions().then((res) => {
@@ -121,7 +122,7 @@ const QuestionPage = () => {
             <Row>
                 <Col flex="100px"><Sidebar /></Col>
                 <Col flex="auto"><div >
-                    <Space style={{ padding: 16 }}><Button type="primary"><Link to='/dashboard/AddQuestionPage'>Add new question</Link></Button></Space>
+                    <Space style={{ padding: 16 }}><Button type="primary"><Link to='/dashboard/AddQuestionPage'>Thêm câu hỏi</Link></Button></Space>
                     <Table loading={loading} pagination={{ pageSize: 8 }} columns={columns} dataSource={dataSrc.Question} />
                     <Modal
                         open={isEditing}

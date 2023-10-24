@@ -152,3 +152,27 @@
   font-size: 1rem;
   overflow-wrap: break-word;
 }
+
+/* Practice test */
+.practiceTestContainer {
+  padding: 0 2rem;
+}
+
+.testTypeTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.8rem;
+}
+
+.testCardHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.testCardQuestions {
+  padding: 4px 10px;
+  background-color: #edefff;
+  width: fit-content;
+  border-radius: 0.8rem;
+  margin-bottom: 0.4rem;
+}

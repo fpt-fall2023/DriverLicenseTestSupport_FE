@@ -24,66 +24,10 @@ import QuestionSlide from './QuestionSlide';
 import { getQuestions } from '../../apis/QuestionService';
 import { LoadingOutlined } from '@ant-design/icons';
 
-const rawQuestion = [
-  {
-    _id: '652b4d834a816de656f99bcc',
-    questionName:
-      'Khái niệm "Khổ giới hạn của đường bộ" được hiểu như thế nào là đúng?',
-    isDanger: false,
-    answers: [
-      {
-        answerName:
-          'Là khoảng trống có kích thước giới hạn về chiều cao, chiều rộng của đường, cầu, bến phà, hầm đường bộ để các xe kể cả hàng hóa xếp trên xe đi qua được an toàn.',
-        isCorrect: true,
-      },
-      {
-        answerName:
-          'Là khoảng trống có kích thước giới hạn về chiều rộng của đường, cầu, bến phà, hầm trên đường bộ để các xe kể cả hàng hóa xếp trên xe đi qua được an toàn.',
-        isCorrect: false,
-      },
-      {
-        answerName:
-          'Là khoảng trống có kích thước giới hạn về chiều cao của cầu, bến phà, hầm trên đường bộ để các xe đi qua được an toàn.',
-        isCorrect: false,
-      },
-    ],
-    category: {
-      _id: '65236e4b232393147808b9e8',
-      questionType: 'khái niệm',
-    },
-  },
-  {
-    _id: '652b4d834a816de656f99bcd',
-    questionName:
-      'Trong các khái niệm dưới đây, "dải phân cách" được hiểu như thế nào là đúng?',
-    isDanger: false,
-    answers: [
-      {
-        answerName:
-          'Là bộ phận của đường để ngăn cách không cho các loại xe vào những nơi không được phép.',
-        isCorrect: false,
-      },
-      {
-        answerName:
-          'Là bộ phận của đường để phân tách phần đường xe chạy và hành lang an toàn giao thông.',
-        isCorrect: false,
-      },
-      {
-        answerName:
-          'Là bộ phận của đường để phân chia mặt đường thành hai chiều xe chạy riêng biệt hoặc để phân chia phần đường của xe cơ giới và xe thô sơ.',
-        isCorrect: true,
-      },
-    ],
-    category: {
-      _id: '65236e4b232393147808b9e8',
-      questionType: 'khái niệm',
-    },
-  },
-];
-
 const Learning = () => {
   const [questions, setQuestions] = useState([]);
   const [curQues, setCurQues] = useState(0);
+  // const [paginationQues, setPaginationQues] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -286,40 +230,31 @@ const Learning = () => {
           </Col>
         </Row>
       </div>
+      {/* Learning Card------------------------------- */}
       <Row className={LearningCss.terminologySection}>
         <Col span={20}>
           <h2 style={{ fontSize: '1.25rem' }}>
-            Thuật ngữ trong học phần này ({rawQuestion.length})
+            Thuật ngữ trong học phần này (
+            {questions.length > 0 ? questions.length : ''})
           </h2>
-          <div>
+          {/* <div>
             {rawQuestion.map((ques, i) => {
               return <QuestionSlide key={i} question={ques} />;
             })}
+          </div> */}
+          <div>
+            {questions.length > 0 ? (
+              <div>
+                {questions.map((item, i) => {
+                  return <QuestionSlide key={i} question={item} />;
+                })}
+              </div>
+            ) : (
+              <div>Loading...</div>
+            )}
           </div>
         </Col>
       </Row>
-      <div>
-        {questions.length > 0 ? (
-          <div>
-            {questions.map((item) => {
-              return (
-                <div key={item._id}>
-                  <div>Name: {item.questionName}</div>
-                  <div>Is danger: {item.isDanger.toString()}</div>
-                  {/* {item.} */}
-                  <ul>
-                    {item.answers.map((ans) => (
-                      <li key={ans.answerName}>{ans.answerName}</li>
-                    ))}
-                  </ul>
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          <div>Loading...</div>
-        )}
-      </div>
     </div>
   );
 };

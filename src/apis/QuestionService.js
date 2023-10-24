@@ -1,5 +1,5 @@
 import axios from "axios"
-import { QUESTION_API_URL, CATEGORY_API_URL } from "./APIConfig"
+import { QUESTION_API_URL, CATEGORY_API_URL, QUESTION_BANK_API_URL } from "./APIConfig"
 
 
 //Question API
@@ -11,7 +11,7 @@ const addQuestion = (questionName, answers, category) => {
     return axios.post(QUESTION_API_URL, {
         questionName,
         answers,
-        category
+        category: categoryData,
     })
 }
 
@@ -64,4 +64,37 @@ const deleteCategory = (categoryId) => {
     })
 }
 
-export {getQuestions, addQuestion, updateQuestion, deleteQuestion, getCategory, addCategory, updateCategory, deleteCategory}
+// QuestionBank API
+const getQuestionBank = () => {
+    return axios.get(`${QUESTION_BANK_API_URL}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+    })
+}
+
+const getQuestionBankById = (questionBankId) => {
+    return axios.get(`${QUESTION_BANK_API_URL}/${questionId}`)
+}
+
+const addQuestionBank = (questionBankName, question, driveType) => {
+    return axios.post(`${QUESTION_BANK_API_URL}`, {
+        questionBankName,
+        question,
+        driveType
+    }, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+    })
+}
+
+const deleteQuestionBank = (questionBankId) => {
+    return axios.delete(`${QUESTION_BANK_API_URL}/${questionBankId}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+    })
+}
+
+export {getQuestions, addQuestion, updateQuestion, deleteQuestion, getCategory, addCategory, updateCategory, deleteCategory, getQuestionBank, getQuestionBankById, addQuestionBank, deleteQuestionBank}

@@ -10,10 +10,14 @@ import News from '../pages/News/News';
 import UserProfile from '../pages/Profile/UserProfile';
 import TrafficSignsPage from '../pages/TrafficSigns/TrafficSignsPage';
 import Examination from '../pages/LearningCard/Examination/Examination';
-import Category from "../pages/Dashboard/Category/QuestionCategory"
+import Category from '../pages/Dashboard/Category/QuestionCategory';
 import EditProfile from '../pages/Profile/EditProfile';
 import TrafficCategory from '../pages/Dashboard/Category/TrafficCategory';
-      
+import QuestionBank from '../pages/Dashboard/QuestionBank/QuestionBank';
+import QuestionBankDetail from '../pages/Dashboard/QuestionBank/QuestionBankDetail';
+import AddQuestionBank from '../pages/Dashboard/QuestionBank/AddQuestionBank';
+import SampleTest from '../pages/Dashboard/SampleTest/SampleTest';
+import PracticeTest from '../pages/LearningCard/PracticeTest/PracticeTest';
 
 const RouteData = [
   {
@@ -47,14 +51,34 @@ const RouteData = [
     element: <AddQuestionPage />,
   },
   {
-    title: "AddCategoryPage",
-    path: "dashboard/CategoryPage",
-    element: <Category />
+    title: 'AddCategoryPage',
+    path: 'dashboard/CategoryPage',
+    element: <Category />,
   },
   {
-    title: "AddTrafficCategoryPage",
-    path: "dashboard/TrafficCategoryPage",
-    element: <TrafficCategory />
+    title: 'AddTrafficCategoryPage',
+    path: 'dashboard/TrafficCategoryPage',
+    element: <TrafficCategory />,
+  },
+  {
+    title: "QuestionBankPage",
+    path: "dashboard/QuestionBankPage",
+    element: <QuestionBank />
+  },
+  {
+    title: "QuestionBankDetailPage",
+    path: "dashboard/QuestionBankPage/:id",
+    element: <QuestionBankDetail />
+  },
+  {
+    title: "AddQuestionBankPage",
+    path: "dashboard/QuestionBankPage/add",
+    element: <AddQuestionBank />
+  },
+  {
+    title: 'Sample Test',
+    path: 'dashboard/SampleTestPage',
+    element: <SampleTest />
   },
   {
     title: 'QuizPage',
@@ -76,11 +100,7 @@ const RouteData = [
     path: '/quizpage/learn',
     element: <Learning />,
   },
-  {
-    title: 'Examination',
-    path: '/quizpage/examination',
-    element: <Examination />,
-  },
+
   {
     title: 'UserProfile',
     path: '/profile',
@@ -89,12 +109,22 @@ const RouteData = [
   {
     title: 'EditProfile',
     path: '/profile/edit',
-    element: <EditProfile />
+    element: <EditProfile />,
   },
   {
     title: 'TrafficSignsPage',
     path: '/quizpage/trafficsigns',
     element: <TrafficSignsPage />,
+  },
+  {
+    title: 'PracticeTest',
+    path: '/practice-test',
+    element: <PracticeTest />,
+  },
+  {
+    title: 'Examination',
+    path: '/practice-test/examination',
+    element: <Examination />,
   },
 ];
 
