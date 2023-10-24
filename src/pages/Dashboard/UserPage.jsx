@@ -25,11 +25,11 @@ const UserPage = () => {
     }
 
     const columns = [
-        {
-            title: 'Avatar',
-            avatar: 'avatar',
+        // {
+        //     title: 'Avatar',
+        //     avatar: 'avatar',
 
-        },
+        // },
         {
             title: 'Tên tài khoản',
             dataIndex: 'name',

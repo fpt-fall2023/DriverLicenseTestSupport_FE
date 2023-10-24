@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router-dom';
 const AddQuestionPage = () => {
     const [dataSrc, setDataSrc] = useState([]);
     const navigate = useNavigate();
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTFkOTFkNWRiNDFmMTEyMGM0ZmI3ZTMiLCJpYXQiOjE2OTc2MTQwMjgsImV4cCI6MTcwNTM5MDAyOH0.UYl7u1yXvULAALdEjLksjxtSNagtI1XhHK6F3hh5Gho"
 
     const onFinish = (values) => {
         console.log('Received values of form:', values);
