@@ -9,6 +9,13 @@ const getAllUsers = () => {
     })
 }
 
+const addUser = (name , role) => {
+    return axios.post(`${USER_API_URL}`, {
+        name,
+        role,
+    })
+}
+
 const deleteUser = (userId) => {
     return axios.delete(`${USER_API_URL}/${userId}`, {
         headers: {
@@ -17,4 +24,17 @@ const deleteUser = (userId) => {
     })
 }
 
-export {getAllUsers, deleteUser}
+const updateUser = (userId, name, role) => {
+    return axios.patch(`${USER_API_URL}/${userId}`, {
+        name,
+        role,
+        // birthdate,
+        // avatar
+    }, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+    })
+}
+
+export {getAllUsers, addUser, deleteUser, updateUser}

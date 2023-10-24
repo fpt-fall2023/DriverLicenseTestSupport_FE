@@ -2,18 +2,19 @@ import styles from "./UserPage.module.css"
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Select, Space, Table, Input, notification } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { getAllUsers, deleteUser } from "../../apis/AdminService";
+import { getAllUsers, deleteUser, updateUser } from "../../apis/AdminService";
 import Sidebar from '../../components/sidebar/sidebar';
 import { Col, Row } from 'antd';
 import Modal from "antd/es/modal/Modal";
 import { Link } from "react-router-dom";
-import TextArea from "antd/es/input/TextArea";
+import AddModal from "./AddUserPage";
 
 const UserPage = () => {
     const [dataSrc, setDataSrc] = useState([]);
     const [loading, setLoading] = useState([]);
-    // const [isEditing, setIsEditing] = useState(false);
-    // const [editQuestion, setEditQuestion] = useState([]);
+    const [isAdding, setIsAdding] = useState(false)
+    const [isEditing, setIsEditing] = useState(false);
+    const [editUser, setEditUser] = useState([]);
 
 
     const [form] = Form.useForm()
@@ -26,7 +27,7 @@ const UserPage = () => {
     const columns = [
         {
             title: 'Avatar',
-            avatar: '_id',
+            avatar: 'avatar',
 
         },
         {
@@ -34,7 +35,7 @@ const UserPage = () => {
             dataIndex: 'name',
         },
         {
-            title: 'Vai trỏ',
+            title: 'Vai trò',
             dataIndex: 'role',
         },
         {
@@ -45,7 +46,7 @@ const UserPage = () => {
                 <Space size="middle">
                     <EditOutlined onClick={() => {
                         form.resetFields();
-                        // onEditQuestion(record);
+                        oneEditUser(record);
                     }}
                         style={{ color: "blue" }} />
                     <DeleteOutlined onClick={() => {
@@ -58,11 +59,11 @@ const UserPage = () => {
     ]
 
 
-    // const onEditQuestion = (record) => {
-    //     setIsEditing(true);
-    //     console.log(record)
-    //     setEditQuestion(record);
-    // };
+    const oneEditUser = (record) => {
+        setIsEditing(true);
+        console.log(record)
+        setEditUser(record);
+    };
 
     const onDelete = (record) => {
         console.log(record.role)
@@ -83,7 +84,7 @@ const UserPage = () => {
                     }).catch(err => {
                         console.log(err)
                     });
-                }else{
+                } else {
                     notification.error({
                         message: "không thể xóa admin"
                     })
@@ -94,19 +95,22 @@ const UserPage = () => {
     };
 
     const onFinish = (values) => {
-        // const questionId = values._id
-        // const questionName = values.questionName
-        // const answers = values.answers
-        // console.log(questionId, questionName, answers)
-        // updateQuestion(questionId, questionName, answers).then(res => {
-        //     if (res.status === 200) {
-        //         console.log(res.data.data)
-        //         setIsEditing(false)
-        //         getQuestion()
-        //     }
-        // }).catch(err => {
-        //     console.log(err)
-        // })
+
+        const userID = values._id
+        const userName = values.name
+        const role = values.role
+        // const birthdate = values.birthdate
+        // const avatar = values.avatar
+        console.log(userID, userName, role)
+        updateUser(userID, userName, role).then(res => {
+            if (res.status === 200) {
+                console.log(res.data.data)
+                setIsEditing(false)
+                getUser()
+            }
+        }).catch(err => {
+            console.log(err)
+        })
         console.log(values);
     }
 
@@ -135,9 +139,10 @@ const UserPage = () => {
             <Row>
                 <Col flex="100px"><Sidebar /></Col>
                 <Col flex="auto"><div >
-                    <Space style={{ padding: 16 }}><Button type="primary"><Link to='/dashboard/AddQuestionPage'>Add new question</Link></Button></Space>
+                    <Space style={{ padding: 16 }}><Button type="primary" onClick={() => setIsAdding(true)}>Thêm người dùng mới</Button></Space>
                     <Table loading={loading} pagination={{ pageSize: 8 }} columns={columns} dataSource={dataSrc} />
-                    {/* <Modal
+                    <Modal
+                        title="Chỉnh sửa user"
                         open={isEditing}
                         okText="Save"
                         onCancel={() => {
@@ -151,42 +156,35 @@ const UserPage = () => {
                             {...mainLayout}
                             form={form}
                             onFinish={onFinish}
-                            initialValues={form.setFieldsValue(editQuestion)}
+                            initialValues={form.setFieldsValue(editUser)}
+                            
                         >
-                            <div className={styles.editBoxTitle}>Câu Hỏi</div>
-                            <Form.Item name="_id" hidden={true}/>
-                            <Form.Item name="questionName">
-                                <TextArea />
+                            <Form.Item name="_id" hidden={true} />
+                            <Form.Item name="name" label="Tên" rules={[{ required: true, message: 'Chưa có tên người dùng' }]}>
+                                <Input label="Nhập tên" />
                             </Form.Item>
-                            <div className={styles.editBoxTitle}>Đáp Án</div>
-                            <Form.List name="answers">
-                                {(fields) => (
-                                    <>
-                                        {fields.map(field => (
-                                            <Space key={field.key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
-                                                <Form.Item
-                                                    {...field}
-                                                    name={[field.name, 'answerName']}
-                                                    style={{ width: "20rem" }}
-                                                >
-                                                    <TextArea />
-                                                </Form.Item>
-                                                <Form.Item
-                                                    {...field}
-                                                    name={[field.name, 'isCorrect']}
-                                                >
-                                                    <Select style={{ width: "5.5rem" }}>
-                                                        <Select.Option value={true}>Đúng</Select.Option>
-                                                        <Select.Option value={false}>Sai</Select.Option>
-                                                    </Select>
-                                                </Form.Item>
-                                            </Space>
-                                        ))}
-                                    </>
-                                )}
-                            </Form.List>
+                            {/* <div className={styles.editBoxTitle}>Đáp Án</div> */}
+                            <Form.Item name={"role"} label="vai trò"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'chưa chọn loại vai trò',
+                                    },
+                                ]}
+                            >
+                                <Select
+                                    placeholder="Chọn loại vai trò"
+                                >
+                                    <Select.Option value={"admin"}>Admin</Select.Option>
+                                    <Select.Option value={"user"}>Người dùng</Select.Option>
+                                    <Select.Option value={"staff"}>Nhân viên</Select.Option>
+                                    <Select.Option value={"teacher"}>Người dạy</Select.Option>
+                                </Select>
+                            </Form.Item>
+    
                         </Form>
-                    </Modal> */}
+                    </Modal>
+                    <AddModal isAdding={isAdding} setIsAdding={setIsAdding} getQuestionCategory={getUser} />
                 </div></Col>
             </Row>
         </div>
