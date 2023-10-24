@@ -11,7 +11,7 @@ const AddModal = ({ isOpen, setIsOpen, questionBank, getAllSampleTest }) => {
     const [form] = Form.useForm()
 
     const onFinish = (values) => {
-        addSampleTest(values.sampleTestName, values.questionBankName).then((res) => {
+        addSampleTest(values.sampleTestName, values.questionBankName, values.testType).then((res) => {
             if (res.status === 201) {
                 setIsOpen(false)
                 notification.success({
@@ -62,6 +62,27 @@ const AddModal = ({ isOpen, setIsOpen, questionBank, getAllSampleTest }) => {
                                 </Select.Option>
                             ))}
                         </Select>
+                    </Form.Item>
+                    <Form.Item
+                    label="Loại bằng"
+                    name="testType"
+                    rules={[{ required: true, message: "Vui lòng chọn loại bằng!" }]}
+                    >
+                        <Select
+                            defaultValue="Bằng B1"
+                            options={
+                                [
+                                    {
+                                        value: "B1",
+                                        label: "Bằng B1",
+                                    },
+                                    {
+                                        value: "B2",
+                                        label: "Bằng B2"
+                                    }
+                                ]
+                            }
+                        />
                     </Form.Item>
                 </Form>
             </Modal>

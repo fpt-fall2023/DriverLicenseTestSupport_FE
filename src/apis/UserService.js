@@ -23,6 +23,7 @@ const registerAccount = (email, password, name) => {
 const logoutAccount = () => {
     localStorage.removeItem("token")
     window.location.reload()
+    window.location.href = "/"
 }
 
 const updateProfile = () => {
