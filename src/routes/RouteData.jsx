@@ -1,8 +1,6 @@
 import Login from '../pages/Auth/Login';
 import Register from '../pages/Auth/Register';
 import Homepage from '../pages/Homepage';
-
-import UserPage from '../pages/Dashboard/UserPage'
 import Learning from '../pages/LearningCard/Learning';
 import QuizPage from '../pages/QuizPage/QuizPage';
 import AboutUs from '../pages/AboutUs/AboutUs';
