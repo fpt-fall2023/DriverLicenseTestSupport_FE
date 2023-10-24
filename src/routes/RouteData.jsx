@@ -1,8 +1,7 @@
 import Login from '../pages/Auth/Login';
 import Register from '../pages/Auth/Register';
 import Homepage from '../pages/Homepage';
-import QuestionPage from '../pages/Dashboard/QuestionPage';
-import AddQuestionPage from '../pages/Dashboard/AddQuestionPage';
+
 import UserPage from '../pages/Dashboard/UserPage'
 import Learning from '../pages/LearningCard/Learning';
 import QuizPage from '../pages/QuizPage/QuizPage';
@@ -11,10 +10,9 @@ import News from '../pages/News/News';
 import UserProfile from '../pages/Profile/UserProfile';
 import TrafficSignsPage from '../pages/TrafficSigns/TrafficSignsPage';
 import Examination from '../pages/LearningCard/Examination/Examination';
-import Category from '../pages/Dashboard/Category/QuestionCategory';
 import EditProfile from '../pages/Profile/EditProfile';
-import TrafficCategory from '../pages/Dashboard/Category/TrafficCategory';
 import PracticeTest from '../pages/LearningCard/PracticeTest/PracticeTest';
+import ErrorPage from '../pages/ErrorPage';
 
 const RouteData = [
   {
@@ -31,36 +29,6 @@ const RouteData = [
     title: 'Homepage',
     path: '/',
     element: <Homepage />,
-  },
-  // {
-  //     title: "Dashboard",
-  //     path: "/dashboard",
-  //     element: <Dashboard />
-  // },
-  {
-    title: 'QuestionPage',
-    path: '/dashboard/QuestionPage',
-    element: <QuestionPage />,
-  },
-  {
-    title: 'AddQuestionPage',
-    path: '/dashboard/AddQuestionPage',
-    element: <AddQuestionPage />,
-  },
-  {
-    title: 'UserPage',
-    path: '/dashboard/UserPage',
-    element: <UserPage />,
-  },
-  {
-    title: 'AddCategoryPage',
-    path: 'dashboard/CategoryPage',
-    element: <Category />,
-  },
-  {
-    title: 'AddTrafficCategoryPage',
-    path: 'dashboard/TrafficCategoryPage',
-    element: <TrafficCategory />,
   },
   {
     title: 'QuizPage',
@@ -82,11 +50,7 @@ const RouteData = [
     path: '/quizpage/learn',
     element: <Learning />,
   },
-  {
-    title: 'Examination',
-    path: '/quizpage/examination',
-    element: <Examination />,
-  },
+
   {
     title: 'UserProfile',
     path: '/profile',
@@ -107,6 +71,16 @@ const RouteData = [
     path: '/practice-test',
     element: <PracticeTest />,
   },
+  {
+    title: 'Examination',
+    path: '/practice-test/examination',
+    element: <Examination />,
+  },
+  {
+    title: 'Error 404',
+    path: '*',
+    element: <ErrorPage />,
+  }
 ];
 
 export default RouteData;

@@ -2,10 +2,12 @@ import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
 import { Button, Form, Input, Space, notification } from 'antd'
 import { UserOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons'
 import styles from './Login.module.css'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { registerAccount } from '../../apis/UserService'
-const Login = () => {
+import { useEffect } from 'react'
+const Register = () => {
     const [form] = Form.useForm()
+    const navigate = useNavigate()
 
     const mainLayout = {
         labelCol: { span: 8 },
@@ -14,11 +16,12 @@ const Login = () => {
 
     const onFinish = (values) => {
         registerAccount(values.email, values.password, values.fullname).then(res => {
-            if(res.status === 200) {
+            if(res.status === 201) {
                 notification.success({
                     message: 'Đăng ký thành công',
                     placement: 'bottomRight'
                 })
+                navigate('/')
             }
         }).catch(err => {
             console.log(err)
@@ -28,6 +31,12 @@ const Login = () => {
             })
         })
     }
+
+    useEffect(() => {
+        if(localStorage.getItem('token')?.length > 0) {
+            window.location.href = '/'
+        }
+    }, [])
 
     return (
         <div className={styles.login}>
@@ -132,4 +141,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default Register

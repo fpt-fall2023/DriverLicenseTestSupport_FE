@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { Col, Image, Row } from 'antd';
 
 import LearningCss from '../Learning.module.css';
 import FullScreenCss from '../FullScreen.module.css';
-import { useState } from 'react';
+
+import CorrectIcon from '../../../assets/icons/correct_checked.png';
 
 const ExamSlide = (question) => {
   const [currentSelected, setCurrentSelected] = useState();
+  const showAns = question.showScore;
   const questionInfo = question.question;
   const ansTypical = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 't', 'q'];
   const multipleChoice = () => {
@@ -73,23 +76,25 @@ const ExamSlide = (question) => {
                     question.handleAnsClick(question.questionIndex, ques);
                   }}
                 >
+                  {showAns == true && ques.isCorrect ? (
+                    <img
+                      style={{
+                        width: '2rem',
+                        height: '2rem',
+                        marginRight: '8px',
+                      }}
+                      src={CorrectIcon}
+                      alt="Correct"
+                    />
+                  ) : (
+                    ''
+                  )}
                   {ansTypical[index]}. {ques.answerName}
                 </Col>
               );
             })}
           </Row>
         </div>
-        {/* <div className={FullScreenCss.selectAnswerBox}>
-          <div className={LearningCss.questionSlideText}>
-          {questionInfo.answers.map((ques, index) => {
-            return (
-              <div key={index}>
-              {ansTypical[index]}. {ques.answerName}
-              </div>
-              );
-            })}
-            </div>
-          </div> */}
       </Col>
     </Row>
   );
