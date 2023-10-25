@@ -32,6 +32,9 @@
   font-weight: 500;
   margin-right: 1rem;
   transition: transform 0.2s ease;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.8rem;
 }
 
 .studyModeNavItem:hover {

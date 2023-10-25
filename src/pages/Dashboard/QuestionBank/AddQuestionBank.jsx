@@ -142,7 +142,7 @@ const AddQuestionBank = () => {
             return questionBank.concat(currentQuestionCategory.question)
         }, [])
         addQuestionBank(questionBankName, allQuestions, driveType).then(res => {
-            if (res.status === 200) {
+            if (res.status === 201) {
                 notification.success({
                     message: "Tạo đề thành công"
                 })

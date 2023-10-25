@@ -73,7 +73,7 @@ const QuestionPage = () => {
                 deleteQuestion(record._id).then(res => {
                     console.log(res);
                     setLoading(false);
-                    // getData();
+                    getQuestion();
                 }).catch(err => {
                     console.log(err)
                 });

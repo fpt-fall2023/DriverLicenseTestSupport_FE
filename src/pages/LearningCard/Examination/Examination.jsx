@@ -51,9 +51,11 @@ const Examination = () => {
   const [isCorrectDanger, setIsCorrectDanger] = useState(false);
   const [showScore, setShowScore] = useState(false);
   const [score, setScore] = useState(0);
+  const [isAllSelected, setIsAllSelected] = useState(false);
   //Modal for showing score
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const showConfirmModal = () => {
+    checkAllSelected();
     setIsConfirmModalOpen(true);
   };
   const handleOk = () => {
@@ -73,7 +75,8 @@ const Examination = () => {
     setIsScoreModalOpen(false);
   };
   const handleNavHome = () => {
-    setIsScoreModalOpen(false);
+    // setIsScoreModalOpen(false);
+    window.location.href = '/practice-test';
   };
   const [loading, setLoading] = useState(true);
 
@@ -144,18 +147,15 @@ const Examination = () => {
     }
   }, []);
 
-  // const test = () => {
-  //   console.log('Exam questionss ', examQuestions);
-  //   console.log('Selected questionss ', selectedAnswers);
-  //   const test = checkIsSelectDanger();
-  //   console.log(test);
-  // };
-
   const checkAllSelected = () => {
-    if (selectedAnswers.length != examQuestions.length) {
-      return false;
+    const realLength = selectedAnswers.filter((answer) => {
+      return answer != null || answer != undefined || answer != '';
+    });
+    if (realLength != examQuestions.length) {
+      setIsAllSelected(false);
+    } else {
+      setIsAllSelected(true);
     }
-    return true;
   };
 
   const checkIsSelectDanger = () => {
@@ -225,15 +225,13 @@ const Examination = () => {
         <Row justify="center">
           <Col span={18}>
             <div>
-              {/* <button onClick={test}>Check check</button> */}
               {/* Score modal -------------------------------------------------------------*/}
-
               <Modal
                 title="Điểm của bạn"
                 width={'60vw'}
                 open={isScoreModalOpen}
-                onOk={handleViewAns}
-                onCancel={handleNavHome}
+                onOk={handleNavHome}
+                onCancel={handleViewAns}
                 maskClosable={false}
                 cancelText="Xem lại câu trả lời"
                 okText="Quay về"
@@ -277,14 +275,6 @@ const Examination = () => {
                   </div>
                 </div>
               </Modal>
-              {/* point hereee{' '}
-              {showScore ? (
-                <p>
-                  {score}/{examQuestions.length}
-                </p>
-              ) : (
-                ''
-              )} */}
             </div>
             {examQuestions?.map((question, index) => {
               return (
@@ -312,12 +302,12 @@ const Examination = () => {
               title="Xác nhận nộp bài"
               open={isConfirmModalOpen}
               onOk={handleOk}
-              okText="Nộp bài"
               onCancel={handleCancel}
+              okText="Nộp bài"
               cancelText="Quay lại"
               centered
             >
-              {checkAllSelected() ? (
+              {isAllSelected ? (
                 <p>Bạn có muốn thực sự nộp bài?</p>
               ) : (
                 <p>
