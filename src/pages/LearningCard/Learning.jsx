@@ -37,6 +37,7 @@ let filterData = {
   category: '',
   questions: [],
 };
+let autoLearning;
 
 const Learning = () => {
   const [questions, setQuestions] = useState([]);
@@ -44,15 +45,21 @@ const Learning = () => {
   // const [paginationQues, setPaginationQues] = useState([]);
   const [filteredData, setFilteredData] = useState(filterData);
   const [forceUpdate, setForceUpdate] = useReducer((x) => x + 1, 0);
+  const [isAutoLearning, setIsAutoLearning] = useState(false);
+  const [isShuffle, setIsShuffle] = useState(false);
 
   const handleNextQues = () => {
-    if (curQues < filteredData.questions.length - 1) {
+    if (isShuffle) {
+      setCurQues(shuffleQuestion(filteredData.questions.length - 1));
+    } else if (curQues < filteredData.questions.length - 1) {
       setCurQues(curQues + 1);
     }
   };
 
   const handlePrevQues = () => {
-    if (curQues > 0) {
+    if (isShuffle) {
+      setCurQues(shuffleQuestion(filteredData.questions.length - 1));
+    } else if (curQues > 0) {
       setCurQues(curQues - 1);
     }
   };
@@ -91,19 +98,48 @@ const Learning = () => {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   console.log('Data has change');
-  // }, [filteredData]);
-
-  const test = () => {
-    console.log(filteredData);
+  const autoNextQuestion = () => {
+    if (isAutoLearning === false) {
+      setIsAutoLearning(true);
+      autoLearning = setInterval(() => {
+        console.log('Is running autolearn');
+        setCurQues((prevCurQues) => {
+          if (prevCurQues < filteredData.questions.length - 1) {
+            return prevCurQues + 1;
+          } else {
+            // Stop auto-learning when you reach the end
+            console.log('Autolearn end cause reach the end');
+            clearInterval(autoLearning);
+            setIsAutoLearning(false);
+            return prevCurQues;
+          }
+        });
+      }, 4200);
+    } else {
+      setIsAutoLearning(false);
+      clearInterval(autoLearning);
+    }
   };
+
+  const shuffleQuestion = (maxValue) => {
+    const randomDecimal = Math.random();
+    const randomNumber = Math.floor(randomDecimal * (maxValue + 1));
+
+    return randomNumber;
+  };
+
+  const onShuffle = () => {
+    setIsShuffle(!isShuffle);
+  };
+
+  // const test = () => {
+  //   console.log(getRandomNumber(5));
+  // };
+
   return (
     <div className={LearningCss.learningContainer}>
       <div className="learningHeader">
-        <div className={LearningCss.learningPageTitle} onClick={test}>
-          Câu hỏi lái xe
-        </div>
+        <div className={LearningCss.learningPageTitle}>Câu hỏi lái xe</div>
 
         <Row
           style={{ marginRight: '10px' }}
@@ -136,11 +172,12 @@ const Learning = () => {
             <Col span={14} className="navigation">
               <Row>
                 <Col className={LearningCss.firstAction} span={8}>
-                  <Tooltip title="Start">
+                  <Tooltip title="Tự động học">
                     <Button
                       style={{ marginRight: '10px' }}
                       title="Search"
                       shape="circle"
+                      onClick={autoNextQuestion}
                       icon={<img src={startIcon} alt="Start" />}
                     />
                   </Tooltip>
@@ -148,6 +185,7 @@ const Learning = () => {
                     <Button
                       title="Search"
                       shape="circle"
+                      onClick={onShuffle}
                       icon={<img src={shuffleIcon} alt="Shuffle" />}
                     />
                   </Tooltip>
@@ -184,8 +222,14 @@ const Learning = () => {
                 </Col>
               </Row>
               <div className={LearningCss.progressBar}>
+                <div style={{ textAlign: 'center' }}>
+                  {isAutoLearning ? 'Auto Learning is on' : ''}
+                  {isShuffle ? 'Shuffle is on' : ''}
+                </div>
                 <Progress
-                  percent={((curQues + 1) / questions.length) * 100}
+                  percent={
+                    ((curQues + 1) / filteredData.questions.length) * 100
+                  }
                   size="small"
                   status="active"
                   showInfo={false}

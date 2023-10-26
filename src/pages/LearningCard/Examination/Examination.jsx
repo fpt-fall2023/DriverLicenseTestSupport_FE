@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import { Button, Col, Modal, Row, Skeleton } from 'antd';
+import { Button, Col, Modal, Row, Skeleton, notification } from 'antd';
 import ExaminationCss from '../FullScreen.module.css';
 
 import { getAQuestionBank } from '../../../apis/QuestionBankService';
@@ -36,6 +36,7 @@ const testType = [
 ];
 
 const Examination = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   //Timer
   const initialTime = 20 * 60; // 20 minutes in seconds
@@ -76,7 +77,7 @@ const Examination = () => {
   };
   const handleNavHome = () => {
     // setIsScoreModalOpen(false);
-    window.location.href = '/practice-test';
+    navigate('/practice-test');
   };
   const [loading, setLoading] = useState(true);
 
@@ -139,11 +140,17 @@ const Examination = () => {
       } else {
         setTestTypes(testType[1]);
       }
-      getAQuestionBank(questionBankId).then((rs) => {
-        setExamQuestions(rs.data.newQuestion);
-      });
+      getAQuestionBank(questionBankId)
+        .then((rs) => {
+          setExamQuestions(rs.data.newQuestion);
+        })
+        .catch((err) => {
+          notification.warning({ message: 'Login Required' });
+          navigate('/');
+        });
     } else {
-      window.location.href = '/QuizPage';
+      notification.warning({ message: 'Question bank not found' });
+      navigate('/QuizPage');
     }
   }, []);
 
