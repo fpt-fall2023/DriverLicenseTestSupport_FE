@@ -1,6 +1,6 @@
 import styles from "./QuestionPage.module.css"
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Select, Space, Table, Input } from 'antd';
+import { Button, Form, Select, Space, Table, Input, notification } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { getQuestions, deleteQuestion, updateQuestion } from "../../apis/QuestionService";
 import Sidebar from '../../components/sidebar/sidebar';
@@ -65,8 +65,8 @@ const QuestionPage = () => {
 
     const onDelete = (record) => {
         Modal.confirm({
-            title: "Are you sure, you want to delete this question?",
-            okText: "Yes",
+            title: "bạn có muốn xóa câu hỏi này",
+            okText: "Xóa",
             okType: "danger",
             onOk: () => {
                 setLoading(true);
@@ -74,6 +74,7 @@ const QuestionPage = () => {
                     console.log(res);
                     setLoading(false);
                     getQuestion();
+                    notification.success("xóa thành công")
                 }).catch(err => {
                     console.log(err)
                 });
@@ -121,7 +122,7 @@ const QuestionPage = () => {
         <div>
             <Row>
                 <Col flex="100px"><Sidebar /></Col>
-                <Col flex="auto"><div >
+                <Col flex="auto"><div style={{maxWidth: "1248.5px"}} >
                     <Space style={{ padding: 16 }}><Button type="primary"><Link to='/dashboard/AddQuestionPage'>Thêm câu hỏi</Link></Button></Space>
                     <Table loading={loading} pagination={{ pageSize: 8 }} columns={columns} dataSource={dataSrc.Question} />
                     <Modal

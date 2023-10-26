@@ -4,7 +4,8 @@ import {
     QuestionOutlined,
     UnorderedListOutlined,
     QuestionCircleOutlined,
-    BookOutlined
+    BookOutlined,
+    AuditOutlined
   } from "@ant-design/icons";
   import { Menu } from "antd";
   import { useEffect, useState } from "react";
@@ -40,7 +41,7 @@ import {
             {
               label: "QUẢN LÍ NGƯỜI DÙNG",
               key: "/dashboard/UserPage",
-              icon: <UserOutlined />,
+              icon: <AuditOutlined />,
             },
             {
               label: "QUẢN LÍ CÂU HỎI",
@@ -66,6 +67,11 @@ import {
               label: "QUẢN LÍ BÀI THI THỬ",
               key: "/dashboard/SampleTestPage",
               icon: <BookOutlined />,
+            },
+            {
+              label: "QUẢN LÍ SLOT HỌC",
+              key: "/dashboard/Slot",
+              icon: <UserOutlined />,
             },
           ]}
         ></Menu>

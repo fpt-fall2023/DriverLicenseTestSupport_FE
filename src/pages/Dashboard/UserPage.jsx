@@ -68,8 +68,8 @@ const UserPage = () => {
     const onDelete = (record) => {
         console.log(record.role)
         Modal.confirm({
-            title: "Are you sure, you want to delete this question?",
-            okText: "Yes",
+            title: "Bạn muốn xóa người dùng này ?",
+            okText: "Delete",
             okType: "danger",
             onOk: () => {
                 if (record.role != "admin") {
