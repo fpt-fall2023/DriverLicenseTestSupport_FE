@@ -64,7 +64,7 @@ const LearningCard = (question) => {
         {questionInfo.questionImage ? (
           <Image
             movable={'false'}
-            width={250}
+            width={450}
             preview={false}
             src={questionInfo.questionImage}
           />
