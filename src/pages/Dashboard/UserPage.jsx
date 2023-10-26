@@ -61,7 +61,6 @@ const UserPage = () => {
 
     const oneEditUser = (record) => {
         setIsEditing(true);
-        console.log(record)
         setEditUser(record);
     };
 
@@ -94,6 +93,14 @@ const UserPage = () => {
         });
     };
 
+    const isLeastAdmin = () => {
+        const result = dataSrc?.filter(item => item.role === 'admin');
+        if (result && result.length > 1) {
+            return false;
+        }
+        return true;
+    }
+
     const onFinish = (values) => {
 
         const userID = values._id
@@ -102,16 +109,25 @@ const UserPage = () => {
         // const birthdate = values.birthdate
         // const avatar = values.avatar
         console.log(userID, userName, role)
-        updateUser(userID, userName, role).then(res => {
-            if (res.status === 200) {
-                console.log(res.data.data)
-                setIsEditing(false)
-                getUser()
-            }
-        }).catch(err => {
-            console.log(err)
-        })
-        console.log(values);
+        if(isLeastAdmin() === false){
+            updateUser(userID, userName, role).then(res => {
+                if (res.status === 200) {
+                    console.log(res.data.data)
+                    setIsEditing(false)
+                    getUser()
+                    notification.success({
+                        message: "Chỉnh sửa thành công"
+                    })
+                }
+            }).catch(err => {
+                console.log(err)
+            })
+        }else{
+            notification.error({
+                message: "không thể edit role admin"
+            })
+        }
+        
     }
 
 
@@ -139,6 +155,7 @@ const UserPage = () => {
             <Row>
                 <Col flex="100px"><Sidebar /></Col>
                 <Col flex="auto"><div >
+                    <div onClick={() => console.log(isLeastAdmin())}>hehe</div>
                     <Space style={{ padding: 16 }}><Button type="primary" onClick={() => setIsAdding(true)}>Thêm người dùng mới</Button></Space>
                     <Table loading={loading} pagination={{ pageSize: 8 }} columns={columns} dataSource={dataSrc} />
                     <Modal
@@ -157,7 +174,7 @@ const UserPage = () => {
                             form={form}
                             onFinish={onFinish}
                             initialValues={form.setFieldsValue(editUser)}
-                            
+
                         >
                             <Form.Item name="_id" hidden={true} />
                             <Form.Item name="name" label="Tên" rules={[{ required: true, message: 'Chưa có tên người dùng' }]}>
@@ -181,7 +198,7 @@ const UserPage = () => {
                                     <Select.Option value={"teacher"}>Người dạy</Select.Option>
                                 </Select>
                             </Form.Item>
-    
+
                         </Form>
                     </Modal>
                     <AddModal isAdding={isAdding} setIsAdding={setIsAdding} getQuestionCategory={getUser} />
