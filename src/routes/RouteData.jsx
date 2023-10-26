@@ -8,6 +8,7 @@ import News from '../pages/News/News';
 import UserProfile from '../pages/Profile/UserProfile';
 import TrafficSignsPage from '../pages/TrafficSigns/TrafficSignsPage';
 import Examination from '../pages/LearningCard/Examination/Examination';
+import SchedulePage from '../pages/Booking/SchedulePage';
 import EditProfile from '../pages/Profile/EditProfile';
 import PracticeTest from '../pages/LearningCard/PracticeTest/PracticeTest';
 import ErrorPage from '../pages/ErrorPage';
@@ -70,6 +71,11 @@ const RouteData = [
     element: <PracticeTest />,
   },
   {
+    title: 'Schedule',
+    path: '/schedule',
+    element: <SchedulePage />,
+  },
+  {
     title: 'Examination',
     path: '/practice-test/examination',
     element: <Examination />,
@@ -78,7 +84,7 @@ const RouteData = [
     title: 'Error 404',
     path: '*',
     element: <ErrorPage />,
-  }
+  },
 ];
 
 export default RouteData;
