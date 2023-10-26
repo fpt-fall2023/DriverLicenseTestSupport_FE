@@ -5,7 +5,8 @@ import {
     UnorderedListOutlined,
     QuestionCircleOutlined,
     BookOutlined,
-    AuditOutlined
+    AuditOutlined,
+    CalendarOutlined
   } from "@ant-design/icons";
   import { Menu } from "antd";
   import { useEffect, useState } from "react";
@@ -73,7 +74,13 @@ import {
               key: "/dashboard/Slot",
               icon: <UserOutlined />,
             },
+            {
+              label: "QUẢN LÍ KHÓA HỌC",
+              key: "/dashboard/Course",
+              icon: <CalendarOutlined />,
+            },
           ]}
+          
         ></Menu>
       </div>
     );

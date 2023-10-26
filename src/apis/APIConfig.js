@@ -6,3 +6,4 @@ export const TRAFFIC_API_URL = `http://${host}/api/v1/traffic-sign`;
 export const SAMPLE_TEST_API_URL = `http://${host}/api/v1/sample-test`;
 export const QUESTION_BANK_API_URL = `http://${host}/api/v1/questions-bank`;
 export const SLOT_API_URL = `http://${host}/api/v1/slot`;
+export const COURSE_API_URL = `http://${host}/api/v1/courses`;

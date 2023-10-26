@@ -8,6 +8,7 @@ import AddQuestionBank from '../pages/Dashboard/QuestionBank/AddQuestionBank';
 import SampleTest from '../pages/Dashboard/SampleTest/SampleTest';
 import UserPage from '../pages/Dashboard/UserPage'
 import Slot from '../pages/Dashboard/Slot/Slot'
+import Course from '../pages/Dashboard/Course/Course';
 const AdminRouteData = [
     {
         title: 'QuestionPage',
@@ -58,6 +59,11 @@ const AdminRouteData = [
         title: 'SlotPage',
         path: 'dashboard/Slot',
         element: <Slot />,
+      },
+      {
+        title: 'CoursePage',
+        path: 'dashboard/Course',
+        element: <Course />,
       },
 ]
 
