@@ -6,53 +6,59 @@ import QuestionBank from '../pages/Dashboard/QuestionBank/QuestionBank';
 import QuestionBankDetail from '../pages/Dashboard/QuestionBank/QuestionBankDetail';
 import AddQuestionBank from '../pages/Dashboard/QuestionBank/AddQuestionBank';
 import SampleTest from '../pages/Dashboard/SampleTest/SampleTest';
-import UserPage from '../pages/Dashboard/UserPage'
+import UserPage from '../pages/Dashboard/UserPage';
+import ManageBooking from '../pages/Dashboard/Booking/Booking';
 const AdminRouteData = [
-    {
-        title: 'QuestionPage',
-        path: '/dashboard/QuestionPage',
-        element: <QuestionPage />,
-      },
-      {
-        title: 'AddQuestionPage',
-        path: '/dashboard/AddQuestionPage',
-        element: <AddQuestionPage />,
-      },
-      {
-        title: 'AddCategoryPage',
-        path: 'dashboard/CategoryPage',
-        element: <Category />,
-      },
-      {
-        title: 'AddTrafficCategoryPage',
-        path: 'dashboard/TrafficCategoryPage',
-        element: <TrafficCategory />,
-      },
-      {
-        title: "QuestionBankPage",
-        path: "dashboard/QuestionBankPage",
-        element: <QuestionBank />
-      },
-      {
-        title: "UserPage",
-        path: "dashboard/UserPage",
-        element: <UserPage />
-      },
-      {
-        title: "QuestionBankDetailPage",
-        path: "dashboard/QuestionBankPage/:id",
-        element: <QuestionBankDetail />
-      },
-      {
-        title: "AddQuestionBankPage",
-        path: "dashboard/QuestionBankPage/add",
-        element: <AddQuestionBank />
-      },
-      {
-        title: 'Sample Test',
-        path: 'dashboard/SampleTestPage',
-        element: <SampleTest />
-      },
-]
+  {
+    title: 'QuestionPage',
+    path: '/dashboard/QuestionPage',
+    element: <QuestionPage />,
+  },
+  {
+    title: 'AddQuestionPage',
+    path: '/dashboard/AddQuestionPage',
+    element: <AddQuestionPage />,
+  },
+  {
+    title: 'AddCategoryPage',
+    path: 'dashboard/CategoryPage',
+    element: <Category />,
+  },
+  {
+    title: 'AddTrafficCategoryPage',
+    path: 'dashboard/TrafficCategoryPage',
+    element: <TrafficCategory />,
+  },
+  {
+    title: 'QuestionBankPage',
+    path: 'dashboard/QuestionBankPage',
+    element: <QuestionBank />,
+  },
+  {
+    title: 'UserPage',
+    path: 'dashboard/UserPage',
+    element: <UserPage />,
+  },
+  {
+    title: 'QuestionBankDetailPage',
+    path: 'dashboard/QuestionBankPage/:id',
+    element: <QuestionBankDetail />,
+  },
+  {
+    title: 'AddQuestionBankPage',
+    path: 'dashboard/QuestionBankPage/add',
+    element: <AddQuestionBank />,
+  },
+  {
+    title: 'Sample Test',
+    path: 'dashboard/SampleTestPage',
+    element: <SampleTest />,
+  },
+  {
+    title: 'Sample Test',
+    path: 'dashboard/ManageBooking',
+    element: <ManageBooking />,
+  },
+];
 
-export default AdminRouteData
+export default AdminRouteData;
