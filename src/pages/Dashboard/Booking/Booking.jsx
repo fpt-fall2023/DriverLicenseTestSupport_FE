@@ -5,7 +5,7 @@ import { Col, Row, Button, Input, Space, Table, notification } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 import Sidebar from '../../../components/sidebar/sidebar';
-import { getAllBooking } from '../../../apis/BookingService';
+import { getAllBookings } from '../../../apis/BookingService';
 
 // const sampleBooking = {
 //   key: null,
@@ -213,7 +213,7 @@ const ManageBooking = () => {
   ];
 
   useEffect(() => {
-    getAllBooking()
+    getAllBookings()
       .then((rs) => {
         const data = rs.data.data.Booking;
         const result = data.map((booking, index) => {
