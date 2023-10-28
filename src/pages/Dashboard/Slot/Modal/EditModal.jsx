@@ -10,10 +10,11 @@ const EditModal = ({ isEditing, setIsEditing, slotData, getSlot }) => {
         size: "large"
     }
 
+
+
     const onFinish = (values) => {
         form.resetFields()
-        console.log(slotData._id)
-        updateSlot(slotData._id, values).then((res) => {
+        updateSlot(slotData._id, dayjs(values.time).format(format)).then((res) => {
             if (res.status === 200) {
                 notification.success({
                     message: "Sửa thành công!"
