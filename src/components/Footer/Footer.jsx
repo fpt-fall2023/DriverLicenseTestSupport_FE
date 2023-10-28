@@ -14,7 +14,7 @@ const Footer = () => {
         },
         {
             title: 'Thi Thử',
-            link: '/'
+            link: '/practice-test'
         },
         {
             title: 'Lịch Học',

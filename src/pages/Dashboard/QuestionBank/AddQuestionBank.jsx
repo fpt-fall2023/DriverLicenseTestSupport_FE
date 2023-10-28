@@ -155,6 +155,8 @@ const AddQuestionBank = () => {
         })
     }
 
+    console.log(questionShow)
+
     return (
         <div style={{ height: "100%" }}>
             <ConfirmationPrompt />
@@ -166,7 +168,7 @@ const AddQuestionBank = () => {
                         <Input placeholder="Nhập tên đề" style={{ width: "15rem" }} onChange={(e) => { setQuestionBankName(e.target.value) }} />
                         <div className={styles.questionBank__details__title}>Loại Bằng:</div>
                         <Select
-                            defaultValue="Bằng B1"
+                            placeholder="Chọn loại bằng"
                             options={
                                 [
                                     {
@@ -225,9 +227,10 @@ const AddQuestionBank = () => {
                                 )
                             })
                         }
-                        <div style={{ display: "none", fontSize: "20px" }} id="questionDescription">
+                        <div style={{ display: "none", fontSize: "20px", minHeight: "max-content", border: "1px solid black", padding: "0.5rem", marginTop: "1rem" }} id="questionDescription">
                             <div style={{ marginTop: "1rem", fontWeight: "bold", fontSize: "2rem" }}>Mô Tả Câu Hỏi</div>
                             <div id="questionDescription_name">{questionShow?.questionName}</div>
+                            <img src={questionShow?.questionImage} style={{ width: "20rem" }} />
                             <div style={{ marginTop: "1rem" }}>
                                 {questionShow?.answers.map((item, index) => {
                                     return (

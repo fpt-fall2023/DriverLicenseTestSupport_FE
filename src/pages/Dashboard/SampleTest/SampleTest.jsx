@@ -84,10 +84,12 @@ const SampleTest = () => {
             }
         }).catch((err) => {
             notification.error({
-                message: 'Chức năng chưa được hỗ trợ'
+                message: 'Xóa thất bại'
             })
         })
     }
+
+    console.log(sampleTest)
 
     return (
         <div>

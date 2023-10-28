@@ -12,6 +12,7 @@ import SchedulePage from '../pages/Booking/SchedulePage';
 import EditProfile from '../pages/Profile/EditProfile';
 import PracticeTest from '../pages/LearningCard/PracticeTest/PracticeTest';
 import ErrorPage from '../pages/ErrorPage';
+import Booking from '../pages/Booking/Booking';
 
 const RouteData = [
   {
@@ -79,6 +80,11 @@ const RouteData = [
     title: 'Examination',
     path: '/practice-test/examination',
     element: <Examination />,
+  },
+  {
+    title: 'Booking',
+    path: '/booking',
+    element: <Booking />
   },
   {
     title: 'Error 404',
