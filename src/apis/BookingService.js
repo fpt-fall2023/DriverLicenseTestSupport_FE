@@ -27,7 +27,7 @@ const getAvailableTime = (teacherId, date) => {
 
 const createBooking = (user, teacher, course, date, timeStart) => {
     return axios.post(`${BOOKING_API_URL}`, {
-        user: ,
+        user ,
         teacher,
         course,
         date,
