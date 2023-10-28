@@ -8,15 +8,21 @@ import { logoutAccount } from '../../apis/UserService';
 import { useEffect } from 'react';
 
 const Header = () => {
-
   const navigate = useNavigate();
-  
+
   const items = [
     {
       label: 'Hồ Sơ',
       key: 'profile',
       onClick: () => {
         navigate('/profile');
+      },
+    },
+    {
+      label: 'Lịch Học',
+      key: 'schedule',
+      onClick: () => {
+        navigate('/schedule');
       },
     },
     {
@@ -53,15 +59,18 @@ const Header = () => {
       label: 'Về chúng tôi',
       link: '/about',
     },
-  ]
+  ];
 
-  const isAdmin = localStorage.getItem('isAdmin') === 'true'? items.splice(1,0,{
-    label: 'Quản lý',
-    key: 'admin',
-    onClick: () => {
-      navigate('/dashboard/QuestionPage');
-    },
-  }) : null;
+  const isAdmin =
+    localStorage.getItem('isAdmin') === 'true'
+      ? items.splice(1, 0, {
+          label: 'Quản lý',
+          key: 'admin',
+          onClick: () => {
+            navigate('/dashboard/QuestionPage');
+          },
+        })
+      : null;
 
   return (
     <div id="header" className={styles.header}>

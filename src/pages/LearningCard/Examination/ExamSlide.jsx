@@ -42,7 +42,7 @@ const ExamSlide = (question) => {
           {questionInfo.questionImage ? (
             <Image
               movable={'false'}
-              width={100}
+              width={400}
               preview={false}
               src={questionInfo.questionImage}
             />

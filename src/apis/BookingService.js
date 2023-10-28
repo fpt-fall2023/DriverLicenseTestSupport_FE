@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { BOOKING_API_URL } from './APIConfig';
 
-const getBookings = () => {
-    return axios.get(BOOKING_API_URL, {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-    })
-}
+const getAllBookings = () => {
+  return axios.get(BOOKING_API_URL, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+};
 
 const getAvailableTeacher = () => {
     return axios.get(`${BOOKING_API_URL}/available-teacher`, {
@@ -27,7 +27,7 @@ const getAvailableTime = (teacherId, date) => {
 
 const createBooking = (user, teacher, course, date, timeStart) => {
     return axios.post(`${BOOKING_API_URL}`, {
-        user: "651fb16557a2699235753b2d",
+        user: ,
         teacher,
         course,
         date,
@@ -39,4 +39,4 @@ const createBooking = (user, teacher, course, date, timeStart) => {
     })
 }
 
-export { getBookings, getAvailableTeacher, getAvailableTime, createBooking }
+export { getAllBookings, getAvailableTeacher, getAvailableTime, createBooking }
