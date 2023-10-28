@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { deleteSlot, getSlot } from "../../../apis/SlotService"
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 import AddModal from "./Modal/AddModal"
-// import EditModal from "./Modal/EditModal"
+import EditModal from "./Modal/EditModal"
 
 const Slot = () => {
     const [slot, setSlot] = useState([])
@@ -93,7 +93,7 @@ const Slot = () => {
                     </Space>
                     <Table loading={loading} pagination={{ pageSize: 8 }} columns={columns} dataSource={slot} />
                     <AddModal isAdding={isAdding} setIsAdding={setIsAdding} getSlot={getSlots} />
-                    {/* <EditModal isEditing={isEditing} setIsEditing={setIsEditing} slotData={slotData} getSlot={getSlots} /> */}
+                    <EditModal isEditing={isEditing} setIsEditing={setIsEditing} slotData={slotData} getSlot={getSlots} />
                 </Col>
             </Row>
         </div>

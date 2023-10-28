@@ -3,15 +3,15 @@
 import { useEffect, useState } from "react"
 import { deleteCourse, getCourse } from "../../../apis/CourseService"
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
-// import AddModal from "./Modal/AddModal"
-//  import EditModal from "./Modal/EditModal"
+import AddModal from "./Modal/AddModal"
+ import EditModal from "./Modal/EditModal"
 
 const Course = () => {
      const [course, setCourse] = useState([])
     const [loading, setLoading] = useState(false)
-//     const [isEditing, setIsEditing] = useState(false)
-//     const [isAdding, setIsAdding] = useState(false)
-//     const [courseData, setCourseData] = useState()
+    const [isEditing, setIsEditing] = useState(false)
+    const [isAdding, setIsAdding] = useState(false)
+    const [courseData, setCourseData] = useState()
 
     const columns = [
         {
@@ -41,11 +41,11 @@ const Course = () => {
             render: (record) => (
                 <Space size="middle">
                     <EditOutlined onClick={() => {
-                        // onEditcourse(record);
+                        onEditcourse(record);
                     }}
                         style={{ color: "blue" }} />
                     <DeleteOutlined onClick={() => {
-                        // onDelete(record);
+                        onDelete(record);
                     }}
                         style={{ color: "red", marginLeft: 12 }} />
                 </Space>
@@ -65,35 +65,35 @@ const Course = () => {
         })
     }
 
-//     const onEditcourse = (record) => {
-//         console.log(record)
-//         setCourseData(record)
-//         setIsEditing(true)
-//     }
+    const onEditcourse = (record) => {
+        console.log(record)
+        setCourseData(record)
+        setIsEditing(true)
+    }
 
-//     const onDelete = (courseID) => {
+    const onDelete = (courseID) => {
 
-//         Modal.confirm({
-//             title: "Bạn muốn xóa course này ?",
-//             okText: "Delete",
-//             okType: "danger",
-//             onOk: () => {          
-//                     setLoading(true);
-//                     deletecourse(courseID._id).then(res => {
-//                         console.log(res);
-//                         setLoading(false);
-//                         getcourses();
-//                         notification.success({
-//                             message: "xóa thành công"
-//                         })
-//                     }).catch(err => {
-//                         console.log(err)
-//                     });
-//                     console.log(courseID)
-//             }
-//         });
+        Modal.confirm({
+            title: "Bạn muốn xóa course này ?",
+            okText: "Delete",
+            okType: "danger",
+            onOk: () => {          
+                    setLoading(true);
+                    deleteCourse(courseID._id).then(res => {
+                        console.log(res);
+                        setLoading(false);
+                        getCourses();
+                        notification.success({
+                            message: "xóa thành công"
+                        })
+                    }).catch(err => {
+                        console.log(err)
+                    });
+                    console.log(courseID)
+            }
+        });
 
-//     }
+    }
 
     useEffect(() => {
         getCourses()
@@ -108,8 +108,8 @@ const Course = () => {
                         <Button type="primary" onClick={() => setIsAdding(true)}>Thêm Khóa Học Mới</Button>
                     </Space>
                     <Table loading={loading} pagination={{ pageSize: 8 }} columns={columns} dataSource={course} />
-                    {/* <AddModal isAdding={isAdding} setIsAdding={setIsAdding} getcourse={getcourses} /> */}
-                    {/* <EditModal isEditing={isEditing} setIsEditing={setIsEditing} courseData={courseData} getcourse={getcourses} /> */}
+                    <AddModal isAdding={isAdding} setIsAdding={setIsAdding} getCourse={getCourses} />
+                    <EditModal isEditing={isEditing} setIsEditing={setIsEditing} courseData={courseData} getCourse={getCourses} />
                 </Col>
             </Row>
         </div>

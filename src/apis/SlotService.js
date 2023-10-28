@@ -28,7 +28,7 @@ const deleteSlot = (SlotId) => {
 };
 
 const updateSlot = (SlotId , time) => {
-  return axios.post(
+  return axios.patch(
     `${SLOT_API_URL}/${SlotId}`,
     {
       time,
