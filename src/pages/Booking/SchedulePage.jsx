@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getAllBookings } from '../../apis/BookingService';
-import { Calendar, Col, Row } from 'antd';
+import { Calendar, Col, Row, Badge } from 'antd';
 import { Modal } from 'antd';
 
 const SchedualPage = () => {
@@ -39,7 +39,12 @@ const SchedualPage = () => {
     booking.map((item) => {
       if (item.date === value.format('YYYY-MM-DD')) {
         listData = [
-          { timeStart: item.timeStart, timeEnd: item.timeEnd, detail: item },
+          {
+            type: 'success',
+            timeStart: item.timeStart,
+            timeEnd: item.timeEnd,
+            detail: item,
+          },
         ];
       }
     });
@@ -60,12 +65,14 @@ const SchedualPage = () => {
                   teacher: info.teacher.name,
                   course: info.course.courseName,
                   car: info.car.name,
+                  carPlate: info.car.licensePlate,
                   timeStart: item.timeStart,
                   timeEnd: item.timeEnd,
                 };
                 setDetail(details);
               }}
             >
+              <Badge status="success" style={{ marginRight: '10px' }} />
               {item.timeStart}-{item.timeEnd}
             </div>
           </div>
@@ -79,25 +86,28 @@ const SchedualPage = () => {
   };
 
   return (
-    <Row>
-      <Col span={24}>
-        <Calendar cellRender={cellRender} />
-      </Col>
-      <Col span={24}></Col>
-      <Modal
-        title="Thông tin buổi học"
-        open={modalVisible}
-        onOk={() => setModalVisible(false)}
-        onCancel={() => setModalVisible(false)}
-      >
-        <p>{detail.teacher}</p>
-        <p>{detail.course}</p>
-        <p>{detail.car}</p>
-        <p>
-          {detail.timeStart}-{detail.timeEnd}
-        </p>
-      </Modal>
-    </Row>
+    <div style={{}}>
+      <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
+        <Col span={21}>
+          <Calendar cellRender={cellRender} />
+        </Col>
+        <Modal
+          title="Thông tin buổi học"
+          open={modalVisible}
+          onOk={() => setModalVisible(false)}
+          onCancel={() => setModalVisible(false)}
+        >
+          <p>Giáo viên: {detail.teacher}</p>
+          <p>Khóa học: {detail.course}</p>
+          <p>
+            Xe: {detail.car} ({detail.carPlate})
+          </p>
+          <p>
+            Thời gian: {detail.timeStart}-{detail.timeEnd}
+          </p>
+        </Modal>
+      </Row>
+    </div>
   );
 };
 
