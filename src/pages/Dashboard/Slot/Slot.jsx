@@ -1,4 +1,4 @@
-import { Button, Col, Modal, Popconfirm, Row, Space, Table, notification } from "antd"
+import { Button, Col, Modal, Popconfirm, Row, Space, Table, notification, Layout } from "antd"
 import Sidebar from "../../../components/sidebar/sidebar"
 import { useEffect, useState } from "react"
 import { deleteSlot, getSlot } from "../../../apis/SlotService"
@@ -88,12 +88,21 @@ const Slot = () => {
             <Row>
                 <Col flex="100px"><Sidebar /></Col>
                 <Col flex="auto">
+                    <Layout
+                     style={{
+                        padding: 24,
+                        margin: 0,
+                        minHeight: "100%",
+                        
+                      }}
+                    >
                     <Space style={{ padding: 16 }}>
-                        <Button type="primary" onClick={() => setIsAdding(true)}>Thêm Danh Mục Mới</Button>
+                        <Button type="primary" onClick={() => setIsAdding(true)}>Thêm Slot Mới</Button>
                     </Space>
                     <Table loading={loading} pagination={{ pageSize: 8 }} columns={columns} dataSource={slot} />
                     <AddModal isAdding={isAdding} setIsAdding={setIsAdding} getSlot={getSlots} />
                     <EditModal isEditing={isEditing} setIsEditing={setIsEditing} slotData={slotData} getSlot={getSlots} />
+                    </Layout>
                 </Col>
             </Row>
         </div>

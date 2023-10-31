@@ -7,11 +7,12 @@ const getQuestions = () => {
     return axios.get(QUESTION_API_URL)
 }
 
-const addQuestion = (questionName, answers, category) => {
+const addQuestion = (questionName, answers, category, questionImage) => {
     return axios.post(QUESTION_API_URL, {
         questionName,
         answers,
         category,
+        questionImage,
     })
 }
 

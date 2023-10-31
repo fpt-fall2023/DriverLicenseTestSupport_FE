@@ -1,19 +1,20 @@
 import styles from "./QuestionPage.module.css"
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Select, Space, Table, Input, notification } from 'antd';
+import { Button, Form, Select, Space, Table, Input, notification, Layout } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { getQuestions, deleteQuestion, updateQuestion } from "../../apis/QuestionService";
 import Sidebar from '../../components/sidebar/sidebar';
 import { Col, Row } from 'antd';
 import Modal from "antd/es/modal/Modal";
-import { Link } from "react-router-dom";
 import TextArea from "antd/es/input/TextArea";
+import AddModal from "./AddQuestionPage";
 
 const QuestionPage = () => {
     const [dataSrc, setDataSrc] = useState([]);
     const [loading, setLoading] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [editQuestion, setEditQuestion] = useState([]);
+    const [isAdding, setIsAdding] = useState(false)
 
     const [form] = Form.useForm()
     const mainLayout = {
@@ -122,73 +123,76 @@ const QuestionPage = () => {
         <div>
             <Row>
                 <Col flex="100px"><Sidebar /></Col>
-                <Col flex="auto"><div style={{maxWidth: "1248.5px"}} >
-                    <Space style={{ padding: 16 }}><Button type="primary"><Link to='/dashboard/AddQuestionPage'>Thêm câu hỏi</Link></Button></Space>
-                    <Table loading={loading} pagination={{ pageSize: 8 }} columns={columns} dataSource={dataSrc.Question} />
-                    <Modal
-                        open={isEditing}
-                        okText="Save"
-                        onCancel={() => {
-                            setIsEditing(false);
-                        }}
-                        onOk={() => {
-                            form.submit()
-                        }}
+                <Col flex="auto">
+                    <Layout
+                    style={{
+                        padding: 24,
+                        margin: 0,
+                        minHeight: "100%",
+                        
+                      }}
                     >
-                        <Form
-                            {...mainLayout}
-                            form={form}
-                            onFinish={onFinish}
-                            initialValues={form.setFieldsValue(editQuestion)}
-                        >
-                            <div className={styles.editBoxTitle}>Câu Hỏi</div>
-                            <Form.Item name="_id" hidden={true}/>
-                            <Form.Item name="questionName">
-                                <TextArea />
-                            </Form.Item>
-                            {/* <div className={styles.editBoxTitle}>Loại Câu Hỏi</div>
-                            <Form.Item name="category">
-                                <Select>
-                                    <Select.Option value="khái niệm và quy tắc giao thông đường bộ" />
-                                    <Select.Option value="quy tắc giao thông" />
-                                    <Select.Option value="nghiệp vụ vận tải" />
-                                    <Select.Option value="văn hóa & đạo đức người lái xe" />
-                                    <Select.Option value="kỹ thuật lái xe" />
-                                    <Select.Option value="cấu tạo sữa chữa" />
-                                    <Select.Option value="hệ thống biển báo hiệu đường bộ" />
-                                    <Select.Option value="mất an toàn giao thông nghiêm trọng" />
-                                </Select>
-                            </Form.Item> */}
-                            <div className={styles.editBoxTitle}>Đáp Án</div>
-                            <Form.List name="answers">
-                                {(fields) => (
-                                    <>
-                                        {fields.map(field => (
-                                            <Space key={field.key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
-                                                <Form.Item
-                                                    {...field}
-                                                    name={[field.name, 'answerName']}
-                                                    style={{ width: "20rem" }}
-                                                >
-                                                    <TextArea />
-                                                </Form.Item>
-                                                <Form.Item
-                                                    {...field}
-                                                    name={[field.name, 'isCorrect']}
-                                                >
-                                                    <Select style={{ width: "5.5rem" }}>
-                                                        <Select.Option value={true}>Đúng</Select.Option>
-                                                        <Select.Option value={false}>Sai</Select.Option>
-                                                    </Select>
-                                                </Form.Item>
-                                            </Space>
-                                        ))}
-                                    </>
-                                )}
-                            </Form.List>
-                        </Form>
-                    </Modal>
-                </div></Col>
+                        <div style={{ maxWidth: "1200px" }} >
+
+                        <Space style={{ padding: 16 }}><Button type="primary" onClick={() => setIsAdding(true)}>Thêm câu hỏi mới</Button></Space>
+                            <Table loading={loading}
+                             pagination={{ pageSize: 8 }}
+                             columns={columns} 
+                             dataSource={dataSrc.Question} />
+                            <Modal
+                                open={isEditing}
+                                okText="Save"
+                                onCancel={() => {
+                                    setIsEditing(false);
+                                }}
+                                onOk={() => {
+                                    form.submit()
+                                }}
+                            >
+                                <Form
+                                    {...mainLayout}
+                                    form={form}
+                                    onFinish={onFinish}
+                                    initialValues={form.setFieldsValue(editQuestion)}
+                                >
+                                    <div className={styles.editBoxTitle}>Câu Hỏi</div>
+                                    <Form.Item name="_id" hidden={true} />
+                                    <Form.Item name="questionName">
+                                        <TextArea />
+                                    </Form.Item>
+                                    <div className={styles.editBoxTitle}>Đáp Án</div>
+                                    <Form.List name="answers">
+                                        {(fields) => (
+                                            <>
+                                                {fields.map(field => (
+                                                    <Space key={field.key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+                                                        <Form.Item
+                                                            {...field}
+                                                            name={[field.name, 'answerName']}
+                                                            style={{ width: "20rem" }}
+                                                        >
+                                                            <TextArea />
+                                                        </Form.Item>
+                                                        <Form.Item
+                                                            {...field}
+                                                            name={[field.name, 'isCorrect']}
+                                                        >
+                                                            <Select style={{ width: "5.5rem" }}>
+                                                                <Select.Option value={true}>Đúng</Select.Option>
+                                                                <Select.Option value={false}>Sai</Select.Option>
+                                                            </Select>
+                                                        </Form.Item>
+                                                    </Space>
+                                                ))}
+                                            </>
+                                        )}
+                                    </Form.List>
+                                </Form>
+                            </Modal>
+                            <AddModal isAdding={isAdding} setIsAdding={setIsAdding} getQuestion={getQuestion} />
+                        </div>
+                    </Layout>
+                </Col>
             </Row>
         </div>
 

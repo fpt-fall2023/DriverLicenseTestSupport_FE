@@ -1,4 +1,4 @@
- import { Button, Col, Modal, Popconfirm, Row, Space, Table, notification } from "antd"
+ import { Button, Col, Modal, Popconfirm, Row, Space, Table, notification, Layout } from "antd"
  import Sidebar from "../../../components/sidebar/sidebar"
 import { useEffect, useState } from "react"
 import { deleteCourse, getCourse } from "../../../apis/CourseService"
@@ -104,12 +104,21 @@ const Course = () => {
             <Row>
                 <Col flex="100px"><Sidebar /></Col>
                 <Col flex="auto">
+                    <Layout
+                    style={{
+                        padding: 24,
+                        margin: 0,
+                        minHeight: "100%",
+                        
+                      }}
+                    >
                     <Space style={{ padding: 16 }}>
                         <Button type="primary" onClick={() => setIsAdding(true)}>Thêm Khóa Học Mới</Button>
                     </Space>
                     <Table loading={loading} pagination={{ pageSize: 8 }} columns={columns} dataSource={course} />
                     <AddModal isAdding={isAdding} setIsAdding={setIsAdding} getCourse={getCourses} />
                     <EditModal isEditing={isEditing} setIsEditing={setIsEditing} courseData={courseData} getCourse={getCourses} />
+                    </Layout>
                 </Col>
             </Row>
         </div>
