@@ -1,6 +1,6 @@
 import styles from "./UserPage.module.css"
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Select, Space, Table, Input, notification } from 'antd';
+import { Button, Form, Select, Space, Table, Input, notification, Layout } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { getAllUsers, deleteUser, updateUser } from "../../apis/AdminService";
 import Sidebar from '../../components/sidebar/sidebar';
@@ -25,15 +25,23 @@ const UserPage = () => {
     }
 
     const columns = [
-        // {
-        //     title: 'Avatar',
-        //     avatar: 'avatar',
-
-        // },
+        {
+            title: 'Avatar',
+            dataIndex: 'avatar',
+            render: (avatar) => <img src={avatar} alt="Avatar" style={{ width: '50px', height: '50px' }} />,
+        },
         {
             title: 'Tên tài khoản',
             dataIndex: 'name',
         },
+        {
+            title: 'email',
+            dataIndex: 'email',
+        },
+        // {
+        //     title: 'sinh nhật',
+        //     dataIndex: 'birthdate',
+        // },
         {
             title: 'Vai trò',
             dataIndex: 'role',
@@ -109,7 +117,7 @@ const UserPage = () => {
         // const birthdate = values.birthdate
         // const avatar = values.avatar
         console.log(userID, userName, role)
-        if(isLeastAdmin() === false){
+        if (isLeastAdmin() === false) {
             updateUser(userID, userName, role).then(res => {
                 if (res.status === 200) {
                     console.log(res.data.data)
@@ -122,12 +130,12 @@ const UserPage = () => {
             }).catch(err => {
                 console.log(err)
             })
-        }else{
+        } else {
             notification.error({
                 message: "không thể edit role admin"
             })
         }
-        
+
     }
 
 
@@ -150,59 +158,65 @@ const UserPage = () => {
     }
 
     return (
-
         <div>
             <Row>
                 <Col flex="100px"><Sidebar /></Col>
-                <Col flex="auto"><div >
-                    <div onClick={() => console.log(isLeastAdmin())}>hehe</div>
-                    <Space style={{ padding: 16 }}><Button type="primary" onClick={() => setIsAdding(true)}>Thêm người dùng mới</Button></Space>
-                    <Table loading={loading} pagination={{ pageSize: 8 }} columns={columns} dataSource={dataSrc} />
-                    <Modal
-                        title="Chỉnh sửa user"
-                        open={isEditing}
-                        okText="Save"
-                        onCancel={() => {
-                            setIsEditing(false);
-                        }}
-                        onOk={() => {
-                            form.submit()
+                <Col flex="auto">
+                    <Layout
+                        style={{
+                            padding: 24,
+                            margin: 0,
+                            minHeight: "100%",
+
                         }}
                     >
-                        <Form
-                            {...mainLayout}
-                            form={form}
-                            onFinish={onFinish}
-                            initialValues={form.setFieldsValue(editUser)}
-
+                        {/* <Space style={{ padding: 16 }}><Button type="primary" onClick={() => setIsAdding(true)}>Thêm người dùng mới</Button></Space> */}
+                        <Table loading={loading} pagination={{ pageSize: 8 }} columns={columns} dataSource={dataSrc} />
+                        <Modal
+                            title="Chỉnh sửa user"
+                            open={isEditing}
+                            okText="Save"
+                            onCancel={() => {
+                                setIsEditing(false);
+                            }}
+                            onOk={() => {
+                                form.submit()
+                            }}
                         >
-                            <Form.Item name="_id" hidden={true} />
-                            <Form.Item name="name" label="Tên" rules={[{ required: true, message: 'Chưa có tên người dùng' }]}>
-                                <Input label="Nhập tên" />
-                            </Form.Item>
-                            {/* <div className={styles.editBoxTitle}>Đáp Án</div> */}
-                            <Form.Item name={"role"} label="vai trò"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'chưa chọn loại vai trò',
-                                    },
-                                ]}
+                            <Form
+                                {...mainLayout}
+                                form={form}
+                                onFinish={onFinish}
+                                initialValues={form.setFieldsValue(editUser)}
                             >
-                                <Select
-                                    placeholder="Chọn loại vai trò"
+                                <Form.Item name="_id" hidden={true} />
+                                <Form.Item name="name" label="Tên" rules={[{ required: true, message: 'Chưa có tên người dùng' }]}>
+                                    <Input label="Nhập tên" />
+                                </Form.Item>
+                                {/* <div className={styles.editBoxTitle}>Đáp Án</div> */}
+                                <Form.Item name={"role"} label="vai trò"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'chưa chọn loại vai trò',
+                                        },
+                                    ]}
                                 >
-                                    <Select.Option value={"admin"}>Admin</Select.Option>
-                                    <Select.Option value={"user"}>Người dùng</Select.Option>
-                                    <Select.Option value={"staff"}>Nhân viên</Select.Option>
-                                    <Select.Option value={"teacher"}>Người dạy</Select.Option>
-                                </Select>
-                            </Form.Item>
-
-                        </Form>
-                    </Modal>
-                    <AddModal isAdding={isAdding} setIsAdding={setIsAdding} getQuestionCategory={getUser} />
-                </div></Col>
+                                    <Select
+                                        placeholder="Chọn loại vai trò"
+                                    >
+                                        <Select.Option value={"admin"}>Admin</Select.Option>
+                                        <Select.Option value={"user"}>Người dùng</Select.Option>
+                                        <Select.Option value={"staff"}>Nhân viên</Select.Option>
+                                        <Select.Option value={"teacher"}>Người dạy</Select.Option>
+                                    </Select>
+                                </Form.Item>
+                                
+                            </Form>
+                        </Modal>
+                        {/* <AddModal isAdding={isAdding} setIsAdding={setIsAdding} getQuestionCategory={getUser} /> */}
+                    </Layout>
+                </Col>
             </Row>
         </div>
 
