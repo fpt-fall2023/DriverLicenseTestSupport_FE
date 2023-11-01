@@ -1,22 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 
-import { Col, Row, Button, Input, Space, Table, notification } from 'antd';
+import {
+  Col,
+  Row,
+  Button,
+  Input,
+  Space,
+  Table,
+  notification,
+  Spin,
+  Divider,
+} from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 import Sidebar from '../../../components/sidebar/sidebar';
 import { getAllBookings } from '../../../apis/BookingService';
 
-// const sampleBooking = {
-//   key: null,
-//   teacher: null,
-//   student: null,
-//   timeStart: null,
-//   date: null,
-//   course: null,
-//   car: null,
-//   details: {},
-// };
+import BookingCss from './Booking.module.css';
 
 const slot = [
   {
@@ -49,6 +50,7 @@ const ManageBooking = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const [bookingData, setBookingData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const searchInput = useRef(null);
 
@@ -176,13 +178,13 @@ const ManageBooking = () => {
       title: 'Course',
       dataIndex: 'course',
       key: 'course',
+      width: '20%',
       ...getColumnSearchProps('course'),
     },
     {
       title: 'Date',
       dataIndex: 'date',
       key: 'date',
-      width: '20%',
       ...getColumnSearchProps('date'),
       // sorter: (a, b) => a.address.length - b.address.length,
       // sortDirections: ['descend', 'ascend'],
@@ -191,7 +193,6 @@ const ManageBooking = () => {
       title: 'Time Start',
       dataIndex: 'timeStart',
       key: 'timeStart',
-      width: '20%',
       // sorter: (a, b) => sortTime(a, b),
       sortDirections: ['descend', 'ascend'],
       ...getColumnSearchProps('timeStart'),
@@ -200,14 +201,14 @@ const ManageBooking = () => {
       title: 'Student',
       dataIndex: 'student',
       key: 'student',
-      width: '20%',
+      width: '15%',
       ...getColumnSearchProps('student'),
     },
     {
       title: 'Car',
       dataIndex: 'car',
       key: 'car',
-      width: '10%',
+      width: '15%',
       ...getColumnSearchProps('car'),
     },
   ];
@@ -216,22 +217,30 @@ const ManageBooking = () => {
     getAllBookings()
       .then((rs) => {
         const data = rs.data.data.Booking;
-        const result = data.map((booking, index) => {
-          let sample = {};
-          sample.key = index;
-          sample.teacher = booking.teacher.name;
-          sample.course = booking.course.courseName;
-          sample.date = booking.date;
-          sample.timeStart = booking.timeStart;
-          sample.student = booking.user.name;
-          sample.car = booking.car.licensePlate;
-          sample.details = booking;
-          return sample;
-        });
+
+        const result = [];
+        for (let i = 0; i < data.length - 1; i++) {
+          if (data[i]) {
+            let sample = {};
+            sample.key = i;
+            sample.teacher = data[i].teacher?.name || 'None';
+            sample.course = data[i].course?.courseName || 'None';
+            sample.date = data[i].date;
+            sample.timeStart = data[i].timeStart;
+            sample.student = data[i].user.name;
+            sample.car = data[i].car.licensePlate;
+            sample.details = data[i];
+            result.push(sample);
+          }
+        }
         setBookingData(result);
+        setLoading(false);
       })
       .catch((err) => {
-        notification.error('Error when getting the booking data');
+        notification.error({
+          message: 'Error when getting the booking data',
+        });
+        setLoading(false);
       });
   }, []);
 
@@ -241,6 +250,48 @@ const ManageBooking = () => {
   //   return varA - varB;
   // };
 
+  const description = (record) => {
+    return (
+      <div className={BookingCss.descriptionContainer}>
+        <div>
+          <label className={BookingCss.descriptionHeader}>Course</label>
+          <div className={BookingCss.descriptionBox}>
+            <div>
+              Car:
+              <ul className={BookingCss.itemList}>
+                <li>{record?.details?.car?.name}</li>
+                <li>{record?.details?.car?.licensePlate}</li>
+              </ul>
+            </div>
+            <div>Course: {record?.details?.course?.courseName}</div>
+            <div>Date: {record?.details?.date}</div>
+            <div>Time start: {record?.details?.timeStart}</div>
+          </div>
+        </div>
+        <Divider type="vertical" className={BookingCss.dividerVertical} />
+        <div>
+          <label className={BookingCss.descriptionHeader}>Participants</label>
+          <div className={BookingCss.descriptionBox}>
+            <div>
+              Students:
+              <ul className={BookingCss.itemList}>
+                <li>{record?.details.user?.name}</li>
+                <li>{record?.details.user?.email}</li>
+              </ul>
+            </div>
+            <div>
+              Mentor:
+              <ul className={BookingCss.itemList}>
+                <li>{record?.details.teacher?.name}</li>
+                <li>{record?.details.teacher?.email}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div>
       <Row>
@@ -248,8 +299,26 @@ const ManageBooking = () => {
           <Sidebar />
         </Col>
         <Col flex="auto">
+          <div onClick={() => console.log(bookingData)}>click me</div>
           <div>
-            <Table columns={columns} dataSource={bookingData} />
+            <Spin spinning={loading} delay={300}>
+              <Table
+                columns={columns}
+                expandable={{
+                  expandedRowRender: (bookingData) => (
+                    <div
+                      style={{
+                        margin: 0,
+                      }}
+                    >
+                      {description(bookingData)}
+                    </div>
+                  ),
+                  // rowExpandable: (record) => record.name !== 'Not Expandable',
+                }}
+                dataSource={bookingData}
+              />
+            </Spin>
           </div>
         </Col>
       </Row>

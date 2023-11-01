@@ -1,0 +1,23 @@
+.descriptionContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.descriptionHeader {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.descriptionBox {
+  padding-left: 10px;
+}
+
+.itemList {
+  margin: 0;
+}
+
+.dividerVertical {
+  border-left: 1px solid rgba(0, 0, 0);
+  height: auto;
+}
