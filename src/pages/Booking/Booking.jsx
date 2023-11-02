@@ -78,13 +78,9 @@ const Booking = () => {
     setNext7days(next7days);
   };
 
-  const validateDate = (_, value) => {
-    if (value && value.isBefore(moment().add(1, 'days'))) {
-      return Promise.reject(
-        'Ngày nghỉ phải là ít nhất 1 ngày sau ngày hiện tại',
-      );
-    }
-    return Promise.resolve();
+  const disabledDate = (current) => {
+    const today = new Date();
+    return current && current < moment(today);
   };
 
   const onFinish = (values) => {
@@ -168,11 +164,11 @@ const Booking = () => {
                                 </Button>
                             ))
                         } */}
-            <Input
-              type="date"
+            <DatePicker
+              disabledDate={disabledDate}
               onChange={(e) => {
                 setIsDateSelected(true);
-                getAvailableSlot(form.getFieldValue('teacher'), e.target.value);
+                getAvailableSlot(form.getFieldValue('teacher'), e);
               }}
             />
           </Form.Item>
