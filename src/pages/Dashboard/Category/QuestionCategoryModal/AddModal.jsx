@@ -17,6 +17,7 @@ const AddModal = ({ isAdding, setIsAdding, getQuestionCategory }) => {
                 notification.success({
                     message: "Thêm danh mục thành công!"
                 })
+                form.resetFields()
                 setIsAdding(false)
                 getQuestionCategory()
             }

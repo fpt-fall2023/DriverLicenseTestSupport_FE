@@ -6,7 +6,8 @@ import QuestionBank from '../pages/Dashboard/QuestionBank/QuestionBank';
 import QuestionBankDetail from '../pages/Dashboard/QuestionBank/QuestionBankDetail';
 import AddQuestionBank from '../pages/Dashboard/QuestionBank/AddQuestionBank';
 import SampleTest from '../pages/Dashboard/SampleTest/SampleTest';
-import UserPage from '../pages/Dashboard/UserPage'
+import UserPage from '../pages/Dashboard/UserPage';
+import ManageBooking from '../pages/Dashboard/Booking/Booking';
 import Slot from '../pages/Dashboard/Slot/Slot'
 import Course from '../pages/Dashboard/Course/Course';
 import Car from '../pages/Dashboard/Car/Car';
@@ -72,5 +73,3 @@ const AdminRouteData = [
         element: <Car />,
       },
 ]
-
-export default AdminRouteData

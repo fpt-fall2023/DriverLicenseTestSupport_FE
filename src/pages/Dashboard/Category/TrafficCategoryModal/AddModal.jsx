@@ -16,6 +16,7 @@ const AddModal = ({ isAdding, setIsAdding, getTrafficCategories }) => {
                 notification.success({
                     message: "Thêm danh mục thành công!"
                 })
+                form.resetFields()
                 setIsAdding(false)
                 getTrafficCategories()
             }

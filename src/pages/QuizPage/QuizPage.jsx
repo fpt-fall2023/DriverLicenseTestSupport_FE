@@ -131,21 +131,23 @@ const QuizPage = () => {
             </Link>
           </Col>
           <Col span={5}>
-            <Card
-              hoverable
-              style={{
-                width: 240,
-              }}
-              bordered={false}
-              cover={
-                <img
-                  alt="example"
-                  src="https://daotaolaixeoto.com.vn/Images/ontap/tra-cuu-luat.png"
-                />
-              }
-            >
-              <Meta title="Ôn đề" />
-            </Card>
+            <Link to="/practice-test">
+              <Card
+                hoverable
+                style={{
+                  width: 240,
+                }}
+                bordered={false}
+                cover={
+                  <img
+                    alt="example"
+                    src="https://daotaolaixeoto.com.vn/Images/ontap/tra-cuu-luat.png"
+                  />
+                }
+              >
+                <Meta title="Ôn đề" />
+              </Card>
+            </Link>
           </Col>
         </Row>
       </div>

@@ -4,6 +4,8 @@ const ConfirmationPrompt = () => {
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       event.preventDefault()
+      event.returnValue = ''
+      return ''
     }
 
     window.addEventListener('beforeunload', handleBeforeUnload);

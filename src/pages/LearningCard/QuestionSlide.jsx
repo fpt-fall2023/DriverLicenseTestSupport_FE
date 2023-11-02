@@ -25,7 +25,7 @@ const QuestionSlide = (question) => {
           {questionInfo.questionImage ? (
             <Image
               movable={'false'}
-              width={100}
+              width={350}
               preview={false}
               src={questionInfo.questionImage}
             />
