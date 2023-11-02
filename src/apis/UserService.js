@@ -10,13 +10,14 @@ const loginAccount = (email, password) => {
     })
 }
 
-const registerAccount = (email, password, name) => {
+const registerAccount = (email, password, name, phone) => {
     return axios.post(USER_API_URL + '/register', {
         email,
         password,
         passwordConfirm: password,
         avatar: DEFAULT_AVATAR,
-        name
+        name,
+        phone,
     })
 }
 
@@ -33,4 +34,5 @@ const updateProfile = () => {
 }
 
 
-export {loginAccount, registerAccount, logoutAccount, updateProfile}
+export { loginAccount, registerAccount, logoutAccount, updateProfile }
+

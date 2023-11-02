@@ -1,6 +1,6 @@
 .questionBank__details {
   display: grid;
-  grid-template-columns: 30% 70%;
+  grid-template-columns: 20% 70%;
   grid-gap: 1rem;
   margin-bottom: 1rem;
   height: max-content;

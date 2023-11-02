@@ -11,10 +11,11 @@ import {
   notification,
   Spin,
   Divider,
+  Layout,
 } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
-import Sidebar from '../../../components/sidebar/sidebar';
+import Sidebar from '../../../components/sidebar/Sidebar';
 import { getAllBookings } from '../../../apis/BookingService';
 
 import BookingCss from './Booking.module.css';
@@ -219,7 +220,7 @@ const ManageBooking = () => {
         const data = rs.data.data.Booking;
 
         const result = [];
-        for (let i = 0; i < data.length - 1; i++) {
+        for (let i = 0; i < data.length; i++) {
           if (data[i]) {
             let sample = {};
             sample.key = i;
@@ -299,27 +300,34 @@ const ManageBooking = () => {
           <Sidebar />
         </Col>
         <Col flex="auto">
-          <div onClick={() => console.log(bookingData)}>click me</div>
-          <div>
-            <Spin spinning={loading} delay={300}>
-              <Table
-                columns={columns}
-                expandable={{
-                  expandedRowRender: (bookingData) => (
-                    <div
-                      style={{
-                        margin: 0,
-                      }}
-                    >
-                      {description(bookingData)}
-                    </div>
-                  ),
-                  // rowExpandable: (record) => record.name !== 'Not Expandable',
-                }}
-                dataSource={bookingData}
-              />
-            </Spin>
-          </div>
+          <Layout
+            style={{
+              padding: 24,
+              margin: 0,
+              minHeight: '100%',
+            }}
+          >
+            <div>
+              <Spin spinning={loading} delay={300}>
+                <Table
+                  columns={columns}
+                  expandable={{
+                    expandedRowRender: (bookingData) => (
+                      <div
+                        style={{
+                          margin: 0,
+                        }}
+                      >
+                        {description(bookingData)}
+                      </div>
+                    ),
+                    // rowExpandable: (record) => record.name !== 'Not Expandable',
+                  }}
+                  dataSource={bookingData}
+                />
+              </Spin>
+            </div>
+          </Layout>
         </Col>
       </Row>
     </div>

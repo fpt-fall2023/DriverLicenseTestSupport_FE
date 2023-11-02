@@ -6,7 +6,9 @@ import {
   BookOutlined,
   CalendarOutlined,
   CarOutlined,
+
   InsertRowAboveOutlined
+
 } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { useEffect, useState } from 'react';
@@ -70,18 +72,18 @@ function Sidebar() {
             icon: <CalendarOutlined />,
           },
           {
-            label: "QUẢN LÝ SLOT HỌC",
-            key: "/dashboard/Slot",
+            label: 'QUẢN LÝ SLOT HỌC',
+            key: '/dashboard/Slot',
             icon: <UserOutlined />,
           },
           {
-            label: "QUẢN LÝ KHÓA HỌC",
-            key: "/dashboard/Course",
+            label: 'QUẢN LÝ KHÓA HỌC',
+            key: '/dashboard/Course',
             icon: <CalendarOutlined />,
           },
           {
-            label: "QUẢN LÝ XE",
-            key: "/dashboard/Car",
+            label: 'QUẢN LÝ XE',
+            key: '/dashboard/Car',
             icon: <CarOutlined />,
           },
           {

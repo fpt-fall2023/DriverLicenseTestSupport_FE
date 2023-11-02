@@ -86,8 +86,8 @@ const Header = () => {
       link: '/practice-test',
     },
     {
-      label: 'Lịch Học',
-      link: '/',
+      label: 'Đặt Lịch',
+      link: '/booking',
     },
     {
       label: 'Tin tức',
@@ -122,6 +122,16 @@ const Header = () => {
     });
   }
 
+  if (user && user?.role == 'user') {
+    items.splice(1, 0, {
+      label: 'Lịch sử làm bài',
+      key: 'testHistory',
+      onClick: () => {
+        navigate('/test-history');
+      },
+    });
+  }
+
   const validateDate = (_, value) => {
     if (value && value.isBefore(moment().add(2, 'days'))) {
       return Promise.reject(
@@ -130,6 +140,7 @@ const Header = () => {
     }
     return Promise.resolve();
   };
+  const userava = JSON.parse(localStorage.getItem('user'));
 
   return (
     <div id="header" className={styles.header}>
@@ -150,7 +161,10 @@ const Header = () => {
         {localStorage.getItem('token')?.length > 0 ? (
           <div>
             <Dropdown menu={{ items }} trigger={['hover']}>
-              <Avatar className={styles.profile} icon={<UserOutlined />} />
+              <Avatar
+                className={styles.profile}
+                icon={<img src={userava.avatar} />}
+              />
             </Dropdown>
           </div>
         ) : (

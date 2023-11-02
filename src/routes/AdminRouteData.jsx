@@ -8,76 +8,82 @@ import AddQuestionBank from '../pages/Dashboard/QuestionBank/AddQuestionBank';
 import SampleTest from '../pages/Dashboard/SampleTest/SampleTest';
 import UserPage from '../pages/Dashboard/UserPage';
 import ManageBooking from '../pages/Dashboard/Booking/Booking';
-import Slot from '../pages/Dashboard/Slot/Slot'
+import Slot from '../pages/Dashboard/Slot/Slot';
 import Course from '../pages/Dashboard/Course/Course';
 import Car from '../pages/Dashboard/Car/Car';
 import Absent from '../pages/Dashboard/Absent/Absent';
 const AdminRouteData = [
-    {
-        title: 'QuestionPage',
-        path: '/dashboard/QuestionPage',
-        element: <QuestionPage />,
-      },
-      {
-        title: 'AddQuestionPage',
-        path: '/dashboard/AddQuestionPage',
-        element: <AddQuestionPage />,
-      },
-      {
-        title: 'AddCategoryPage',
-        path: 'dashboard/CategoryPage',
-        element: <Category />,
-      },
-      {
-        title: 'AddTrafficCategoryPage',
-        path: 'dashboard/TrafficCategoryPage',
-        element: <TrafficCategory />,
-      },
-      {
-        title: "QuestionBankPage",
-        path: "dashboard/QuestionBankPage",
-        element: <QuestionBank />
-      },
-      {
-        title: "UserPage",
-        path: "dashboard/UserPage",
-        element: <UserPage />
-      },
-      {
-        title: "QuestionBankDetailPage",
-        path: "dashboard/QuestionBankPage/:id",
-        element: <QuestionBankDetail />
-      },
-      {
-        title: "AddQuestionBankPage",
-        path: "dashboard/QuestionBankPage/add",
-        element: <AddQuestionBank />
-      },
-      {
-        title: 'Sample Test',
-        path: 'dashboard/SampleTestPage',
-        element: <SampleTest />
-      },
-      {
-        title: 'SlotPage',
-        path: 'dashboard/Slot',
-        element: <Slot />,
-      },
-      {
-        title: 'CoursePage',
-        path: 'dashboard/Course',
-        element: <Course />,
-      },
-      {
-        title: 'CarPage',
-        path: 'dashboard/Car',
-        element: <Car />,
-      },
-      {
+
+  {
+    title: 'QuestionPage',
+    path: '/dashboard/QuestionPage',
+    element: <QuestionPage />,
+  },
+  {
+    title: 'AddQuestionPage',
+    path: '/dashboard/AddQuestionPage',
+    element: <AddQuestionPage />,
+  },
+  {
+    title: 'AddCategoryPage',
+    path: 'dashboard/CategoryPage',
+    element: <Category />,
+  },
+  {
+    title: 'AddTrafficCategoryPage',
+    path: 'dashboard/TrafficCategoryPage',
+    element: <TrafficCategory />,
+  },
+  {
+    title: 'QuestionBankPage',
+    path: 'dashboard/QuestionBankPage',
+    element: <QuestionBank />,
+  },
+  {
+    title: 'UserPage',
+    path: 'dashboard/UserPage',
+    element: <UserPage />,
+  },
+  {
+    title: 'QuestionBankDetailPage',
+    path: 'dashboard/QuestionBankPage/:id',
+    element: <QuestionBankDetail />,
+  },
+  {
+    title: 'AddQuestionBankPage',
+    path: 'dashboard/QuestionBankPage/add',
+    element: <AddQuestionBank />,
+  },
+  {
+    title: 'Sample Test',
+    path: 'dashboard/SampleTestPage',
+    element: <SampleTest />,
+  },
+  {
+    title: 'SlotPage',
+    path: 'dashboard/Slot',
+    element: <Slot />,
+  },
+  {
+    title: 'CoursePage',
+    path: 'dashboard/Course',
+    element: <Course />,
+  },
+  {
+    title: 'CarPage',
+    path: 'dashboard/Car',
+    element: <Car />,
+  },
+  {
+    title: 'Manage Booking',
+    path: 'dashboard/ManageBooking',
+    element: <ManageBooking />,
+  },
+        {
         title: 'AbsentPage',
         path: 'dashboard/Absent',
         element: <Absent />,
       },
-]
+];
 
 export default AdminRouteData;
