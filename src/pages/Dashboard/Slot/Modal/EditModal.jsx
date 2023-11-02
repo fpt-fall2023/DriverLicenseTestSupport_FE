@@ -16,20 +16,20 @@ const EditModal = ({ isEditing, setIsEditing, slotData, getSlot }) => {
         console.log(slotData)
         console.log(values)
         form.resetFields()
-        // updateSlot(slotData._id, dayjs(values.time).format(format)).then((res) => {
-        //     if (res.status === 200) {
-        //         notification.success({
-        //             message: "Sửa thành công!"
-        //         })
-        //         setIsEditing(false)
-        //         getSlot()
-        //     }
-        // }).catch((err) => {
-        //     notification.error({
-        //         message: "Sửa thất bại!"
-        //     })
-        //     console.log(err)
-        // })
+        updateSlot(slotData._id, dayjs(values.time).format(format)).then((res) => {
+            if (res.status === 200) {
+                notification.success({
+                    message: "Sửa thành công!"
+                })
+                setIsEditing(false)
+                getSlot()
+            }
+        }).catch((err) => {
+            notification.error({
+                message: "Sửa thất bại!"
+            })
+            console.log(err)
+        })
     }
 
     return (

@@ -11,6 +11,7 @@ import ManageBooking from '../pages/Dashboard/Booking/Booking';
 import Slot from '../pages/Dashboard/Slot/Slot'
 import Course from '../pages/Dashboard/Course/Course';
 import Car from '../pages/Dashboard/Car/Car';
+import Absent from '../pages/Dashboard/Absent/Absent';
 const AdminRouteData = [
     {
         title: 'QuestionPage',
@@ -71,6 +72,11 @@ const AdminRouteData = [
         title: 'CarPage',
         path: 'dashboard/Car',
         element: <Car />,
+      },
+      {
+        title: 'AbsentPage',
+        path: 'dashboard/Absent',
+        element: <Absent />,
       },
 ]
 

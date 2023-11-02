@@ -128,7 +128,7 @@ const Car = () => {
                       }}
                     >
                     <Space style={{ padding: 16 }}>
-                        <Button type="primary" onClick={() => setIsAdding(true)}>Thêm Khóa Học Mới</Button>
+                        <Button type="primary" onClick={() => setIsAdding(true)}>Thêm Xe Mới</Button>
                     </Space>
                     <Table loading={loading} pagination={{ pageSize: 8 }} columns={columns} dataSource={car} />
                     <AddModal isAdding={isAdding} setIsAdding={setIsAdding} getCourse={getCars} />

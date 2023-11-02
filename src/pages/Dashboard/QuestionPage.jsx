@@ -169,7 +169,7 @@ const QuestionPage = () => {
 
                         }}
                     >
-                        <div style={{ maxWidth: "1200px" }} >
+                        <div style={{ maxWidth: "1190px" }} >
 
                             <Space style={{ padding: 16 }}><Button type="primary" onClick={() => setIsAdding(true)}>Thêm câu hỏi mới</Button></Space>
                             <Table loading={loading}

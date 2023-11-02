@@ -12,7 +12,7 @@ const News = () => {
   }, [])
 
   const getAllNews = () => {
-    axios.get('https://rss.app/feeds/v1.1/Murq3hlGAbT0nKnA.json').then((res) => {
+    axios.get('https://rss.app/feeds/v1.1/aUsHcWYIpnLR5yMm.json').then((res) => {
       setNews(res.data.items)
     })
   }
