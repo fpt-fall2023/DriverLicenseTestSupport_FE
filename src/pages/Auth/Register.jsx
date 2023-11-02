@@ -27,7 +27,7 @@ const Register = () => {
             message: 'Đăng ký thành công',
             placement: 'bottomRight',
           });
-          navigate('/');
+          navigate('/login');
         }
       })
       .catch((err) => {

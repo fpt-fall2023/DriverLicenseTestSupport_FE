@@ -17,8 +17,8 @@ const Footer = () => {
       link: '/practice-test',
     },
     {
-      title: 'Lịch Học',
-      link: '/',
+      title: 'Đặt Lịch',
+      link: '/booking',
     },
     {
       title: 'Tin Tức',
