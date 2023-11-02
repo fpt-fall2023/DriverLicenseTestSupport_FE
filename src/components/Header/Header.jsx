@@ -1,4 +1,4 @@
-import { Col, Row } from 'antd';
+import { Col, Row, notification } from 'antd';
 import Button from 'antd/lib/button/button';
 import styles from './Header.module.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { Modal, Form, Input, DatePicker } from 'antd';
 import { useState } from 'react';
 import moment from 'moment';
+import { sendAbsentRequest } from '../../apis/AbsentService';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -16,7 +17,29 @@ const Header = () => {
 
   // Function to handle the absent request form submission
   const handleAbsentRequest = (values) => {
-    console.log(values); // You can perform API calls or other actions here
+    const realDate = moment(values.dateAbsent)._i;
+    sendAbsentRequest(
+      JSON.parse(localStorage.getItem('user'))._id,
+      values.reason,
+      realDate.format('YYYY-MM-DD'),
+    )
+      .then((res) => {
+        if (res.status === 201) {
+          notification.success({
+            message: 'Gửi yêu cầu thành công',
+            placement: 'bottomRight',
+          });
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          notification.error({
+            message: 'Gửi yêu cầu thất bại',
+            placement: 'bottomRight',
+          });
+        }
+      });
+    // You can perform API calls or other actions here
     setModalVisible(false); // Close the modal after form submission
   };
 
@@ -39,13 +62,6 @@ const Header = () => {
       onClick: () => {
         navigate('/schedule');
       },
-    },
-    {
-      label: 'Xin nghỉ phép',
-      key: 'absent',
-      onClick: () => {
-        setModalVisible(true);
-      }, // Open the modal when button is clicked
     },
     {
       label: 'Đăng Xuất',
@@ -93,6 +109,18 @@ const Header = () => {
           },
         })
       : null;
+
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (user && user?.role == 'teacher') {
+    items.splice(1, 0, {
+      label: 'Xin nghỉ phép',
+      key: 'absent',
+      onClick: () => {
+        setModalVisible(true);
+      }, // Open the modal when button is clicked
+    });
+  }
 
   const validateDate = (_, value) => {
     if (value && value.isBefore(moment().add(2, 'days'))) {
@@ -153,7 +181,7 @@ const Header = () => {
               <Input />
             </Form.Item>
             <Form.Item
-              name="date"
+              name="dateAbsent"
               label="Ngày nghỉ"
               rules={[
                 {
