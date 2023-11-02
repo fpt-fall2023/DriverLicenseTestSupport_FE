@@ -111,8 +111,8 @@ const Booking = () => {
   return (
     <div className={styles.Booking}>
       <img
-        style={{ width: '100%', height: '269px' }}
-        src="https://hoclaixenamtien.com/wp-content/uploads/2021/08/slide-laixe2.jpg"
+        style={{ width: '100%', height: '350px', objectFit: 'cover' }}
+        src="https://vidamco.com.vn/wp-content/uploads/2022/12/bang-lai-xe-viet-nam-dung-duoc-o-nuoc-nao-3.jpg"
       />
       <Card
         title="Đặt lịch học"

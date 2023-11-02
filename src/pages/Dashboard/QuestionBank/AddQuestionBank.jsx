@@ -200,7 +200,7 @@ const AddQuestionBank = () => {
   console.log(questionShow);
 
   return (
-    <div style={{ height: '100%', padding: '20px' }}>
+    <div style={{ height: '100%', padding: '30px' }}>
       <ConfirmationPrompt />
       <Link to="/dashboard/QuestionBankPage">
         <Button type="primary">Quay Về</Button>
@@ -294,7 +294,17 @@ const AddQuestionBank = () => {
           >
             {filteredQuestion?.map((item, index) => {
               return (
-                <Button onClick={() => showQuestion(item)} key={item._id}>
+                <Button
+                  style={{
+                    width: '3rem',
+                    height: '3rem',
+                    margin: '0.5rem',
+                    backgroundColor: '#e6f7ff',
+                    border: '1px solid black',
+                  }}
+                  onClick={() => showQuestion(item)}
+                  key={item._id}
+                >
                   {index + 1}
                 </Button>
               );
