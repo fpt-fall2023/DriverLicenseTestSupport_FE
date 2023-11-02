@@ -122,6 +122,16 @@ const Header = () => {
     });
   }
 
+  if (user && user?.role == 'user') {
+    items.splice(1, 0, {
+      label: 'Lịch sử làm bài',
+      key: 'testHistory',
+      onClick: () => {
+        navigate('/test-history');
+      },
+    });
+  }
+
   const validateDate = (_, value) => {
     if (value && value.isBefore(moment().add(2, 'days'))) {
       return Promise.reject(

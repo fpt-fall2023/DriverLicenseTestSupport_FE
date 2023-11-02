@@ -13,6 +13,7 @@ import EditProfile from '../pages/Profile/EditProfile';
 import PracticeTest from '../pages/LearningCard/PracticeTest/PracticeTest';
 import ErrorPage from '../pages/ErrorPage';
 import Booking from '../pages/Booking/Booking';
+import TestHistory from '../pages/LearningCard/TestHistory/TestHistory';
 
 const RouteData = [
   {
@@ -72,6 +73,11 @@ const RouteData = [
     element: <PracticeTest />,
   },
   {
+    title: 'TestHistory',
+    path: '/test-history',
+    element: <TestHistory />,
+  },
+  {
     title: 'Schedule',
     path: '/schedule',
     element: <SchedulePage />,
@@ -84,7 +90,7 @@ const RouteData = [
   {
     title: 'Booking',
     path: '/booking',
-    element: <Booking />
+    element: <Booking />,
   },
   {
     title: 'Error 404',

@@ -5,13 +5,23 @@ const getSampleTest = () => {
   return axios.get(SAMPLE_TEST_API_URL);
 };
 
-const addSampleTest = (testName, questionBank, testType ) => {
+const getSampleTestById = (sampleTestId) => {
+  return axios
+    .get(SAMPLE_TEST_API_URL + `?_id=${sampleTestId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+    .catch((err) => console.log(err));
+};
+
+const addSampleTest = (testName, questionBank, testType) => {
   return axios.post(
     SAMPLE_TEST_API_URL,
     {
       testName,
       questionBank,
-      testType
+      testType,
     },
     {
       headers: {
@@ -29,4 +39,4 @@ const deleteSampleTest = (sampleTestId) => {
   });
 };
 
-export { getSampleTest, addSampleTest, deleteSampleTest };
+export { getSampleTest, addSampleTest, deleteSampleTest, getSampleTestById };
