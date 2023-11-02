@@ -1,12 +1,11 @@
 import {
-  AppstoreOutlined,
   UserOutlined,
   QuestionOutlined,
   UnorderedListOutlined,
   QuestionCircleOutlined,
   BookOutlined,
   CalendarOutlined,
-  CarOutlined
+  CarOutlined,
 } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { useEffect, useState } from 'react';
@@ -35,58 +34,53 @@ function Sidebar() {
         selectedKeys={[selectedKeys]}
         items={[
           {
-            label: 'TỔNG QUÁT',
-            icon: <AppstoreOutlined />,
-            key: '/dashboard',
-          },
-          {
-            label: 'QUẢN LÍ NGƯỜI DÙNG',
+            label: 'QUẢN LÝ NGƯỜI DÙNG',
             key: '/dashboard/UserPage',
             icon: <UserOutlined />,
           },
           {
-            label: 'QUẢN LÍ CÂU HỎI',
+            label: 'QUẢN LÝ CÂU HỎI',
             key: '/dashboard/QuestionPage',
             icon: <QuestionOutlined />,
           },
           {
-            label: 'QUẢN LÍ DANH MỤC CÂU HỎI',
+            label: 'QUẢN LÝ DANH MỤC CÂU HỎI',
             key: '/dashboard/CategoryPage',
             icon: <UnorderedListOutlined />,
           },
           {
-            label: 'QUẢN LÍ DANH MỤC BIỂN BÁO',
+            label: 'QUẢN LÝ DANH MỤC BIỂN BÁO',
             key: '/dashboard/TrafficCategoryPage',
             icon: <UnorderedListOutlined />,
           },
           {
-            label: 'QUẢN LÍ NGÂN HÀNG CÂU HỎI',
+            label: 'QUẢN LÝ NGÂN HÀNG CÂU HỎI',
             key: '/dashboard/QuestionBankPage',
             icon: <QuestionCircleOutlined />,
           },
           {
-            label: 'QUẢN LÍ BÀI THI THỬ',
+            label: 'QUẢN LÝ BÀI THI THỬ',
             key: '/dashboard/SampleTestPage',
             icon: <BookOutlined />,
           },
           {
-            label: 'QUẢN LÍ BOOKING KHÓA HỌC',
+            label: 'QUẢN LÝ BOOKING KHÓA HỌC',
             key: '/dashboard/ManageBooking',
             icon: <CalendarOutlined />,
           },
           {
-            label: "QUẢN LÍ SLOT HỌC",
-            key: "/dashboard/Slot",
+            label: 'QUẢN LÝ SLOT HỌC',
+            key: '/dashboard/Slot',
             icon: <UserOutlined />,
           },
           {
-            label: "QUẢN LÍ KHÓA HỌC",
-            key: "/dashboard/Course",
+            label: 'QUẢN LÝ KHÓA HỌC',
+            key: '/dashboard/Course',
             icon: <CalendarOutlined />,
           },
           {
-            label: "QUẢN LÍ XE",
-            key: "/dashboard/Car",
+            label: 'QUẢN LÝ XE',
+            key: '/dashboard/Car',
             icon: <CarOutlined />,
           },
         ]}
