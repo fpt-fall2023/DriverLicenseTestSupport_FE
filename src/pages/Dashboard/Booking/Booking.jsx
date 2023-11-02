@@ -219,7 +219,7 @@ const ManageBooking = () => {
         const data = rs.data.data.Booking;
 
         const result = [];
-        for (let i = 0; i < data.length - 1; i++) {
+        for (let i = 0; i < data.length; i++) {
           if (data[i]) {
             let sample = {};
             sample.key = i;
@@ -299,7 +299,6 @@ const ManageBooking = () => {
           <Sidebar />
         </Col>
         <Col flex="auto">
-          <div onClick={() => console.log(bookingData)}>click me</div>
           <div>
             <Spin spinning={loading} delay={300}>
               <Table
