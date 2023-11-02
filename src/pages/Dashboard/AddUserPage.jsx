@@ -1,6 +1,6 @@
 import { Form, Input, Modal, notification, Select } from "antd"
 import { addUser } from "../../apis/AdminService"
-
+import { useState } from "react"
 const AddModal = ({ isAdding, setIsAdding, getUser }) => {
     const mainLayout = {
         labelCol: { span: 4 },
@@ -9,10 +9,29 @@ const AddModal = ({ isAdding, setIsAdding, getUser }) => {
     }
 
     const [form] = Form.useForm()
+    const [uploadedImageUrl, setUploadedImageUrl] = useState(null); // To store the uploaded image URL
+    const [uploading, setUploading] = useState(false);
+
+    const uploadImage = (Image) => {
+        const imageRef = ref(storage, `images/${Image}-${v4()}`); // link trong folder trong firebase 
+        setUploading(true)
+        uploadBytes(imageRef, Image)
+            .then(() => {
+                setUploading(false)
+                getDownloadURL(imageRef).then((url) => {
+                    setUploadedImageUrl(url); // Store the uploaded image URL
+                });
+            })
+            .catch((error) => {
+                console.error("Error uploading image: ", error);
+                setUploading(false)
+            });
+    };
 
     const onFinish = (values) => {
         form.resetFields()
-        addUser(values.name, values.role).then((res) => {
+        uploadImage(values.avatar.replace(/^.*[\\\/]/, ''))
+        addUser(values.name, values.role, uploadedImageUrl).then((res) => {
             if (res.status === 201) {
                 notification.success({
                     message: "Thêm người dùng thành công"
@@ -58,12 +77,15 @@ const AddModal = ({ isAdding, setIsAdding, getUser }) => {
                                 <Select
                                     placeholder="Chọn loại vai trò"
                                 >
-                                    <Select.Option value={"admin"}>Admin</Select.Option>
-                                    <Select.Option value={"user"}>Người dùng</Select.Option>
-                                    <Select.Option value={"staff"}>Nhân viên</Select.Option>
-                                    <Select.Option value={"teacher"}>Người dạy</Select.Option>
+                                    <Select.Option value={"admin"}>admin</Select.Option>
+                                    <Select.Option value={"user"}>user</Select.Option>
+                                    <Select.Option value={"staff"}>staff</Select.Option>
+                                    <Select.Option value={"teacher"}>teacher</Select.Option>
                                 </Select>
                             </Form.Item>
+                            <Form.Item name={"avatar"} rules={[{ required: true, message: 'Chưa có hình' }]}> 
+                            <Input type="file"/>
+                             </Form.Item>
                 </Form>
             </Modal>
         </div>
