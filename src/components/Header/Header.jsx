@@ -1,4 +1,4 @@
-import { Col, Row } from 'antd';
+import { Col, Row, notification } from 'antd';
 import Button from 'antd/lib/button/button';
 import styles from './Header.module.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,9 +6,47 @@ import { Avatar, Dropdown } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { logoutAccount } from '../../apis/UserService';
 import { useEffect } from 'react';
+import { Modal, Form, Input, DatePicker } from 'antd';
+import { useState } from 'react';
+import moment from 'moment';
+import { sendAbsentRequest } from '../../apis/AbsentService';
 
 const Header = () => {
   const navigate = useNavigate();
+  const [modalVisible, setModalVisible] = useState(false); // State to control the visibility of the modal
+
+  // Function to handle the absent request form submission
+  const handleAbsentRequest = (values) => {
+    const realDate = moment(values.dateAbsent)._i;
+    sendAbsentRequest(
+      JSON.parse(localStorage.getItem('user'))._id,
+      values.reason,
+      realDate.format('YYYY-MM-DD'),
+    )
+      .then((res) => {
+        if (res.status === 201) {
+          notification.success({
+            message: 'Gửi yêu cầu thành công',
+            placement: 'bottomRight',
+          });
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          notification.error({
+            message: 'Gửi yêu cầu thất bại',
+            placement: 'bottomRight',
+          });
+        }
+      });
+    // You can perform API calls or other actions here
+    setModalVisible(false); // Close the modal after form submission
+  };
+
+  // Function to handle canceling the absent request form
+  const handleCancel = () => {
+    setModalVisible(false); // Close the modal
+  };
 
   const items = [
     {
@@ -48,8 +86,8 @@ const Header = () => {
       link: '/practice-test',
     },
     {
-      label: 'Lịch Học',
-      link: '/',
+      label: 'Đặt Lịch',
+      link: '/booking',
     },
     {
       label: 'Tin tức',
@@ -74,6 +112,16 @@ const Header = () => {
 
   const user = JSON.parse(localStorage.getItem('user'));
 
+  if (user && user?.role == 'teacher') {
+    items.splice(1, 0, {
+      label: 'Xin nghỉ phép',
+      key: 'absent',
+      onClick: () => {
+        setModalVisible(true);
+      }, // Open the modal when button is clicked
+    });
+  }
+
   if (user && user?.role == 'user') {
     items.splice(1, 0, {
       label: 'Lịch sử làm bài',
@@ -83,6 +131,16 @@ const Header = () => {
       },
     });
   }
+
+  const validateDate = (_, value) => {
+    if (value && value.isBefore(moment().add(2, 'days'))) {
+      return Promise.reject(
+        'Ngày nghỉ phải là ít nhất 2 ngày sau ngày hiện tại',
+      );
+    }
+    return Promise.resolve();
+  };
+  const userava = JSON.parse(localStorage.getItem('user'));
 
   return (
     <div id="header" className={styles.header}>
@@ -103,7 +161,10 @@ const Header = () => {
         {localStorage.getItem('token')?.length > 0 ? (
           <div>
             <Dropdown menu={{ items }} trigger={['hover']}>
-              <Avatar className={styles.profile} icon={<UserOutlined />} />
+              <Avatar
+                className={styles.profile}
+                icon={<img src={userava.avatar} />}
+              />
             </Dropdown>
           </div>
         ) : (
@@ -113,6 +174,48 @@ const Header = () => {
             </Button>
           </Link>
         )}
+        {/* Absent Request Modal */}
+        <Modal
+          title="Xin nghỉ phép"
+          open={modalVisible}
+          onCancel={handleCancel}
+          footer={null}
+        >
+          <Form onFinish={handleAbsentRequest}>
+            <Form.Item
+              name="reason"
+              label="Lý do"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng nhập lý do',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name="dateAbsent"
+              label="Ngày nghỉ"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng chọn ngày nghỉ',
+                },
+                {
+                  validator: validateDate,
+                },
+              ]}
+            >
+              <DatePicker />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Gửi
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
       </div>
     </div>
   );

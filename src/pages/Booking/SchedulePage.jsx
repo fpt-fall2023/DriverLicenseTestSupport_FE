@@ -63,6 +63,7 @@ const SchedualPage = () => {
                 const info = item.detail;
                 const details = {
                   teacher: info.teacher.name,
+                  avatar: info.teacher.avatar,
                   course: info.course.courseName,
                   car: info.car.name,
                   carPlate: info.car.licensePlate,
@@ -88,7 +89,7 @@ const SchedualPage = () => {
   return (
     <div style={{}}>
       <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
-        <Col span={21}>
+        <Col span={18}>
           <Calendar cellRender={cellRender} />
         </Col>
         <Modal
@@ -97,14 +98,32 @@ const SchedualPage = () => {
           onOk={() => setModalVisible(false)}
           onCancel={() => setModalVisible(false)}
         >
-          <p>Giáo viên: {detail.teacher}</p>
-          <p>Khóa học: {detail.course}</p>
-          <p>
-            Xe: {detail.car} ({detail.carPlate})
-          </p>
-          <p>
-            Thời gian: {detail.timeStart}-{detail.timeEnd}
-          </p>
+          <div
+            style={{ fontSize: '17px', display: 'flex', alignItems: 'center' }}
+          >
+            <div style={{ flex: 1 }}>
+              <p>Giáo viên: {detail.teacher}</p>
+              <p>Khóa học: {detail.course}</p>
+              <p>
+                Xe: {detail.car} ({detail.carPlate})
+              </p>
+              <p>
+                Thời gian: {detail.timeStart}-{detail.timeEnd}
+              </p>
+            </div>
+            <div>
+              <img
+                src={detail.avatar}
+                alt="avatar"
+                style={{
+                  width: '180px',
+                  height: '180px',
+                  objectFit: 'cover',
+                  borderRadius: '10%',
+                }}
+              />
+            </div>
+          </div>
         </Modal>
       </Row>
     </div>
