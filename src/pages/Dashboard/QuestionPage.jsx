@@ -8,18 +8,19 @@ import { Col, Row } from 'antd';
 import Modal from "antd/es/modal/Modal";
 import TextArea from "antd/es/input/TextArea";
 import AddModal from "./AddQuestionPage";
-import { storage } from "../../components/upload_img/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { v4 } from "uuid";
+// import { storage } from "../../components/upload_img/firebase";
+// import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+// import { v4 } from "uuid";
 
 const QuestionPage = () => {
+    const pic = "https://firebasestorage.googleapis.com/v0/b/uploadphotodrivingtest.appspot.com/o/images%2Fistockphoto-1441026821-612x612.jpg-d7b0f540-763b-4e30-9aea-3bd16e7d0ee2?alt=media&token=b6a2c70a-8c06-4e59-b596-189dfcb0d1e3";
     const [dataSrc, setDataSrc] = useState([]);
     const [loading, setLoading] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [editQuestion, setEditQuestion] = useState([]);
     const [isAdding, setIsAdding] = useState(false)
-    const [uploadedImageUrl, setUploadedImageUrl] = useState(null); // To store the uploaded image URL
-    const [uploading, setUploading] = useState(false);
+    // const [uploadedImageUrl, setUploadedImageUrl] = useState(null); // To store the uploaded image URL
+    // const [uploading, setUploading] = useState(false);
 
     const [form] = Form.useForm()
     const mainLayout = {
@@ -32,7 +33,15 @@ const QuestionPage = () => {
         {
             title: 'hình ảnh',
             dataIndex: 'questionImage',
-            render: (questionImage) => <img src={questionImage} alt="questionImage" style={{ width: '50px', height: '50px' }} />,
+            render: (questionImage) => {
+                if(questionImage == "" ||questionImage == null ){
+                    questionImage = pic;
+                }
+                return(
+                    <img src={questionImage} alt="questionImage" style={{ width: '70px', height: '70px' }} />
+                )
+            }
+            
         },
         {
             title: 'Nội dung câu hỏi',
@@ -90,23 +99,23 @@ const QuestionPage = () => {
         });
     };
 
-    const uploadImage = (questionImage) => {
-        if(questionImage == null) return;
-        const imageRef = ref(storage, `images/${questionImage}-${v4()}`); // link trong folder trong firebase 
-        setUploading(true)
-        uploadBytes(imageRef, questionImage)
-            .then(() => {
-                setUploading(false)
-                getDownloadURL(imageRef).then((url) => {
-                    setUploadedImageUrl(url); // Store the uploaded image URL
-                    console.log(url)
-                });
-            })
-            .catch((error) => {
-                console.error("Error uploading image: ", error);
-                setUploading(false)
-            });
-    };
+    // const uploadImage = (questionImage) => {
+    //     if(questionImage == null) return;
+    //     const imageRef = ref(storage, `images/${questionImage}-${v4()}`); // link trong folder trong firebase 
+    //     setUploading(true)
+    //     uploadBytes(imageRef, questionImage)
+    //         .then(() => {
+    //             setUploading(false)
+    //             getDownloadURL(imageRef).then((url) => {
+    //                 setUploadedImageUrl(url); // Store the uploaded image URL
+    //                 console.log(url)
+    //             });
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error uploading image: ", error);
+    //             setUploading(false)
+    //         });
+    // };
 
     const onFinish = (values) => {
         const questionId = values._id
@@ -114,18 +123,17 @@ const QuestionPage = () => {
         const answers = values.answers
         // const questionImage = uploadedImageUrl
         console.log(questionId, questionName, answers)
-        console.log(values.questionImage.replace(/^.*[\\\/]/, ''))
-        uploadImage(values.questionImage.replace(/^.*[\\\/]/, ''))
-        console.log(uploadedImageUrl)
-        // updateQuestion(questionId, questionName, uploadedImageUrl, answers).then(res => {
-        //     if (res.status === 200) {
-        //         console.log(res.data.data)
-        //         setIsEditing(false)
-        //         getQuestion()
-        //     }
-        // }).catch(err => {
-        //     console.log(err)
-        // })
+        // console.log(values.questionImage.replace(/^.*[\\\/]/, ''))
+        // uploadImage(values.questionImage.replace(/^.*[\\\/]/, ''))
+        updateQuestion(questionId, questionName, answers).then(res => {
+            if (res.status === 200) {
+                console.log(res.data.data)
+                setIsEditing(false)
+                getQuestion()
+            }
+        }).catch(err => {
+            console.log(err)
+        })
     }
 
 
@@ -191,9 +199,9 @@ const QuestionPage = () => {
                                     <Form.Item name="questionName">
                                         <TextArea />
                                     </Form.Item>
-                                    <Form.Item name="questionImage" rules={[{ required: true, message: 'Chưa có hình' }]}>
+                                    {/* <Form.Item name="questionImage" rules={[{ required: true, message: 'Chưa có hình' }]}>
                                         <Input type="file" />
-                                    </Form.Item>
+                                    </Form.Item> */}
                                     <div className={styles.editBoxTitle}>Đáp Án</div>
                                 <Form.List name="answers"
                     >
