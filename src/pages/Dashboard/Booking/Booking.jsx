@@ -14,7 +14,7 @@ import {
 } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
-import Sidebar from '../../../components/sidebar/sidebar';
+import Sidebar from '../../../components/sidebar/Sidebar';
 import { getAllBookings } from '../../../apis/BookingService';
 
 import BookingCss from './Booking.module.css';
