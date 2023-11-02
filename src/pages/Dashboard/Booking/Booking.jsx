@@ -299,7 +299,6 @@ const ManageBooking = () => {
           <Sidebar />
         </Col>
         <Col flex="auto">
-          <div onClick={() => console.log(bookingData)}>click me</div>
           <div>
             <Spin spinning={loading} delay={300}>
               <Table
