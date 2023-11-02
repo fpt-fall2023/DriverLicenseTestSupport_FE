@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { Button, Form, Select, Space, Table, Input, notification, Layout } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { getAllUsers, deleteUser, updateUser } from "../../apis/AdminService";
-import Sidebar from '../../components/sidebar/sidebar';
+import Sidebar from '../../components/sidebar/Sidebar';
 import { Col, Row } from 'antd';
 import Modal from "antd/es/modal/Modal";
 import { Link } from "react-router-dom";
 import AddModal from "./AddUserPage";
 
 const UserPage = () => {
+    const avt = "https://firebasestorage.googleapis.com/v0/b/uploadphotodrivingtest.appspot.com/o/images%2Fillustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg-85e1a191-e29b-4607-b0d9-81d6d99d24a3?alt=media&token=4cacd7e3-73e1-4706-b1e8-3b50c8f0669e";
     const [dataSrc, setDataSrc] = useState([]);
     const [loading, setLoading] = useState([]);
     const [isAdding, setIsAdding] = useState(false)
@@ -28,7 +29,14 @@ const UserPage = () => {
         {
             title: 'Avatar',
             dataIndex: 'avatar',
-            render: (avatar) => <img src={avatar} alt="Avatar" style={{ width: '50px', height: '50px' }} />,
+            render: (avatar) => {
+                if(avatar == "" ||avatar == null ){
+                    avatar = pic;
+                }
+                return(
+                    <img src={avatar} alt="avatar" style={{ width: '70px', height: '70px' }} />
+                )
+            }
         },
         {
             title: 'Tên tài khoản',
