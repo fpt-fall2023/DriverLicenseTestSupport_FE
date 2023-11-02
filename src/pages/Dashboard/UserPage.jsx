@@ -205,13 +205,13 @@ const UserPage = () => {
                                     <Select
                                         placeholder="Chọn loại vai trò"
                                     >
-                                        <Select.Option value={"admin"}>Admin</Select.Option>
-                                        <Select.Option value={"user"}>Người dùng</Select.Option>
-                                        <Select.Option value={"staff"}>Nhân viên</Select.Option>
-                                        <Select.Option value={"teacher"}>Người dạy</Select.Option>
+                                        <Select.Option value={"admin"}>admin</Select.Option>
+                                        <Select.Option value={"user"}>user</Select.Option>
+                                        <Select.Option value={"staff"}>staff</Select.Option>
+                                        <Select.Option value={"teacher"}>teacher</Select.Option>
                                     </Select>
                                 </Form.Item>
-                                
+
                             </Form>
                         </Modal>
                         {/* <AddModal isAdding={isAdding} setIsAdding={setIsAdding} getQuestionCategory={getUser} /> */}

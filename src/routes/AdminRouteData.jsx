@@ -9,6 +9,7 @@ import SampleTest from '../pages/Dashboard/SampleTest/SampleTest';
 import UserPage from '../pages/Dashboard/UserPage'
 import Slot from '../pages/Dashboard/Slot/Slot'
 import Course from '../pages/Dashboard/Course/Course';
+import Car from '../pages/Dashboard/Car/Car';
 const AdminRouteData = [
     {
         title: 'QuestionPage',
@@ -64,6 +65,11 @@ const AdminRouteData = [
         title: 'CoursePage',
         path: 'dashboard/Course',
         element: <Course />,
+      },
+      {
+        title: 'CarPage',
+        path: 'dashboard/Car',
+        element: <Car />,
       },
 ]
 

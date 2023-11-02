@@ -1,13 +1,16 @@
 import styles from "./QuestionPage.module.css"
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Select, Space, Table, Input, notification, Layout } from 'antd';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Button, Form, Select, Space, Table, Input, notification, Layout, Radio } from 'antd';
+import { DeleteOutlined, EditOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { getQuestions, deleteQuestion, updateQuestion } from "../../apis/QuestionService";
 import Sidebar from '../../components/sidebar/sidebar';
 import { Col, Row } from 'antd';
 import Modal from "antd/es/modal/Modal";
 import TextArea from "antd/es/input/TextArea";
 import AddModal from "./AddQuestionPage";
+import { storage } from "../../components/upload_img/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { v4 } from "uuid";
 
 const QuestionPage = () => {
     const [dataSrc, setDataSrc] = useState([]);
@@ -15,20 +18,22 @@ const QuestionPage = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [editQuestion, setEditQuestion] = useState([]);
     const [isAdding, setIsAdding] = useState(false)
+    const [uploadedImageUrl, setUploadedImageUrl] = useState(null); // To store the uploaded image URL
+    const [uploading, setUploading] = useState(false);
 
     const [form] = Form.useForm()
     const mainLayout = {
-        labelCol: { span: 4 },
-        wrapperCol: { span: 20 },
+        labelCol: { span: 6 },
+        wrapperCol: { span: 28 },
         size: "large"
     }
 
     const columns = [
-        // {
-        //     title: 'ID',
-        //     dataIndex: '_id',
-
-        // },
+        {
+            title: 'hình ảnh',
+            dataIndex: 'questionImage',
+            render: (questionImage) => <img src={questionImage} alt="questionImage" style={{ width: '50px', height: '50px' }} />,
+        },
         {
             title: 'Nội dung câu hỏi',
             dataIndex: 'questionName',
@@ -83,12 +88,31 @@ const QuestionPage = () => {
         });
     };
 
+    const uploadImage = (Image) => {
+        const imageRef = ref(storage, `images/${Image}-${v4()}`); // link trong folder trong firebase 
+        setUploading(true)
+        uploadBytes(imageRef, Image)
+            .then(() => {
+                setUploading(false)
+                getDownloadURL(imageRef).then((url) => {
+                    setUploadedImageUrl(url); // Store the uploaded image URL
+                });
+            })
+            .catch((error) => {
+                console.error("Error uploading image: ", error);
+                setUploading(false)
+            });
+    };
+
     const onFinish = (values) => {
         const questionId = values._id
         const questionName = values.questionName
         const answers = values.answers
+        const questionImage = uploadedImageUrl
         console.log(questionId, questionName, answers)
-        updateQuestion(questionId, questionName, answers).then(res => {
+        console.log(values.questionImage.replace(/^.*[\\\/]/, ''))
+        uploadImage(values.questionImage.replace(/^.*[\\\/]/, ''))
+        updateQuestion(questionId, questionName, questionImage, answers).then(res => {
             if (res.status === 200) {
                 console.log(res.data.data)
                 setIsEditing(false)
@@ -125,21 +149,22 @@ const QuestionPage = () => {
                 <Col flex="100px"><Sidebar /></Col>
                 <Col flex="auto">
                     <Layout
-                    style={{
-                        padding: 24,
-                        margin: 0,
-                        minHeight: "100%",
-                        
-                      }}
+                        style={{
+                            padding: 24,
+                            margin: 0,
+                            minHeight: "100%",
+
+                        }}
                     >
                         <div style={{ maxWidth: "1200px" }} >
 
-                        <Space style={{ padding: 16 }}><Button type="primary" onClick={() => setIsAdding(true)}>Thêm câu hỏi mới</Button></Space>
+                            <Space style={{ padding: 16 }}><Button type="primary" onClick={() => setIsAdding(true)}>Thêm câu hỏi mới</Button></Space>
                             <Table loading={loading}
-                             pagination={{ pageSize: 8 }}
-                             columns={columns} 
-                             dataSource={dataSrc.Question} />
+                                pagination={{ pageSize: 8 }}
+                                columns={columns}
+                                dataSource={dataSrc.Question} />
                             <Modal
+                                width={600}
                                 open={isEditing}
                                 okText="Save"
                                 onCancel={() => {
@@ -160,33 +185,57 @@ const QuestionPage = () => {
                                     <Form.Item name="questionName">
                                         <TextArea />
                                     </Form.Item>
+                                    {/* <Form.Item name={"test"} rules={[{ required: true, message: 'Chưa có hình' }]}>
+                                        <Input type="file" />
+                                    </Form.Item> */}
                                     <div className={styles.editBoxTitle}>Đáp Án</div>
-                                    <Form.List name="answers">
-                                        {(fields) => (
-                                            <>
-                                                {fields.map(field => (
-                                                    <Space key={field.key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
-                                                        <Form.Item
-                                                            {...field}
-                                                            name={[field.name, 'answerName']}
-                                                            style={{ width: "20rem" }}
-                                                        >
-                                                            <TextArea />
-                                                        </Form.Item>
-                                                        <Form.Item
-                                                            {...field}
-                                                            name={[field.name, 'isCorrect']}
-                                                        >
-                                                            <Select style={{ width: "5.5rem" }}>
-                                                                <Select.Option value={true}>Đúng</Select.Option>
-                                                                <Select.Option value={false}>Sai</Select.Option>
-                                                            </Select>
-                                                        </Form.Item>
-                                                    </Space>
-                                                ))}
-                                            </>
-                                        )}
-                                    </Form.List>
+                                <Form.List name="answers"
+                    >
+                        {(fields, { add, remove }) => (
+                            <>
+                                {fields.map(({ key, name, ...restField }) => (
+                                    <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="center">
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'answerName']}
+                                            rules={[{ required: true, message: 'Chưa có câu trả lời' }]}
+                                        >
+                                            <Input.TextArea
+                                                placeholder="Nhập câu trả lời"
+                                                autoSize={{ minRows: 3, maxRows: 5 }}
+                                                style={{ width: '360px' }} />
+                                        </Form.Item>
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'isCorrect']}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'chưa chọn',
+                                                },
+                                            ]}
+                                        >
+                                            <Radio.Group >
+                                                <Radio value={true} >câu đúng </Radio>
+                                                <Radio value={false}>câu sai </Radio>
+                                            </Radio.Group>
+
+                                        </Form.Item>
+                                        <MinusCircleOutlined
+                                        
+                                            style={{ marginBottom: "25px" }}
+                                            onClick={() => remove(name)} />
+                                    </Space>
+                                ))}
+                                <Form.Item>
+                                    <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                                        Thêm câu trả lời
+                                    </Button>
+                                </Form.Item>
+                            </>
+                        )}
+
+                    </Form.List>    
                                 </Form>
                             </Modal>
                             <AddModal isAdding={isAdding} setIsAdding={setIsAdding} getQuestion={getQuestion} />

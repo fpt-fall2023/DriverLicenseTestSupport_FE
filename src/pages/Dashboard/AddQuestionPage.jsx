@@ -51,12 +51,6 @@ const AddModal = ({ isAdding, setIsAdding, getQuestion }) => {
             });
     };
 
-    // const hanldeUpload = (e) => {
-    //     setImageUpload(e.target.files[0])
-    //     console.log(e.target.files)
-    // }
-
-
     const onFinish = (values) => {
         form.resetFields()
         console.log(values.questionImage.replace(/^.*[\\\/]/, ''))

@@ -6,7 +6,8 @@ import {
     QuestionCircleOutlined,
     BookOutlined,
     AuditOutlined,
-    CalendarOutlined
+    CalendarOutlined,
+    CarOutlined
   } from "@ant-design/icons";
   import { Menu } from "antd";
   import { useEffect, useState } from "react";
@@ -78,6 +79,11 @@ import {
               label: "QUẢN LÍ KHÓA HỌC",
               key: "/dashboard/Course",
               icon: <CalendarOutlined />,
+            },
+            {
+              label: "QUẢN LÍ XE",
+              key: "/dashboard/Car",
+              icon: <CarOutlined />,
             },
           ]}
           
