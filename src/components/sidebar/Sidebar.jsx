@@ -6,7 +6,6 @@ import {
   QuestionCircleOutlined,
   BookOutlined,
   CalendarOutlined,
-  CalendarOutlined,
   CarOutlined
 } from '@ant-design/icons';
 import { Menu } from 'antd';

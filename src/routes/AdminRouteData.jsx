@@ -73,3 +73,5 @@ const AdminRouteData = [
         element: <Car />,
       },
 ]
+
+export default AdminRouteData;
