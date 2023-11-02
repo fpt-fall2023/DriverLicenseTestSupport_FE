@@ -6,7 +6,6 @@ import { getAllUsers, deleteUser, updateUser } from "../../apis/AdminService";
 import Sidebar from '../../components/sidebar/Sidebar';
 import { Col, Row } from 'antd';
 import Modal from "antd/es/modal/Modal";
-import { Link } from "react-router-dom";
 import AddModal from "./AddUserPage";
 
 const UserPage = () => {
@@ -46,10 +45,7 @@ const UserPage = () => {
             title: 'email',
             dataIndex: 'email',
         },
-        // {
-        //     title: 'sinh nhật',
-        //     dataIndex: 'birthdate',
-        // },
+
         {
             title: 'Vai trò',
             dataIndex: 'role',
@@ -120,13 +116,12 @@ const UserPage = () => {
     const onFinish = (values) => {
 
         const userID = values._id
-        const userName = values.name
         const role = values.role
         // const birthdate = values.birthdate
         // const avatar = values.avatar
-        console.log(userID, userName, role)
+        console.log(userID, role)
         if (isLeastAdmin() === false) {
-            updateUser(userID, userName, role).then(res => {
+            updateUser(userID, role).then(res => {
                 if (res.status === 200) {
                     console.log(res.data.data)
                     setIsEditing(false)
@@ -150,7 +145,6 @@ const UserPage = () => {
     useEffect(() => {
         getUser();
     }, []);
-
 
     const getUser = () => {
         setLoading(true);
@@ -178,7 +172,7 @@ const UserPage = () => {
 
                         }}
                     >
-                        {/* <Space style={{ padding: 16 }}><Button type="primary" onClick={() => setIsAdding(true)}>Thêm người dùng mới</Button></Space> */}
+                        <Space style={{ padding: 16 }}><Button type="primary" onClick={() => setIsAdding(true)}>Thêm người dùng mới</Button></Space>
                         <Table loading={loading} pagination={{ pageSize: 8 }} columns={columns} dataSource={dataSrc} />
                         <Modal
                             title="Chỉnh sửa user"
@@ -198,9 +192,6 @@ const UserPage = () => {
                                 initialValues={form.setFieldsValue(editUser)}
                             >
                                 <Form.Item name="_id" hidden={true} />
-                                <Form.Item name="name" label="Tên" rules={[{ required: true, message: 'Chưa có tên người dùng' }]}>
-                                    <Input label="Nhập tên" />
-                                </Form.Item>
                                 {/* <div className={styles.editBoxTitle}>Đáp Án</div> */}
                                 <Form.Item name={"role"} label="vai trò"
                                     rules={[
@@ -222,7 +213,7 @@ const UserPage = () => {
 
                             </Form>
                         </Modal>
-                        {/* <AddModal isAdding={isAdding} setIsAdding={setIsAdding} getQuestionCategory={getUser} /> */}
+                        <AddModal isAdding={isAdding} setIsAdding={setIsAdding} getUser={getUser} />
                     </Layout>
                 </Col>
             </Row>

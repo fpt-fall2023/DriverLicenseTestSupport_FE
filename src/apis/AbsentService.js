@@ -21,4 +21,24 @@ const sendAbsentRequest = (teacher, reason, dateAbsent) => {
     })
 }
 
-export { getAllAbsent, sendAbsentRequest }
+const approveAbsent = (absentID) => {
+    return axios.patch(`${ABSENT_API_URL}/approve-absent/${absentID}`, {
+
+    }, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    });
+};
+
+const rejectAbsent = (absentID) => {
+    return axios.patch(`${ABSENT_API_URL}/reject-absent/${absentID}`, {
+
+    }, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    });
+};
+
+export { getAllAbsent, sendAbsentRequest, approveAbsent, rejectAbsent }

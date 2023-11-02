@@ -17,6 +17,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import AddModal from './Modal/AddModal';
 import EditModal from './Modal/EditModal';
 
+
 const Car = () => {
   const [car, setCar] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -168,3 +169,4 @@ const Car = () => {
 };
 
 export default Car;
+

@@ -24,14 +24,17 @@ import {
 } from '../../apis/QuestionService';
 import Sidebar from '../../components/sidebar/Sidebar';
 import { Col, Row } from 'antd';
+
 import Modal from 'antd/es/modal/Modal';
 import TextArea from 'antd/es/input/TextArea';
 import AddModal from './AddQuestionPage';
+
 // import { storage } from "../../components/upload_img/firebase";
 // import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 // import { v4 } from "uuid";
 
 const QuestionPage = () => {
+
   const pic =
     'https://firebasestorage.googleapis.com/v0/b/uploadphotodrivingtest.appspot.com/o/images%2Fistockphoto-1441026821-612x612.jpg-d7b0f540-763b-4e30-9aea-3bd16e7d0ee2?alt=media&token=b6a2c70a-8c06-4e59-b596-189dfcb0d1e3';
   const [dataSrc, setDataSrc] = useState([]);
@@ -48,6 +51,7 @@ const QuestionPage = () => {
     wrapperCol: { span: 28 },
     size: 'large',
   };
+
 
   const columns = [
     {
@@ -98,11 +102,13 @@ const QuestionPage = () => {
     },
   ];
 
+
   const onEditQuestion = (record) => {
     setIsEditing(true);
     console.log(record);
     setEditQuestion(record);
   };
+
 
   const onDelete = (record) => {
     Modal.confirm({
@@ -126,6 +132,7 @@ const QuestionPage = () => {
       },
     });
   };
+
 
   // const uploadImage = (questionImage) => {
   //     if(questionImage == null) return;
@@ -169,6 +176,7 @@ const QuestionPage = () => {
   useEffect(() => {
     getQuestion();
   }, []);
+
 
   const getQuestion = () => {
     setLoading(true);
@@ -311,3 +319,4 @@ const QuestionPage = () => {
   );
 };
 export default QuestionPage;
+

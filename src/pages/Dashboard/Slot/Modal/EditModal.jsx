@@ -32,6 +32,7 @@ const EditModal = ({ isEditing, setIsEditing, slotData, getSlot }) => {
       });
   };
 
+
   return (
     <div>
       <Modal
@@ -62,3 +63,4 @@ const EditModal = ({ isEditing, setIsEditing, slotData, getSlot }) => {
   );
 };
 export default EditModal;
+
