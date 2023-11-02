@@ -5,6 +5,7 @@ import { Button, Col, Modal, Row, Skeleton, notification } from 'antd';
 import ExaminationCss from '../FullScreen.module.css';
 
 import { getAQuestionBank } from '../../../apis/QuestionBankService';
+import { saveTestResult } from '../../../apis/TestResultService';
 import ExamSlide from './ExamSlide';
 
 //Do not delete this
@@ -52,11 +53,11 @@ const Examination = () => {
   const [isCorrectDanger, setIsCorrectDanger] = useState(false);
   const [showScore, setShowScore] = useState(false);
   const [score, setScore] = useState(0);
-  const [isAllSelected, setIsAllSelected] = useState(false);
+  const [isAllSelected, setIsAllSelected] = useState();
   //Modal for showing score
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const showConfirmModal = () => {
-    checkAllSelected();
+    // checkAllSelected();
     setIsConfirmModalOpen(true);
   };
   const handleOk = () => {
@@ -85,8 +86,8 @@ const Examination = () => {
     const updatedAnswers = [...selectedAnswers];
     updatedAnswers[questionIndex] = selectedAns;
     setSelectedAnswers(updatedAnswers);
+    checkAllSelected();
   };
-
   const handleSubmitExam = () => {
     let rightAns = 0;
     for (let i = 0; i < examQuestions.length; i++) {
@@ -100,6 +101,15 @@ const Examination = () => {
     checkIsSelectDanger();
     setScore(rightAns);
     setShowScore(true);
+    const user = JSON.parse(localStorage?.user);
+    const sampleTestId = location.state?.sampleTestId;
+    const score = parseInt((rightAns / examQuestions.length) * 100);
+    saveTestResult(user?._id, sampleTestId, rightAns, score).catch(() => {
+      notification.warning({
+        message:
+          'Lưu trữ bài không thành công, hãy báo cáo admin để cải thiện lỗi.',
+      });
+    });
     return rightAns;
   };
   const scrollToItem = (targetId) => {
@@ -112,6 +122,7 @@ const Examination = () => {
       });
     }
   };
+
   useEffect(() => {
     if (time <= 0) {
       // Timer is up, you can add your logic here
@@ -144,12 +155,14 @@ const Examination = () => {
         .then((rs) => {
           setExamQuestions(rs.data.newQuestion);
         })
-        .catch((err) => {
-          notification.warning({ message: 'Login Required' });
+        .catch(() => {
+          notification.warning({ message: 'Chức năng này cần đăng nhập!!' });
           navigate('/');
         });
     } else {
-      notification.warning({ message: 'Question bank not found' });
+      notification.warning({
+        message: 'Không tìm thấy ngân hàng đề, xin vui lòng thử đề khác',
+      });
       navigate('/QuizPage');
     }
   }, []);
@@ -158,7 +171,7 @@ const Examination = () => {
     const realLength = selectedAnswers.filter((answer) => {
       return answer != null || answer != undefined || answer != '';
     });
-    if (realLength != examQuestions.length) {
+    if (realLength.length != examQuestions.length) {
       setIsAllSelected(false);
     } else {
       setIsAllSelected(true);

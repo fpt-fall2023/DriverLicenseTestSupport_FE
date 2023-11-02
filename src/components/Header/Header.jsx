@@ -72,6 +72,18 @@ const Header = () => {
         })
       : null;
 
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (user && user?.role == 'user') {
+    items.splice(1, 0, {
+      label: 'Lịch sử làm bài',
+      key: 'testHistory',
+      onClick: () => {
+        navigate('/test-history');
+      },
+    });
+  }
+
   return (
     <div id="header" className={styles.header}>
       <img

@@ -10,7 +10,11 @@ const TestCard = (data) => {
 
   const navigateToExam = (data) => {
     navigate('/practice-test/examination', {
-      state: { questionBankId: data, testType: testType },
+      state: {
+        questionBankId: data,
+        testType: testType,
+        sampleTestId: testInfo._id,
+      },
     });
   };
   return (
