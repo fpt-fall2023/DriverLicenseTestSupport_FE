@@ -1,5 +1,4 @@
 import {
-    AppstoreOutlined,
     UserOutlined,
     QuestionOutlined,
     UnorderedListOutlined,
@@ -35,11 +34,6 @@ import {
           }}
           selectedKeys={[selectedKeys]}
           items={[
-            {
-              label: "TỔNG QUÁT",
-              icon: <AppstoreOutlined />,
-              key: "/dashboard",
-            },
             {
               label: "QUẢN LÍ NGƯỜI DÙNG",
               key: "/dashboard/UserPage",

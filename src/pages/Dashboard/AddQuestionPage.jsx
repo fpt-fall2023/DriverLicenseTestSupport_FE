@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Radio, Select, Space, notification, Modal } from 'antd';
+import { Button, Form, Input, Radio, Select, Space, notification, Modal, message } from 'antd';
 import { addQuestion, getCategory } from '../../apis/QuestionService';
 import { storage } from "../../components/upload_img/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -18,8 +18,10 @@ const AddModal = ({ isAdding, setIsAdding, getQuestion }) => {
     const [dataSrc, setDataSrc] = useState([]);
     const [uploadedImageUrl, setUploadedImageUrl] = useState(null); // To store the uploaded image URL
     const [uploading, setUploading] = useState(false);
+    const [imageHere, setImageHere] = useState(null);
 
-    const GetAllCategory = () => {
+
+    const GetAllCategory = async () => {
         getCategory()
             .then((res) => {
                 if (res.status === 200) {
@@ -35,14 +37,20 @@ const AddModal = ({ isAdding, setIsAdding, getQuestion }) => {
         GetAllCategory();
     }, []);
 
-    const uploadImage = (Image) => {
-        const imageRef = ref(storage, `images/${Image}-${v4()}`); // link trong folder trong firebase 
+    const uploadImage = async () => {
+        if (imageHere == null || uploading) return;
+        const imageRef = ref(storage, `images/${imageHere.name}-${v4()}`); // link trong folder trong firebase 
+        console.log(imageHere.name);
         setUploading(true)
-        uploadBytes(imageRef, Image)
+        uploadBytes(imageRef, imageHere)
             .then(() => {
                 setUploading(false)
                 getDownloadURL(imageRef).then((url) => {
+                    console.log(url)
                     setUploadedImageUrl(url); // Store the uploaded image URL
+                    notification.success({
+                        message: "Up ảnh thành công"
+                    })
                 });
             })
             .catch((error) => {
@@ -51,32 +59,32 @@ const AddModal = ({ isAdding, setIsAdding, getQuestion }) => {
             });
     };
 
+
     const onFinish = (values) => {
         form.resetFields()
-        console.log(values.questionImage.replace(/^.*[\\\/]/, ''))
-        uploadImage(values.questionImage.replace(/^.*[\\\/]/, ''))
-        addQuestion(values.questionName, values.answers, values.category , uploadedImageUrl ).then(res => {
-            if (res.status === 200) {
-                console.log(res)
-                notification.success({
-                    message: "thêm câu hỏi thành công"
-                })
-                getQuestion()
-                setIsAdding(false)
-               
-            } else if(uploadedImageUrl == null) {
-                notification.error({
-                    message: "thêm ảnh thất bại"
-                })
-            }
-            else{
-                notification.error({
-                    message: "thêm câu hỏi thất bại"
-                })
-            }
-        }).catch(err => {
-            console.log(err)
-        })
+        console.log(imageHere)
+            addQuestion(values.questionName, values.answers, values.category , uploadedImageUrl ).then(res => {
+                if (res.status === 200) {
+                    console.log(res)
+                    notification.success({
+                        message: "thêm câu hỏi thành công"
+                    })
+                    getQuestion()
+                    setIsAdding(false)
+
+                } else if(uploadedImageUrl == null) {
+                    notification.error({
+                        message: "thêm ảnh thất bại"
+                    })
+                }
+                else{
+                    notification.error({
+                        message: "thêm câu hỏi thất bại"
+                    })
+                }
+            }).catch(err => {
+                console.log(err)
+            })
     }
 
     return (
@@ -85,7 +93,7 @@ const AddModal = ({ isAdding, setIsAdding, getQuestion }) => {
                 title="Thêm câu hỏi"
                 open={isAdding}
                 okText="Thêm"
-                onCancel={() => {setIsAdding(false)}}
+                onCancel={() => { setIsAdding(false) }}
                 onOk={() => {
                     form.submit();
                 }}
@@ -95,6 +103,7 @@ const AddModal = ({ isAdding, setIsAdding, getQuestion }) => {
                     form={form}
                     {...mainLayout}
                     onFinish={onFinish}
+
                     name="dynamic_form_nest_item"
                     autoComplete="off"
                     initialValues={{
@@ -110,8 +119,11 @@ const AddModal = ({ isAdding, setIsAdding, getQuestion }) => {
                             autoSize={{ minRows: 3, maxRows: 5 }}
                         />
                     </Form.Item>
-                    <Form.Item name={"questionImage"} rules={[{ required: true, message: 'Chưa có hình' }]}> 
-                            <Input type="file"/>
+                    <Form.Item name={"questionImage"} rules={[{ required: true, message: 'Chưa có hình' }]}>
+                        <Space size={'large'}>
+                            <Input type="file" style={{width :'360'}} onChange={(e) => setImageHere(e.target.files[0])} />
+                            <Button onClick={uploadImage} disabled={uploading}> {uploading ? "Uploading..." : "Upload Image"}</Button>
+                        </Space>
                     </Form.Item>
                     <Form.List name="answers"
                     >

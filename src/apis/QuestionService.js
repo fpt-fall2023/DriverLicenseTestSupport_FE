@@ -16,7 +16,7 @@ const addQuestion = (questionName, answers, category, questionImage) => {
     })
 }
 
-const updateQuestion = (questionId, questionName,questionImage, answers) => {
+const updateQuestion = (questionId, questionName, questionImage, answers) => {
     return axios.patch(`${QUESTION_API_URL}/${questionId}`, {
         questionName,
         answers,

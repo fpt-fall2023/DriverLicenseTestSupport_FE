@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Form, Select, Space, Table, Input, notification, Layout, Radio } from 'antd';
 import { DeleteOutlined, EditOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { getQuestions, deleteQuestion, updateQuestion } from "../../apis/QuestionService";
-import Sidebar from '../../components/sidebar/sidebar';
+import Sidebar from '../../components/sidebar/Sidebar';
 import { Col, Row } from 'antd';
 import Modal from "antd/es/modal/Modal";
 import TextArea from "antd/es/input/TextArea";
@@ -80,7 +80,9 @@ const QuestionPage = () => {
                     console.log(res);
                     setLoading(false);
                     getQuestion();
-                    notification.success("xóa thành công")
+                    notification.success({
+                        message: "xóa thành công"
+                    })
                 }).catch(err => {
                     console.log(err)
                 });
@@ -88,14 +90,16 @@ const QuestionPage = () => {
         });
     };
 
-    const uploadImage = (Image) => {
-        const imageRef = ref(storage, `images/${Image}-${v4()}`); // link trong folder trong firebase 
+    const uploadImage = (questionImage) => {
+        if(questionImage == null) return;
+        const imageRef = ref(storage, `images/${questionImage}-${v4()}`); // link trong folder trong firebase 
         setUploading(true)
-        uploadBytes(imageRef, Image)
+        uploadBytes(imageRef, questionImage)
             .then(() => {
                 setUploading(false)
                 getDownloadURL(imageRef).then((url) => {
                     setUploadedImageUrl(url); // Store the uploaded image URL
+                    console.log(url)
                 });
             })
             .catch((error) => {
@@ -108,19 +112,20 @@ const QuestionPage = () => {
         const questionId = values._id
         const questionName = values.questionName
         const answers = values.answers
-        const questionImage = uploadedImageUrl
+        // const questionImage = uploadedImageUrl
         console.log(questionId, questionName, answers)
         console.log(values.questionImage.replace(/^.*[\\\/]/, ''))
         uploadImage(values.questionImage.replace(/^.*[\\\/]/, ''))
-        updateQuestion(questionId, questionName, questionImage, answers).then(res => {
-            if (res.status === 200) {
-                console.log(res.data.data)
-                setIsEditing(false)
-                getQuestion()
-            }
-        }).catch(err => {
-            console.log(err)
-        })
+        console.log(uploadedImageUrl)
+        // updateQuestion(questionId, questionName, uploadedImageUrl, answers).then(res => {
+        //     if (res.status === 200) {
+        //         console.log(res.data.data)
+        //         setIsEditing(false)
+        //         getQuestion()
+        //     }
+        // }).catch(err => {
+        //     console.log(err)
+        // })
     }
 
 
@@ -179,15 +184,16 @@ const QuestionPage = () => {
                                     form={form}
                                     onFinish={onFinish}
                                     initialValues={form.setFieldsValue(editQuestion)}
+                                    
                                 >
                                     <div className={styles.editBoxTitle}>Câu Hỏi</div>
                                     <Form.Item name="_id" hidden={true} />
                                     <Form.Item name="questionName">
                                         <TextArea />
                                     </Form.Item>
-                                    {/* <Form.Item name={"test"} rules={[{ required: true, message: 'Chưa có hình' }]}>
+                                    <Form.Item name="questionImage" rules={[{ required: true, message: 'Chưa có hình' }]}>
                                         <Input type="file" />
-                                    </Form.Item> */}
+                                    </Form.Item>
                                     <div className={styles.editBoxTitle}>Đáp Án</div>
                                 <Form.List name="answers"
                     >
