@@ -1,4 +1,4 @@
-import { Collapse, Table, Tag, notification } from 'antd';
+import { Collapse, Table, Tag, notification, Layout } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { getAllTestResult } from '../../../apis/TestResultService';
@@ -40,6 +40,10 @@ const TestHistory = () => {
   ];
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
     getAllTestResult()
       .then((rs) => {
         const testResult = rs.data.data.TestResult;
@@ -66,11 +70,17 @@ const TestHistory = () => {
   }, []);
 
   return (
-    <div style={{ minHeight: '80vh' }}>
-      <div>
+    <Layout
+      style={{
+        padding: 24,
+        margin: 0,
+        minHeight: '100%',
+      }}
+    >
+      <div style={{ minHeight: '100vh' }}>
         <Table columns={columns} dataSource={testHistory} />
       </div>
-    </div>
+    </Layout>
   );
 };
 
