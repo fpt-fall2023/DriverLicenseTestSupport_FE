@@ -43,7 +43,7 @@ const AddModal = ({ isAdding, setIsAdding, getUser }) => {
         const phoneRegex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
     
         if (!phoneRegex.test(value)) {
-          return Promise.reject('Please enter a valid phone number (10 digits)');
+          return Promise.reject('Vui lòng nhập SĐT hợp lệ (10 chữ số)');
         }
     
         return Promise.resolve();
