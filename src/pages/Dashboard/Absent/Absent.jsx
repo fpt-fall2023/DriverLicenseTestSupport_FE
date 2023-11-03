@@ -2,7 +2,6 @@ import { Button, Col, Modal, Popconfirm, Row, Space, Table, notification, Layout
 import Sidebar from "../../../components/sidebar/Sidebar"
 import { useEffect, useState } from "react"
 import { getAllAbsent, approveAbsent,rejectAbsent } from "../../../apis/AbsentService"
-import { CloseSquareOutlined, CheckOutlined } from "@ant-design/icons"
 // import AddModal from "./Modal/AddModal"
 // import EditModal from "./Modal/EditModal"
 
@@ -45,7 +44,7 @@ const Absent = () => {
             render: (record) => {       
                 let color;
                 if (record === 'rejected') {
-                  color = 'gray';
+                  color = 'red';
                 }
                 else if(record === 'pending'){
                     color = 'geekblue';
@@ -64,17 +63,17 @@ const Absent = () => {
         {
             title: 'Tác vụ',
             key: 'action',
-            align: 'right',
+            align: 'center',
             render: (record) => (
                 <Space size="middle">
-                    <CheckOutlined  onClick={() => {
+                    <Button  onClick={() => {
                         Approve(record);
                     }}
-                        style={{ color: "blue" }} />
-                    <CloseSquareOutlined onClick={() => {
+                        style={{ color: "green" }}>Approve</Button>
+                    <Button onClick={() => {
                          Reject(record);
                     }}
-                        style={{ color: "red", marginLeft: 12 }} />
+                        style={{ color: "red"}}>Reject</Button>
                 </Space>
             ),
         },
@@ -105,30 +104,7 @@ const Absent = () => {
             getAllAbsents();
         })
        }
-    //    const onDelete = (courseID) => {
-
-    //        Modal.confirm({
-    //            title: "Bạn muốn xóa course này ?",
-    //            okText: "Delete",
-    //            okType: "danger",
-    //            onOk: () => {          
-    //                    setLoading(true);
-    //                    deleteCourse(courseID._id).then(res => {
-    //                        console.log(res);
-    //                        setLoading(false);
-    //                        getCourses();
-    //                        notification.success({
-    //                            message: "xóa thành công"
-    //                        })
-    //                    }).catch(err => {
-    //                        console.log(err)
-    //                    });
-    //                    console.log(courseID)
-    //            }
-    //        });
-
-    //    }
-
+    
        useEffect(() => {
         getAllAbsents()
        }, []);
@@ -146,12 +122,7 @@ const Absent = () => {
 
                          }}
                        >
-                       {/* <Space style={{ padding: 16 }}>
-                           <Button type="primary" onClick={() => setIsAdding(true)}>Thêm Khóa Học Mới</Button>
-                       </Space> */}
                        <Table loading={loading} pagination={{ pageSize: 8 }} columns={columns} dataSource={absent} />
-                       {/* <AddModal isAdding={isAdding} setIsAdding={setIsAdding} getCourse={getCourses} />
-                       <EditModal isEditing={isEditing} setIsEditing={setIsEditing} courseData={courseData} getCourse={getCourses} /> */}
                        </Layout>
                    </Col>
                </Row>

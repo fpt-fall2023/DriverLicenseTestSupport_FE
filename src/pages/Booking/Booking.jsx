@@ -5,7 +5,6 @@ import {
   Card,
   DatePicker,
   Form,
-  Input,
   Select,
   notification,
 } from 'antd';
@@ -14,7 +13,6 @@ import {
   getAvailableTeacher,
   getAvailableTime,
 } from '../../apis/BookingService';
-import locale from 'antd/es/date-picker/locale/vi_VN';
 import moment from 'moment';
 
 const Booking = () => {
@@ -80,10 +78,14 @@ const Booking = () => {
 
   const disabledDate = (current) => {
     const today = new Date();
-    return current && current < moment(today);
+    return (
+      current &&
+      current < moment(today.setDate(today.getDate() -1)).endOf('day')
+    );
   };
 
   const onFinish = (values) => {
+    values.date = (moment(values.date)._i).format('YYYY-MM-DD');
     createBooking(
       JSON.parse(localStorage.getItem('user'))._id,
       values.teacher,
@@ -157,18 +159,11 @@ const Booking = () => {
             </Select>
           </Form.Item>
           <Form.Item label="Ngày học" name="date" hidden={!isTeacherSelected}>
-            {/* {
-                            next7days?.map((item, index) => (
-                                <Button key={index} style={{ width: "7rem", height: "3rem", marginRight: "1rem", marginTop: "0.5rem" }} value={item.toLocaleDateString()} onClick={() => { setIsDateSelected(true); getAvailableSlot(form.getFieldValue('teacher'), item) }}>
-                                    {item.toLocaleDateString()}
-                                </Button>
-                            ))
-                        } */}
             <DatePicker
               disabledDate={disabledDate}
               onChange={(e) => {
                 setIsDateSelected(true);
-                getAvailableSlot(form.getFieldValue('teacher'), e);
+                getAvailableSlot(form.getFieldValue('teacher'), (moment(e)._i).format('YYYY-MM-DD'));
               }}
             />
           </Form.Item>
@@ -180,7 +175,7 @@ const Booking = () => {
           >
             <Select
               placeholder="Chọn giờ học"
-              className={styles.Booking__teacher}
+              style={{ width: '40%' }}
               onChange={(e) => setIsSlotSelected(true)}
             >
               {slot?.map((item, index) => (
@@ -190,7 +185,7 @@ const Booking = () => {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item hidden={!isSlotSelected}>
+          <Form.Item hidden={!isSlotSelected} style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
             <Button type="primary" htmlType="submit">
               Đặt lịch
             </Button>
