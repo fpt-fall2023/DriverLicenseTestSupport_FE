@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getAllBookings } from '../../apis/BookingService';
+import { getAllBookings, getStudentBookings } from '../../apis/BookingService';
 import { Calendar, Col, Row, Badge } from 'antd';
 import { Modal } from 'antd';
 
@@ -16,18 +16,30 @@ const SchedualPage = () => {
   };
 
   useEffect(() => {
-    getUserBooking();
+    getStudentBooking();
   }, []);
 
-  const getUserBooking = () => {
-    getAllBookings()
+  // const getUserBooking = () => {
+  //   getAllBookings()
+  //     .then((res) => {
+  //       console.log(res.data.data.Booking);
+  //       res.data.data.Booking.filter((item) => {
+  //         if (item.user._id == JSON.parse(localStorage.getItem('user'))._id) {
+  //           setBooking((booking) => [...booking, item]);
+  //         }
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+  const date = new Date().toISOString().slice(0, 10);
+
+  const getStudentBooking = () => {
+    getStudentBookings(date, JSON.parse(localStorage.getItem('user'))._id)
       .then((res) => {
         console.log(res.data.data.Booking);
-        res.data.data.Booking.filter((item) => {
-          if (item.user._id == JSON.parse(localStorage.getItem('user'))._id) {
-            setBooking((booking) => [...booking, item]);
-          }
-        });
+        setBooking(res.data.data.Booking);
       })
       .catch((err) => {
         console.log(err);
@@ -35,19 +47,15 @@ const SchedualPage = () => {
   };
 
   const getListData = (value) => {
-    let listData;
-    booking.map((item) => {
-      if (item.date === value.format('YYYY-MM-DD')) {
-        listData = [
-          {
-            type: 'success',
-            timeStart: item.timeStart,
-            timeEnd: item.timeEnd,
-            detail: item,
-          },
-        ];
-      }
-    });
+    const listData = booking
+      .filter((item) => item.date === value.format('YYYY-MM-DD'))
+      .map((item) => ({
+        type: 'success',
+        timeStart: item.timeStart,
+        timeEnd: item.timeEnd,
+        detail: item,
+      }));
+
     return listData || [];
   };
 
@@ -87,7 +95,7 @@ const SchedualPage = () => {
   };
 
   return (
-    <div style={{}}>
+    <div>
       <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
         <Col span={18}>
           <Calendar cellRender={cellRender} />
