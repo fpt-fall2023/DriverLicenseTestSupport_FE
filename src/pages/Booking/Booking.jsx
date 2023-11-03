@@ -163,7 +163,7 @@ const Booking = () => {
               disabledDate={disabledDate}
               onChange={(e) => {
                 setIsDateSelected(true);
-                getAvailableSlot(form.getFieldValue('teacher'), e);
+                getAvailableSlot(form.getFieldValue('teacher'), (moment(e)._i).format('YYYY-MM-DD'));
               }}
             />
           </Form.Item>
@@ -175,7 +175,7 @@ const Booking = () => {
           >
             <Select
               placeholder="Chọn giờ học"
-              className={styles.Booking__teacher}
+              style={{ width: '40%' }}
               onChange={(e) => setIsSlotSelected(true)}
             >
               {slot?.map((item, index) => (
@@ -185,7 +185,7 @@ const Booking = () => {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item hidden={!isSlotSelected}>
+          <Form.Item hidden={!isSlotSelected} style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
             <Button type="primary" htmlType="submit">
               Đặt lịch
             </Button>
