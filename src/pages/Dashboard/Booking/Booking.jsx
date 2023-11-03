@@ -314,6 +314,7 @@ const ManageBooking = () => {
               Mentor:
               <ul className={BookingCss.itemList}>
                 <li>{record?.details.teacher?.name}</li>
+                <li>{record?.details.teacher?.phone || 'none'}</li>
                 <li>{record?.details.teacher?.email}</li>
               </ul>
             </div>
