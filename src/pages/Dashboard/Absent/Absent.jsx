@@ -7,11 +7,8 @@ import { getAllAbsent, approveAbsent,rejectAbsent } from "../../../apis/AbsentSe
 
 const Absent = () => {
         const [absent, setAbsent] = useState([])
-       const [loading, setLoading] = useState(false)
-    //    const [isEditing, setIsEditing] = useState(false)
-    //    const [isAdding, setIsAdding] = useState(false)
-    //    const [courseData, setCourseData] = useState()
-
+       const [loading, setLoading] = useState(true)
+       const [turnon, setTurnon] = useState(true)
     const columns = [
         {
             title: "Avatar",
@@ -66,14 +63,15 @@ const Absent = () => {
             align: 'center',
             render: (record) => (
                 <Space size="middle">
+
                     <Button  onClick={() => {
                         Approve(record);
                     }}
-                        style={{ color: "green" }}>Approve</Button>
+                        style={{ color: "green", display: turnon? "inline-block":"none"}} >Approve</Button>
                     <Button onClick={() => {
                          Reject(record);
                     }}
-                        style={{ color: "red"}}>Reject</Button>
+                        style={{ color: "red"}}  >Reject</Button>
                 </Space>
             ),
         },
@@ -82,32 +80,78 @@ const Absent = () => {
        const getAllAbsents = () => {
            setLoading(true)
            getAllAbsent().then((res) => {
-               setAbsent(res.data.data.Absent)
-               setLoading(false)
-               console.log(res.data.data.Absent)
+            console.log(res.data.data.Absent)
+            const pendingAbsent = res.data.data.Absent.filter(pendingAbsent => {
+                return pendingAbsent.status === "pending"
+            })
+            setAbsent(pendingAbsent)
+            setLoading(false)
            }).catch((err) => {
                console.log(err)
                setLoading(false)
            })
        }
+
+
        const Approve = (record) => {
-        approveAbsent(record._id).then(res => {
-            console.log(res);
-            setLoading(false);
-            getAllAbsents();
-        })
-       }
-       const Reject = (record) => {
-        rejectAbsent(record._id).then(res => {
-            console.log(res);
-            setLoading(false);
-            getAllAbsents();
-        })
-       }
+        Modal.confirm({
+      title: 'bạn có chắc chắn approve ?',
+      okText: 'Thay đổi',
+      okType: 'danger',
+            onOk: () => {
+                setLoading(true);
+                approveAbsent(record._id)
+          .then((res) => {
+                    console.log(res);
+                    setLoading(false);
+                    getAllAbsents();
+                    notification.success({
+              message: 'thay đổi thành công',
+            });
+                    })
+          .catch((err) => {
+            console.log(err);
+                });
+      },
+        });
+    };
+
+    const Reject = (record) => {
+        Modal.confirm({
+      title: 'bạn có chắc chắn reject ?',
+      okText: 'Thay đổi',
+      okType: 'danger',
+            onOk: () => {
+                setLoading(true);
+                rejectAbsent(record._id)
+          .then((res) => {
+                    console.log(res);
+                    setLoading(false);
+                    getAllAbsents();
+                    notification.success({
+              message: 'thay đổi thành công',
+            });
+                    })
+          .catch((err) => {
+            console.log(err);
+                });
+      },
+        });
+    };
+        const DisplayNone = () => {
+            if(absent.status === "approved" || absent.status === "rejected" ){
+                setTurnon(false)
+            }
+        }
     
        useEffect(() => {
         getAllAbsents()
+        DisplayNone()
        }, []);
+
+       useEffect(() => {
+        DisplayNone()
+       });
 
        return (
            <div>

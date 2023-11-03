@@ -29,10 +29,10 @@ const UserPage = () => {
             title: 'Avatar',
             dataIndex: 'avatar',
             render: (avatar) => {
-                if(avatar == "" ||avatar == null ){
+                if (avatar == "" || avatar == null) {
                     avatar = pic;
                 }
-                return(
+                return (
                     <img src={avatar} alt="avatar" style={{ width: '70px', height: '70px' }} />
                 )
             }
@@ -146,6 +146,17 @@ const UserPage = () => {
         getUser();
     }, []);
 
+    const validatePhoneNumber = (_, value) => {
+        // Regular expression to match a valid phone number (10 digits)
+        const phoneRegex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+    
+        if (!phoneRegex.test(value)) {
+          return Promise.reject('Vui lòng nhập SĐT hợp lệ (10 chữ số)');
+        }
+    
+        return Promise.resolve();
+      };
+
     const getUser = () => {
         setLoading(true);
         getAllUsers().then((res) => {
@@ -192,7 +203,15 @@ const UserPage = () => {
                                 initialValues={form.setFieldsValue(editUser)}
                             >
                                 <Form.Item name="_id" hidden={true} />
-                                {/* <div className={styles.editBoxTitle}>Đáp Án</div> */}
+                                <Form.Item name="name" label="Tên" rules={[{ required: true, message: 'Chưa có tên người dùng' }]}>
+                                    <Input label="Nhập tên" />
+                                </Form.Item>
+                                <Form.Item name="phone" label="SĐT" rules={[
+                                    {
+                                        validator: validatePhoneNumber,
+                                    }]}>
+                                    <Input label="Nhập email" />
+                                </Form.Item>
                                 <Form.Item name={"role"} label="vai trò"
                                     rules={[
                                         {
