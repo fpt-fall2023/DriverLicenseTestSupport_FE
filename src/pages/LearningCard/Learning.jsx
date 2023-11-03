@@ -82,6 +82,10 @@ const Learning = () => {
   };
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
     const fetchData = async () => {
       try {
         const result = await getQuestions();
