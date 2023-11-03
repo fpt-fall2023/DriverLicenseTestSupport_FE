@@ -5,6 +5,7 @@ import { Modal } from 'antd';
 
 const SchedualPage = () => {
   const [booking, setBooking] = useState([]);
+  const user = JSON.parse(localStorage.getItem('user'));
   const [modalVisible, setModalVisible] = useState(false);
   const [detail, setDetail] = useState({});
 
@@ -36,14 +37,26 @@ const SchedualPage = () => {
   const date = new Date().toISOString().slice(0, 10);
 
   const getStudentBooking = () => {
-    getStudentBookings(date, JSON.parse(localStorage.getItem('user'))._id)
-      .then((res) => {
-        console.log(res.data.data.Booking);
-        setBooking(res.data.data.Booking);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const role = JSON.parse(localStorage.getItem('user')).role
+    if (role === "teacher") {
+      getStudentBookings(date, JSON.parse(localStorage.getItem('user'))._id, "teacher")
+        .then((res) => {
+          console.log(res.data.data.Booking);
+          setBooking(res.data.data.Booking);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      getStudentBookings(date, JSON.parse(localStorage.getItem('user'))._id, "user")
+        .then((res) => {
+          console.log(res.data.data.Booking);
+          setBooking(res.data.data.Booking);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const getListData = (value) => {
@@ -69,16 +82,31 @@ const SchedualPage = () => {
               onClick={() => {
                 handleTimeClick(item.timeStart, item.timeEnd);
                 const info = item.detail;
-                const details = {
-                  teacher: info.teacher.name,
-                  avatar: info.teacher.avatar,
-                  course: info.course.courseName,
-                  car: info.car.name,
-                  carPlate: info.car.licensePlate,
-                  timeStart: item.timeStart,
-                  timeEnd: item.timeEnd,
-                };
-                setDetail(details);
+                if (user.role === "teacher") {
+                  const details = {
+                    teacher: info.user.name,
+                    avatar: null,
+                    course: info.course.courseName,
+                    car: info.car.name,
+                    carPlate: info.car.licensePlate,
+                    timeStart: item.timeStart,
+                    timeEnd: item.timeEnd,
+                  };
+                  setDetail(details);
+                } else {
+                  if (user.role === "user") {
+                    const details = {
+                      teacher: info.teacher.name,
+                      avatar: info.teacher.avatar ? info.teacher.avatar : null,
+                      course: info.course.courseName,
+                      car: info.car.name,
+                      carPlate: info.car.licensePlate,
+                      timeStart: item.timeStart,
+                      timeEnd: item.timeEnd,
+                    };
+                    setDetail(details);
+                  }
+                }
               }}
             >
               <Badge status="success" style={{ marginRight: '10px' }} />
@@ -110,7 +138,7 @@ const SchedualPage = () => {
             style={{ fontSize: '17px', display: 'flex', alignItems: 'center' }}
           >
             <div style={{ flex: 1 }}>
-              <p>Giáo viên: {detail.teacher}</p>
+              <p>{user.role === "teacher" ? "Người học:" : "Giáo viên:"} {detail.teacher}</p>
               <p>Khóa học: {detail.course}</p>
               <p>
                 Xe: {detail.car} ({detail.carPlate})
@@ -120,7 +148,7 @@ const SchedualPage = () => {
               </p>
             </div>
             <div>
-              <img
+              {user.role === "teacher" ? null : <img
                 src={detail.avatar}
                 alt="avatar"
                 style={{
@@ -129,7 +157,7 @@ const SchedualPage = () => {
                   objectFit: 'cover',
                   borderRadius: '10%',
                 }}
-              />
+              />}
             </div>
           </div>
         </Modal>

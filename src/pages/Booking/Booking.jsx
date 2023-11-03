@@ -99,6 +99,7 @@ const Booking = () => {
             message: 'Đặt lịch thành công',
             placement: 'topRight',
           });
+          form.resetFields();
         }
       })
       .catch((err) => {
