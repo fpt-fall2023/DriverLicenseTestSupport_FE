@@ -115,7 +115,7 @@ const Booking = () => {
     <div className={styles.Booking}>
       <img
         style={{ width: '100%', height: '350px', objectFit: 'cover' }}
-        src="https://vidamco.com.vn/wp-content/uploads/2022/12/bang-lai-xe-viet-nam-dung-duoc-o-nuoc-nao-3.jpg"
+        src="https://scr.vn/wp-content/uploads/2020/07/%E1%BA%A2nh-si%C3%AAu-xe-Lamborghini-c%E1%BB%B1c-ng%E1%BA%A7u.jpg"
       />
       <Card
         title="Đặt lịch học"
