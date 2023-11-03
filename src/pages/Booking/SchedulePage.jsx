@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { getAllBookings } from '../../apis/BookingService';
+import { getAllBookings, getStudentBookings } from '../../apis/BookingService';
 import { Calendar, Col, Row, Badge } from 'antd';
 import { Modal } from 'antd';
 
 const SchedualPage = () => {
   const [booking, setBooking] = useState([]);
+  const user = JSON.parse(localStorage.getItem('user'));
   const [modalVisible, setModalVisible] = useState(false);
   const [detail, setDetail] = useState({});
 
@@ -16,38 +17,58 @@ const SchedualPage = () => {
   };
 
   useEffect(() => {
-    getUserBooking();
+    getStudentBooking();
   }, []);
 
-  const getUserBooking = () => {
-    getAllBookings()
-      .then((res) => {
-        console.log(res.data.data.Booking);
-        res.data.data.Booking.filter((item) => {
-          if (item.user._id == JSON.parse(localStorage.getItem('user'))._id) {
-            setBooking((booking) => [...booking, item]);
-          }
+  // const getUserBooking = () => {
+  //   getAllBookings()
+  //     .then((res) => {
+  //       console.log(res.data.data.Booking);
+  //       res.data.data.Booking.filter((item) => {
+  //         if (item.user._id == JSON.parse(localStorage.getItem('user'))._id) {
+  //           setBooking((booking) => [...booking, item]);
+  //         }
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+  const date = new Date().toISOString().slice(0, 10);
+
+  const getStudentBooking = () => {
+    const role = JSON.parse(localStorage.getItem('user')).role
+    if (role === "teacher") {
+      getStudentBookings(date, JSON.parse(localStorage.getItem('user'))._id, "teacher")
+        .then((res) => {
+          console.log(res.data.data.Booking);
+          setBooking(res.data.data.Booking);
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    } else {
+      getStudentBookings(date, JSON.parse(localStorage.getItem('user'))._id, "user")
+        .then((res) => {
+          console.log(res.data.data.Booking);
+          setBooking(res.data.data.Booking);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const getListData = (value) => {
-    let listData;
-    booking.map((item) => {
-      if (item.date === value.format('YYYY-MM-DD')) {
-        listData = [
-          {
-            type: 'success',
-            timeStart: item.timeStart,
-            timeEnd: item.timeEnd,
-            detail: item,
-          },
-        ];
-      }
-    });
+    const listData = booking
+      .filter((item) => item.date === value.format('YYYY-MM-DD'))
+      .map((item) => ({
+        type: 'success',
+        timeStart: item.timeStart,
+        timeEnd: item.timeEnd,
+        detail: item,
+      }));
+
     return listData || [];
   };
 
@@ -61,16 +82,31 @@ const SchedualPage = () => {
               onClick={() => {
                 handleTimeClick(item.timeStart, item.timeEnd);
                 const info = item.detail;
-                const details = {
-                  teacher: info.teacher.name,
-                  avatar: info.teacher.avatar,
-                  course: info.course.courseName,
-                  car: info.car.name,
-                  carPlate: info.car.licensePlate,
-                  timeStart: item.timeStart,
-                  timeEnd: item.timeEnd,
-                };
-                setDetail(details);
+                if (user.role === "teacher") {
+                  const details = {
+                    teacher: info.user.name,
+                    avatar: null,
+                    course: info.course.courseName,
+                    car: info.car.name,
+                    carPlate: info.car.licensePlate,
+                    timeStart: item.timeStart,
+                    timeEnd: item.timeEnd,
+                  };
+                  setDetail(details);
+                } else {
+                  if (user.role === "user") {
+                    const details = {
+                      teacher: info.teacher.name,
+                      avatar: info.teacher.avatar ? info.teacher.avatar : null,
+                      course: info.course.courseName,
+                      car: info.car.name,
+                      carPlate: info.car.licensePlate,
+                      timeStart: item.timeStart,
+                      timeEnd: item.timeEnd,
+                    };
+                    setDetail(details);
+                  }
+                }
               }}
             >
               <Badge status="success" style={{ marginRight: '10px' }} />
@@ -87,7 +123,7 @@ const SchedualPage = () => {
   };
 
   return (
-    <div style={{}}>
+    <div>
       <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
         <Col span={18}>
           <Calendar cellRender={cellRender} />
@@ -102,7 +138,7 @@ const SchedualPage = () => {
             style={{ fontSize: '17px', display: 'flex', alignItems: 'center' }}
           >
             <div style={{ flex: 1 }}>
-              <p>Giáo viên: {detail.teacher}</p>
+              <p>{user.role === "teacher" ? "Người học:" : "Giáo viên:"} {detail.teacher}</p>
               <p>Khóa học: {detail.course}</p>
               <p>
                 Xe: {detail.car} ({detail.carPlate})
@@ -112,7 +148,7 @@ const SchedualPage = () => {
               </p>
             </div>
             <div>
-              <img
+              {user.role === "teacher" ? null : <img
                 src={detail.avatar}
                 alt="avatar"
                 style={{
@@ -121,7 +157,7 @@ const SchedualPage = () => {
                   objectFit: 'cover',
                   borderRadius: '10%',
                 }}
-              />
+              />}
             </div>
           </div>
         </Modal>

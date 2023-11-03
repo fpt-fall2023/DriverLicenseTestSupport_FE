@@ -9,6 +9,25 @@ const getAllBookings = () => {
   });
 };
 
+
+const getStudentBookings = (date, userId, role) => {
+  if (role === "user") {
+    return axios.get(`${BOOKING_API_URL}?date=${date}&user=${userId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+  } else {
+    if (role === "teacher") {
+      return axios.get(`${BOOKING_API_URL}?date=${date}&teacher=${userId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+    }
+  }
+}
+
 const updateDateBooking = (_id, date) => {
   return axios.patch(
     BOOKING_API_URL + `/${_id}`,
@@ -70,7 +89,9 @@ export {
   getAllBookings,
   getAvailableTeacher,
   getAvailableTime,
+  getStudentBookings,
   createBooking,
   updateDateBooking,
   deleteBooking,
 };
+

@@ -119,7 +119,7 @@ const AddModal = ({ isAdding, setIsAdding, getQuestion }) => {
                             autoSize={{ minRows: 3, maxRows: 5 }}
                         />
                     </Form.Item>
-                    <Form.Item name={"questionImage"} rules={[{ required: true, message: 'Chưa có hình' }]}>
+                    <Form.Item name={"questionImage"}>
                         <Space size={'large'}>
                             <Input type="file" style={{width :'360'}} onChange={(e) => setImageHere(e.target.files[0])} />
                             <Button onClick={uploadImage} disabled={uploading}> {uploading ? "Uploading..." : "Upload Image"}</Button>
