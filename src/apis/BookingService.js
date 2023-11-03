@@ -2,20 +2,30 @@ import axios from 'axios';
 import { BOOKING_API_URL } from './APIConfig';
 
 const getAllBookings = () => {
-    return axios.get(BOOKING_API_URL, {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-    });
+  return axios.get(BOOKING_API_URL, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
 };
 
 
-const getStudentBookings = (date, userId) => {
+const getStudentBookings = (date, userId, role) => {
+  if (role === "user") {
     return axios.get(`${BOOKING_API_URL}?date=${date}&user=${userId}`, {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
     });
+  } else {
+    if (role === "teacher") {
+      return axios.get(`${BOOKING_API_URL}?date=${date}&teacher=${userId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+    }
+  }
 }
 
 const updateDateBooking = (_id, date) => {
