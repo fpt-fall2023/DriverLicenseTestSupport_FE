@@ -122,7 +122,12 @@ const Examination = () => {
       });
     }
   };
-
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
   useEffect(() => {
     if (time <= 0) {
       // Timer is up, you can add your logic here

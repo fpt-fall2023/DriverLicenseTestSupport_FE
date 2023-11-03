@@ -1,13 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './Booking.module.css';
-import {
-  Button,
-  Card,
-  DatePicker,
-  Form,
-  Select,
-  notification,
-} from 'antd';
+import { Button, Card, DatePicker, Form, Select, notification } from 'antd';
 import {
   createBooking,
   getAvailableTeacher,
@@ -80,12 +73,12 @@ const Booking = () => {
     const today = new Date();
     return (
       current &&
-      current < moment(today.setDate(today.getDate() -1)).endOf('day')
+      current < moment(today.setDate(today.getDate() - 1)).endOf('day')
     );
   };
 
   const onFinish = (values) => {
-    values.date = (moment(values.date)._i).format('YYYY-MM-DD');
+    values.date = moment(values.date)._i.format('YYYY-MM-DD');
     createBooking(
       JSON.parse(localStorage.getItem('user'))._id,
       values.teacher,
@@ -130,7 +123,7 @@ const Booking = () => {
           >
             <Select
               placeholder="Chọn khóa học"
-              style={{ width: '40%' }}
+              style={{ width: '70%' }}
               onChange={(e) => setIsCourseSelected(true)}
             >
               <Select.Option value="6532293c25b0279a5ab1d444">
@@ -149,7 +142,7 @@ const Booking = () => {
           >
             <Select
               placeholder="Chọn giáo viên"
-              style={{ width: '40%' }}
+              style={{ width: '70%' }}
               onChange={(e) => setIsTeacherSelected(true)}
             >
               {teacher?.map((item, index) => (
@@ -164,7 +157,10 @@ const Booking = () => {
               disabledDate={disabledDate}
               onChange={(e) => {
                 setIsDateSelected(true);
-                getAvailableSlot(form.getFieldValue('teacher'), (moment(e)._i).format('YYYY-MM-DD'));
+                getAvailableSlot(
+                  form.getFieldValue('teacher'),
+                  moment(e)._i.format('YYYY-MM-DD'),
+                );
               }}
             />
           </Form.Item>
@@ -186,7 +182,14 @@ const Booking = () => {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item hidden={!isSlotSelected} style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+          <Form.Item
+            hidden={!isSlotSelected}
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
             <Button type="primary" htmlType="submit">
               Đặt lịch
             </Button>
