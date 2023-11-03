@@ -11,6 +11,7 @@ import {
   notification,
   Spin,
   Divider,
+  Layout,
   Modal,
   DatePicker,
   Popconfirm,
@@ -352,24 +353,34 @@ const ManageBooking = () => {
           <Sidebar />
         </Col>
         <Col flex="auto">
-          <Spin spinning={loading} delay={300}>
-            <Table
-              columns={columns}
-              expandable={{
-                expandedRowRender: (bookingData) => (
-                  <div
-                    style={{
-                      margin: 0,
-                    }}
-                  >
-                    {description(bookingData)}
-                  </div>
-                ),
-                // rowExpandable: (record) => record.name !== 'Not Expandable',
-              }}
-              dataSource={bookingData}
-            />
-          </Spin>
+          <Layout
+            style={{
+              padding: 24,
+              margin: 0,
+              minHeight: '100%',
+            }}
+          >
+            <div>
+              <Spin spinning={loading} delay={300}>
+                <Table
+                  columns={columns}
+                  expandable={{
+                    expandedRowRender: (bookingData) => (
+                      <div
+                        style={{
+                          margin: 0,
+                        }}
+                      >
+                        {description(bookingData)}
+                      </div>
+                    ),
+                    // rowExpandable: (record) => record.name !== 'Not Expandable',
+                  }}
+                  dataSource={bookingData}
+                />
+              </Spin>
+            </div>
+          </Layout>
         </Col>
       </Row>
       <Modal

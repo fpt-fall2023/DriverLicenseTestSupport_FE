@@ -57,13 +57,6 @@ const Header = () => {
       },
     },
     {
-      label: 'Lịch Học',
-      key: 'schedule',
-      onClick: () => {
-        navigate('/schedule');
-      },
-    },
-    {
       label: 'Đăng Xuất',
       key: 'logout',
       onClick: () => {
@@ -120,6 +113,13 @@ const Header = () => {
         setModalVisible(true);
       }, // Open the modal when button is clicked
     });
+    items.splice(1, 0, {
+      label: 'Lịch dạy',
+      key: 'schedule',
+      onClick: () => {
+        navigate('/schedule');
+      },
+    });
   }
 
   if (user && user?.role == 'user') {
@@ -128,6 +128,13 @@ const Header = () => {
       key: 'testHistory',
       onClick: () => {
         navigate('/test-history');
+      },
+    });
+    items.splice(1, 0, {
+      label: 'Lịch học',
+      key: 'schedule',
+      onClick: () => {
+        navigate('/schedule');
       },
     });
   }

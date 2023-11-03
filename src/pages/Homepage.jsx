@@ -11,7 +11,7 @@ const Homepage = () => {
         <Row className={styles.main_container} id="#">
           <Col span={18} className="homepagebody1__right-site">
             <Title level={1} style={{ fontWeight: 'bolder', color: 'white' }}>
-              Ôn thi lý thuyết bằng lái ôtô B2, B1 mới nhất 2022
+              Ôn thi lý thuyết bằng lái ôtô B2, B1 mới nhất 2023
             </Title>
             <Typography.Paragraph style={{ fontSize: 18, color: 'white' }}>
               Hãy để chúng tôi giúp bạn củng cố kiến thức trong thời gian ngắn

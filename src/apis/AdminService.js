@@ -9,11 +9,21 @@ const getAllUsers = () => {
     })
 }
 
-const addUser = (name , role) => {
+const addUser = (email, password, passwordConfirm, avatar, name, role , phone) => {
     return axios.post(`${USER_API_URL}`, {
+        email,
+        password,
+        passwordConfirm,
+        avatar,
         name,
         role,
-    })
+        phone
+
+    }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+        })
 }
 
 const deleteUser = (userId) => {
@@ -24,17 +34,15 @@ const deleteUser = (userId) => {
     })
 }
 
-const updateUser = (userId, name, role) => {
+const updateUser = (userId, role) => {
     return axios.patch(`${USER_API_URL}/${userId}`, {
-        name,
         role,
-        // birthdate,
-        // avatar
     }, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`
         }
-    })
+    }
+    )
 }
 
-export {getAllUsers, addUser, deleteUser, updateUser}
+export { getAllUsers, addUser, deleteUser, updateUser }

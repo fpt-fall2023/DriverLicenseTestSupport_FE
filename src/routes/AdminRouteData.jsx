@@ -11,7 +11,9 @@ import ManageBooking from '../pages/Dashboard/Booking/Booking';
 import Slot from '../pages/Dashboard/Slot/Slot';
 import Course from '../pages/Dashboard/Course/Course';
 import Car from '../pages/Dashboard/Car/Car';
+import Absent from '../pages/Dashboard/Absent/Absent';
 const AdminRouteData = [
+
   {
     title: 'QuestionPage',
     path: '/dashboard/QuestionPage',
@@ -77,6 +79,11 @@ const AdminRouteData = [
     path: 'dashboard/ManageBooking',
     element: <ManageBooking />,
   },
+        {
+        title: 'AbsentPage',
+        path: 'dashboard/Absent',
+        element: <Absent />,
+      },
 ];
 
 export default AdminRouteData;

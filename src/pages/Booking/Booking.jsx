@@ -5,7 +5,6 @@ import {
   Card,
   DatePicker,
   Form,
-  Input,
   Select,
   notification,
 } from 'antd';
@@ -14,7 +13,6 @@ import {
   getAvailableTeacher,
   getAvailableTime,
 } from '../../apis/BookingService';
-import locale from 'antd/es/date-picker/locale/vi_VN';
 import moment from 'moment';
 
 const Booking = () => {
@@ -78,16 +76,16 @@ const Booking = () => {
     setNext7days(next7days);
   };
 
-  const validateDate = (_, value) => {
-    if (value && value.isBefore(moment().add(1, 'days'))) {
-      return Promise.reject(
-        'Ngày nghỉ phải là ít nhất 1 ngày sau ngày hiện tại',
-      );
-    }
-    return Promise.resolve();
+  const disabledDate = (current) => {
+    const today = new Date();
+    return (
+      current &&
+      current < moment(today.setDate(today.getDate() -1)).endOf('day')
+    );
   };
 
   const onFinish = (values) => {
+    values.date = (moment(values.date)._i).format('YYYY-MM-DD');
     createBooking(
       JSON.parse(localStorage.getItem('user'))._id,
       values.teacher,
@@ -115,8 +113,8 @@ const Booking = () => {
   return (
     <div className={styles.Booking}>
       <img
-        style={{ width: '100%', height: '269px' }}
-        src="https://hoclaixenamtien.com/wp-content/uploads/2021/08/slide-laixe2.jpg"
+        style={{ width: '100%', height: '350px', objectFit: 'cover' }}
+        src="https://vidamco.com.vn/wp-content/uploads/2022/12/bang-lai-xe-viet-nam-dung-duoc-o-nuoc-nao-3.jpg"
       />
       <Card
         title="Đặt lịch học"
@@ -161,18 +159,11 @@ const Booking = () => {
             </Select>
           </Form.Item>
           <Form.Item label="Ngày học" name="date" hidden={!isTeacherSelected}>
-            {/* {
-                            next7days?.map((item, index) => (
-                                <Button key={index} style={{ width: "7rem", height: "3rem", marginRight: "1rem", marginTop: "0.5rem" }} value={item.toLocaleDateString()} onClick={() => { setIsDateSelected(true); getAvailableSlot(form.getFieldValue('teacher'), item) }}>
-                                    {item.toLocaleDateString()}
-                                </Button>
-                            ))
-                        } */}
-            <Input
-              type="date"
+            <DatePicker
+              disabledDate={disabledDate}
               onChange={(e) => {
                 setIsDateSelected(true);
-                getAvailableSlot(form.getFieldValue('teacher'), e.target.value);
+                getAvailableSlot(form.getFieldValue('teacher'), (moment(e)._i).format('YYYY-MM-DD'));
               }}
             />
           </Form.Item>
@@ -184,7 +175,7 @@ const Booking = () => {
           >
             <Select
               placeholder="Chọn giờ học"
-              className={styles.Booking__teacher}
+              style={{ width: '40%' }}
               onChange={(e) => setIsSlotSelected(true)}
             >
               {slot?.map((item, index) => (
@@ -194,7 +185,7 @@ const Booking = () => {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item hidden={!isSlotSelected}>
+          <Form.Item hidden={!isSlotSelected} style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
             <Button type="primary" htmlType="submit">
               Đặt lịch
             </Button>

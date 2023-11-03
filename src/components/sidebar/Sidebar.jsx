@@ -6,6 +6,9 @@ import {
   BookOutlined,
   CalendarOutlined,
   CarOutlined,
+
+  InsertRowAboveOutlined
+
 } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { useEffect, useState } from 'react';
@@ -82,6 +85,11 @@ function Sidebar() {
             label: 'QUẢN LÝ XE',
             key: '/dashboard/Car',
             icon: <CarOutlined />,
+          },
+          {
+            label: "QUẢN LÝ LỊCH NGHỈ",
+            key: "/dashboard/Absent",
+            icon: <InsertRowAboveOutlined />,
           },
         ]}
       ></Menu>
