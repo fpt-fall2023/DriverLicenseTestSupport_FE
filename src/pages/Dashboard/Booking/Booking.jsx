@@ -248,7 +248,6 @@ const ManageBooking = () => {
     getAllBookings()
       .then((rs) => {
         const data = rs.data.data.Booking;
-
         const result = [];
         for (let i = 0; i < data.length; i++) {
           if (data[i]) {
@@ -307,6 +306,7 @@ const ManageBooking = () => {
               Students:
               <ul className={BookingCss.itemList}>
                 <li>{record?.details.user?.name}</li>
+                <li>{record?.details.user?.phone || 'none'}</li>
                 <li>{record?.details.user?.email}</li>
               </ul>
             </div>
@@ -314,6 +314,7 @@ const ManageBooking = () => {
               Mentor:
               <ul className={BookingCss.itemList}>
                 <li>{record?.details.teacher?.name}</li>
+                <li>{record?.details.teacher?.phone || 'none'}</li>
                 <li>{record?.details.teacher?.email}</li>
               </ul>
             </div>
