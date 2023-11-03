@@ -7,12 +7,16 @@ const getTrafficSigns = () => {
 
 //Category API
 const getTrafficCategory = () => {
-    return axios.get(`${TRAFFIC_API_URL}-category`)
+    return axios.get(`${TRAFFIC_API_URL}-category`, {headers: {Authorization: `Bearer ${localStorage.getItem('token')}`,}})
 }
 
 const addTrafficCategory = (trafficType) => {
     return axios.post(`${TRAFFIC_API_URL}-category`, {
         trafficType
+    },{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
     })
 }
 

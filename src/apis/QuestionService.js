@@ -13,6 +13,10 @@ const addQuestion = (questionName, answers, category, questionImage) => {
         answers,
         category,
         questionImage,
+    },{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
     })
 }
 
@@ -21,11 +25,19 @@ const updateQuestion = (questionId, questionName, answers) => {
         questionName,
         answers,
         isDanger: false
+    },{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
     })
 }
 
 const deleteQuestion = (questionId) => {
-    return axios.delete(`${QUESTION_API_URL}/${questionId}`)
+    return axios.delete(`${QUESTION_API_URL}/${questionId}`,{},{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+    })
 }
 
 //Category API
