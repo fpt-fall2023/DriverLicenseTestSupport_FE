@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useReducer, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
 
 import {
@@ -11,55 +11,84 @@ import {
   notification,
   Spin,
   Divider,
+  Modal,
+  DatePicker,
+  Popconfirm,
 } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 import Sidebar from '../../../components/sidebar/Sidebar';
-import { getAllBookings } from '../../../apis/BookingService';
+import {
+  deleteBooking,
+  getAllBookings,
+  updateDateBooking,
+} from '../../../apis/BookingService';
 
 import BookingCss from './Booking.module.css';
 
-const slot = [
-  {
-    slotInfo: 'slot 1',
-    time: '07:00',
-  },
-  {
-    slotInfo: 'slot 2',
-    time: '09:15',
-  },
-  {
-    slotInfo: 'slot 3',
-    time: '13:00',
-  },
-  {
-    slotInfo: 'slot 4',
-    time: '15:15',
-  },
-  {
-    slotInfo: 'slot 5',
-    time: '17:30',
-  },
-  {
-    slotInfo: 'slot 6',
-    time: '06:30',
-  },
-];
-
 const ManageBooking = () => {
+  const dateFormat = 'YYYY-MM-DD';
+  //Table booking
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const [bookingData, setBookingData] = useState([]);
   const [loading, setLoading] = useState(true);
+  //Update Booking
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [dataUpdate, setDataUpdate] = useState(false);
+  const [dateUpdate, setDateUpdate] = useState('');
+  const [forceUpdate, setForceUpdate] = useReducer((x) => x + 1, 0);
 
+  const showModal = (data) => {
+    setDataUpdate(data);
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    const id = dataUpdate?.details?._id;
+    if (dataUpdate && dateUpdate && id) {
+      updateDateBooking(id, dateUpdate)
+        .then(() => notification.success({ message: 'Update thành công' }))
+        .catch(() =>
+          notification.error({
+            message: 'Update lỗi, xin lỗi vì sự bất tiện này',
+          }),
+        );
+    } else {
+      notification.warning({ message: 'Ngày nhập vào trống!!!' });
+    }
+    setIsModalOpen(false);
+    setForceUpdate();
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const formatDate = (date, dateString) => {
+    setDateUpdate(dateString);
+  };
+
+  const popConfirm = () => {
+    const bookingId = dataUpdate?.details?._id;
+    if (bookingId) {
+      deleteBooking(bookingId)
+        .then(() => notification.success({ message: 'Xóa thành công!' }))
+        .catch(() => {
+          notification.error({ message: 'Xóa không thành công' });
+        });
+    } else {
+      notification.warning({ message: 'ID không tồn tại!!!' });
+    }
+    setForceUpdate();
+  };
+  const popCancel = () => {};
+
+  //Table settings
   const searchInput = useRef(null);
-
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
   };
-
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText('');
@@ -214,6 +243,7 @@ const ManageBooking = () => {
   ];
 
   useEffect(() => {
+    setLoading(true);
     getAllBookings()
       .then((rs) => {
         const data = rs.data.data.Booking;
@@ -236,13 +266,13 @@ const ManageBooking = () => {
         setBookingData(result);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(() => {
         notification.error({
           message: 'Error when getting the booking data',
         });
         setLoading(false);
       });
-  }, []);
+  }, [forceUpdate]);
 
   // const sortTime = (a, b) => {
   //   const varA = Number(a.toString().split(':').join(''));
@@ -288,6 +318,29 @@ const ManageBooking = () => {
             </div>
           </div>
         </div>
+        <Divider type="vertical" className={BookingCss.dividerVertical} />
+        <div className={BookingCss.actionContainer}>
+          <Button
+            onClick={() => showModal(record)}
+            style={{ marginBottom: '10px' }}
+            type="primary"
+            size={'middle'}
+          >
+            Update
+          </Button>
+          <Popconfirm
+            title="Xóa lịch"
+            description="Bạn có muốn xóa ngày booking này không?"
+            onConfirm={popConfirm}
+            onCancel={popCancel}
+            okText="Có"
+            cancelText="Không"
+          >
+            <Button onClick={() => setDataUpdate(record)} danger>
+              Delete
+            </Button>
+          </Popconfirm>
+        </div>
       </div>
     );
   };
@@ -299,28 +352,37 @@ const ManageBooking = () => {
           <Sidebar />
         </Col>
         <Col flex="auto">
-          <div>
-            <Spin spinning={loading} delay={300}>
-              <Table
-                columns={columns}
-                expandable={{
-                  expandedRowRender: (bookingData) => (
-                    <div
-                      style={{
-                        margin: 0,
-                      }}
-                    >
-                      {description(bookingData)}
-                    </div>
-                  ),
-                  // rowExpandable: (record) => record.name !== 'Not Expandable',
-                }}
-                dataSource={bookingData}
-              />
-            </Spin>
-          </div>
+          <Spin spinning={loading} delay={300}>
+            <Table
+              columns={columns}
+              expandable={{
+                expandedRowRender: (bookingData) => (
+                  <div
+                    style={{
+                      margin: 0,
+                    }}
+                  >
+                    {description(bookingData)}
+                  </div>
+                ),
+                // rowExpandable: (record) => record.name !== 'Not Expandable',
+              }}
+              dataSource={bookingData}
+            />
+          </Spin>
         </Col>
       </Row>
+      <Modal
+        title="Update Booking"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <p>Current day: {dataUpdate?.date}</p>
+
+        <p>Update to:</p>
+        <DatePicker format={dateFormat} onChange={formatDate} />
+      </Modal>
     </div>
   );
 };
