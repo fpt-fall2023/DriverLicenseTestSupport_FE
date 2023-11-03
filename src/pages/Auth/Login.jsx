@@ -29,7 +29,7 @@ const Login = () => {
                 console.log(res.data.data)
                 localStorage.setItem('token', res.data.data.accessToken)
                 localStorage.setItem('user', JSON.stringify(res.data.data.user))
-                if(res.data.data.user.role === 'admin') {
+                if(res.data.data.user.role === 'admin' || res.data.data.user.role === 'staff') {
                     localStorage.setItem('isAdmin', 'true')
                 }else {
                     localStorage.setItem('isAdmin', 'false')
