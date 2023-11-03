@@ -2,12 +2,21 @@ import axios from 'axios';
 import { BOOKING_API_URL } from './APIConfig';
 
 const getAllBookings = () => {
-  return axios.get(BOOKING_API_URL, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
+    return axios.get(BOOKING_API_URL, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    });
 };
+
+
+const getStudentBookings = (date, userId) => {
+    return axios.get(`${BOOKING_API_URL}?date=${date}&user=${userId}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    });
+}
 
 const updateDateBooking = (_id, date) => {
   return axios.patch(
@@ -70,7 +79,9 @@ export {
   getAllBookings,
   getAvailableTeacher,
   getAvailableTime,
+  getStudentBookings,
   createBooking,
   updateDateBooking,
   deleteBooking,
 };
+
