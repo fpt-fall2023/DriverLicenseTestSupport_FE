@@ -20,26 +20,15 @@ const SchedualPage = () => {
     getStudentBooking();
   }, []);
 
-  // const getUserBooking = () => {
-  //   getAllBookings()
-  //     .then((res) => {
-  //       console.log(res.data.data.Booking);
-  //       res.data.data.Booking.filter((item) => {
-  //         if (item.user._id == JSON.parse(localStorage.getItem('user'))._id) {
-  //           setBooking((booking) => [...booking, item]);
-  //         }
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
   const date = new Date().toISOString().slice(0, 10);
 
   const getStudentBooking = () => {
-    const role = JSON.parse(localStorage.getItem('user')).role
-    if (role === "teacher") {
-      getStudentBookings(date, JSON.parse(localStorage.getItem('user'))._id, "teacher")
+    const role = JSON.parse(localStorage.getItem('user')).role;
+    if (role === 'teacher') {
+      getStudentBookings(
+        JSON.parse(localStorage.getItem('user'))._id,
+        'teacher',
+      )
         .then((res) => {
           console.log(res.data.data.Booking);
           setBooking(res.data.data.Booking);
@@ -48,7 +37,7 @@ const SchedualPage = () => {
           console.log(err);
         });
     } else {
-      getStudentBookings(date, JSON.parse(localStorage.getItem('user'))._id, "user")
+      getStudentBookings(JSON.parse(localStorage.getItem('user'))._id, 'user')
         .then((res) => {
           console.log(res.data.data.Booking);
           setBooking(res.data.data.Booking);
@@ -82,7 +71,7 @@ const SchedualPage = () => {
               onClick={() => {
                 handleTimeClick(item.timeStart, item.timeEnd);
                 const info = item.detail;
-                if (user.role === "teacher") {
+                if (user.role === 'teacher') {
                   const details = {
                     teacher: info.user.name,
                     avatar: null,
@@ -94,7 +83,7 @@ const SchedualPage = () => {
                   };
                   setDetail(details);
                 } else {
-                  if (user.role === "user") {
+                  if (user.role === 'user') {
                     const details = {
                       teacher: info.teacher.name,
                       avatar: info.teacher.avatar ? info.teacher.avatar : null,
@@ -138,7 +127,10 @@ const SchedualPage = () => {
             style={{ fontSize: '17px', display: 'flex', alignItems: 'center' }}
           >
             <div style={{ flex: 1 }}>
-              <p>{user.role === "teacher" ? "Người học:" : "Giáo viên:"} {detail.teacher}</p>
+              <p>
+                {user.role === 'teacher' ? 'Người học:' : 'Giáo viên:'}{' '}
+                {detail.teacher}
+              </p>
               <p>Khóa học: {detail.course}</p>
               <p>
                 Xe: {detail.car} ({detail.carPlate})
@@ -148,16 +140,18 @@ const SchedualPage = () => {
               </p>
             </div>
             <div>
-              {user.role === "teacher" ? null : <img
-                src={detail.avatar}
-                alt="avatar"
-                style={{
-                  width: '180px',
-                  height: '180px',
-                  objectFit: 'cover',
-                  borderRadius: '10%',
-                }}
-              />}
+              {user.role === 'teacher' ? null : (
+                <img
+                  src={detail.avatar}
+                  alt="avatar"
+                  style={{
+                    width: '180px',
+                    height: '180px',
+                    objectFit: 'cover',
+                    borderRadius: '10%',
+                  }}
+                />
+              )}
             </div>
           </div>
         </Modal>

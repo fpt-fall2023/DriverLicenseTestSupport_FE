@@ -91,34 +91,37 @@ const Homepage = () => {
         </Row>
         <Divider />
         <Row>
-          <Col span={8} style={{ marginLeft: '20%' }}>
-            <Title
-              level={1}
-              style={{
-                fontWeight: 'bolder',
-                color: '#2E3856',
-              }}
-            >
-              Tại sao nên học B2 ?
-            </Title>
-            <Typography.Paragraph style={{ fontSize: 18, color: 'black' }}>
-              Hợp pháp lái xe: Trình độ B2 ô tô là mức độ pháp lý để lái xe ô tô
-              trong nhiều quốc gia. Nắm vững kiến thức và kỹ năng lái xe B2 sẽ
-              giúp bạn tuân thủ quy định giao thông và tránh vi phạm pháp luật.
-            </Typography.Paragraph>
-            <Typography.Paragraph style={{ fontSize: 18, color: 'black' }}>
-              An toàn giao thông: Học B2 ô tô giúp bạn hiểu rõ về các quy tắc an
-              toàn giao thông, kỹ thuật lái xe và kỹ năng phản ứng trong các
-              tình huống nguy hiểm. Điều này giúp tăng cường an toàn cho bạn và
-              những người tham gia giao thông xung quanh.
-            </Typography.Paragraph>
-            <Typography.Paragraph style={{ fontSize: 18, color: 'black' }}>
-              Mở rộng cơ hội việc làm: Trình độ B2 ô tô cũng mở ra nhiều cơ hội
-              việc làm trong lĩnh vực lái xe, như lái taxi, lái xe tải, hoặc
-              công việc liên quan đến vận tải và giao thông.
-            </Typography.Paragraph>
+          <Col span={15}>
+            <div style={{ marginLeft: '30%' }}>
+              <Title
+                level={1}
+                style={{
+                  fontWeight: 'bolder',
+                  color: '#2E3856',
+                }}
+              >
+                Tại sao nên học B2 ?
+              </Title>
+              <Typography.Paragraph style={{ fontSize: 18, color: 'black' }}>
+                Hợp pháp lái xe: Trình độ B2 ô tô là mức độ pháp lý để lái xe ô
+                tô trong nhiều quốc gia. Nắm vững kiến thức và kỹ năng lái xe B2
+                sẽ giúp bạn tuân thủ quy định giao thông và tránh vi phạm pháp
+                luật.
+              </Typography.Paragraph>
+              <Typography.Paragraph style={{ fontSize: 18, color: 'black' }}>
+                An toàn giao thông: Học B2 ô tô giúp bạn hiểu rõ về các quy tắc
+                an toàn giao thông, kỹ thuật lái xe và kỹ năng phản ứng trong
+                các tình huống nguy hiểm. Điều này giúp tăng cường an toàn cho
+                bạn và những người tham gia giao thông xung quanh.
+              </Typography.Paragraph>
+              <Typography.Paragraph style={{ fontSize: 18, color: 'black' }}>
+                Mở rộng cơ hội việc làm: Trình độ B2 ô tô cũng mở ra nhiều cơ
+                hội việc làm trong lĩnh vực lái xe, như lái taxi, lái xe tải,
+                hoặc công việc liên quan đến vận tải và giao thông.
+              </Typography.Paragraph>
+            </div>
           </Col>
-          <Col span={8}>
+          <Col span={6}>
             <img
               src={driving_theory}
               alt="img"
