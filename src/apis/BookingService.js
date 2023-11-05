@@ -47,8 +47,8 @@ const deleteBooking = (_id) => {
   });
 };
 
-const getAvailableTeacher = () => {
-  return axios.get(`${BOOKING_API_URL}/available-teacher`, {
+const getAvailableTeacher = (date) => {
+  return axios.get(`${BOOKING_API_URL}/available-teacher?date=${date}`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
