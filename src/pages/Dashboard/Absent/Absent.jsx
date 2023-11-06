@@ -1,4 +1,4 @@
-import { Button, Col, Modal, Popconfirm, Row, Space, Table, notification, Layout, Tag } from "antd"
+import { Button, Col, Modal, Row, Space, Table, notification, Layout, Tag } from "antd"
 import Sidebar from "../../../components/sidebar/Sidebar"
 import { useEffect, useState } from "react"
 import { getAllAbsent, approveAbsent, rejectAbsent } from "../../../apis/AbsentService"
@@ -17,7 +17,7 @@ const Absent = () => {
                     avatar = pic;
                 }
                 return (
-                    <img src={avatar} alt="avatar" style={{ width: '70px', height: '70px' }} />
+                    <img src={avatar} alt="avatar" style={{ width: '70px', height: '70px', objectFit: 'cover' }} />
                 )
             }
         },

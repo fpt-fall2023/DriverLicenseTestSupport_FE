@@ -9,6 +9,7 @@ import {
 import moment from 'moment';
 import dayjs from 'dayjs';
 import { Spin } from 'antd';
+import { TeacherProfile } from './TeacherProfile';
 
 const Booking = () => {
   const [isCourseSelected, setIsCourseSelected] = useState(false);
@@ -24,8 +25,9 @@ const Booking = () => {
 
   // on change selected
   const [dateSelected, setDateSelected] = useState(new Date().toISOString().split("T")[0]);
-  const [teacherSelected, setTeacherSelected] = useState('');
+  const [teacherSelectedId, setTeacherSelected] = useState('');
   const [slotSelected, setSlotSelected] = useState('');
+  const [teacherProfile, setTeacherProfile] = useState('');
 
   //avaiable teacher and slot
   const [teacher, setTeacher] = useState([]);
@@ -35,6 +37,7 @@ const Booking = () => {
   // const [next7days, setNext7days] = useState([]);
 
   const [form] = Form.useForm();
+  const date = new Date().toISOString().slice(0, 10);
 
   useEffect(() => {
     getAllAvaiableTeacher(dateSelected);
@@ -42,8 +45,8 @@ const Booking = () => {
   }, [dateSelected]);
 
   useEffect(() => {
-    if (teacherSelected) {
-      getAvailableTime(teacherSelected, dateSelected)
+    if (teacherSelectedId) {
+      getAvailableTime(teacherSelectedId, dateSelected)
         .then((res) => {
           if (res.status === 200) {
             setSlot(res.data.availableSlots);
@@ -53,7 +56,7 @@ const Booking = () => {
           console.log(err);
         });
     }
-  }, [teacherSelected, dateSelected])
+  }, [teacherSelectedId, dateSelected])
 
   const getAllAvaiableTeacher = (date) => {
     getAvailableTeacher(date)
@@ -86,17 +89,15 @@ const Booking = () => {
     );
   };
 
-  console.log(booking);   
   const onFinish = () => {
-    
     if (!booking.teacher || !booking.course || !booking.timeStart) {
       notification.error({
         message: 'Vui lòng điền đầy đủ thông tin đăng ký',
         placement: 'topRight',
       });
       return;
-    } 
-    
+    }
+
     setOnCreateBooking(true)
     createBooking(
       JSON.parse(localStorage.getItem('user'))._id,
@@ -136,7 +137,7 @@ const Booking = () => {
       <Card
         title="Đặt lịch học"
         bordered={false}
-        style={{ width: '40%', marginTop: '-5rem', height: 300 }}
+        style={{ width: '40%', marginTop: '-5rem', minHeight: 300 }}
         actions={[
           <Button key="button" type="primary" htmlType="submit" size='large' onClick={onFinish} loading={isOnCreateBooking}>
             Đặt lịch
@@ -178,17 +179,24 @@ const Booking = () => {
                 onChange={(value) => {
                   setSlot(null);
                   setIsTeacherSelected(true)
+                  const selectedTeacherObject = teacher.find(item => item._id === value);
+                  setTeacherProfile(selectedTeacherObject)
                   setTeacherSelected(value)
                   setBooking((booking) => ({ ...booking, teacher: value }))
                 }}
               >
                 {teacher?.map((item, index) => (
-                  <Select.Option key={index} value={item._id}>
-                    {item.name}
-                  </Select.Option>
+                  // <Spin key={index} spinning={true}> 
+                    <Select.Option key={index}  value={item._id}>
+                      {item.name}
+                    </Select.Option>
+                  // </Spin>
                 ))}
               </Select>
             </Form.Item>
+            {
+              teacherProfile && <TeacherProfile teacher={teacherProfile} />
+            }
           </div>
 
           <div style={{ width: '300px' }}>
@@ -201,7 +209,7 @@ const Booking = () => {
             >
               <DatePicker
                 disabledDate={disabledDate}
-                defaultValue={dayjs("2023-11-05")}
+                defaultValue={dayjs(date)}
                 onChange={(_, dateString) => {
                   setSlot([])
                   setTeacher(null)
@@ -239,7 +247,7 @@ const Booking = () => {
                       )
                     })
                     :
-                    teacherSelected ?
+                    teacherSelectedId ?
                       <Spin tip="Đang cập nhật khung giờ còn trống...">
                         <div className="content" />
                       </Spin> : ""

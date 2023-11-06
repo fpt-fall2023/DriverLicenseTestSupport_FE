@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getAllBookings, getStudentBookings } from '../../apis/BookingService';
-import { Calendar, Col, Row, Badge } from 'antd';
+import { Calendar, Col, Row, Badge, Spin } from 'antd';
 import { Modal } from 'antd';
 
 const SchedualPage = () => {
@@ -8,6 +8,7 @@ const SchedualPage = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const [modalVisible, setModalVisible] = useState(false);
   const [detail, setDetail] = useState({});
+  const [onFetchData, setOnFetchData] = useState(false);
 
   const handleTimeClick = (timeStart, timeEnd) => {
     // Hiển thị modal
@@ -25,24 +26,29 @@ const SchedualPage = () => {
   const getStudentBooking = () => {
     const role = JSON.parse(localStorage.getItem('user')).role;
     if (role === 'teacher') {
+      setOnFetchData(true)
       getStudentBookings(
         JSON.parse(localStorage.getItem('user'))._id,
         'teacher',
       )
         .then((res) => {
-          console.log(res.data.data.Booking);
+          setOnFetchData(false)
           setBooking(res.data.data.Booking);
         })
         .catch((err) => {
+          setOnFetchData(false)
           console.log(err);
         });
     } else {
+      setOnFetchData(true)
       getStudentBookings(JSON.parse(localStorage.getItem('user'))._id, 'user')
         .then((res) => {
+          setOnFetchData(false)
           console.log(res.data.data.Booking);
           setBooking(res.data.data.Booking);
         })
         .catch((err) => {
+          setOnFetchData(false)
           console.log(err);
         });
     }
@@ -66,7 +72,7 @@ const SchedualPage = () => {
     return (
       <div>
         {listData.map((item) => (
-          <div key={item.timeStart}>
+          <div key={item._id}>
             <div
               onClick={() => {
                 handleTimeClick(item.timeStart, item.timeEnd);
@@ -98,7 +104,7 @@ const SchedualPage = () => {
                 }
               }}
             >
-              <Badge status="success" style={{ marginRight: '10px' }} />
+              <Badge status={`${date <= item?.detail?.date ? 'success' : 'error'}`} style={{ marginRight: '10px' }} />
               {item.timeStart}-{item.timeEnd}
             </div>
           </div>
@@ -115,7 +121,9 @@ const SchedualPage = () => {
     <div>
       <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
         <Col span={18}>
-          <Calendar cellRender={cellRender} />
+          <Spin spinning={onFetchData}>
+            <Calendar cellRender={cellRender} />
+          </Spin>
         </Col>
         <Modal
           title="Thông tin buổi học"
