@@ -136,10 +136,6 @@ const Learning = () => {
     setIsShuffle(!isShuffle);
   };
 
-  // const test = () => {
-  //   console.log(getRandomNumber(5));
-  // };
-
   return (
     <div className={LearningCss.learningContainer}>
       <div className="learningHeader">

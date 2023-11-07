@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getTrafficSigns } from '../../apis/TrafficSignService';
 import { Collapse, Spin } from 'antd';
 
@@ -10,29 +10,15 @@ const TrafficSignsPage = () => {
   const [bien_bao_phu, setBienBaoPhu] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const columns = [
-    {
-      title: 'Biển báo',
-      dataIndex: 'trafficName',
-      render: (text, record) => (
-        <div>
-          <h3>{record.title}</h3>
-          <img src={record.image} alt={record.title} />
-          <p>{record.description}</p>
-        </div>
-      ),
-    },
-  ];
-
   const items = [
     {
       key: '1',
       label: 'Biển báo cấm',
       children: (
         <div>
-          {bien_bao_cam.map((item) => {
+          {bien_bao_cam.map((item, index) => {
             return (
-              <div>
+              <div key={index}>
                 <h3>{item.title}</h3>
                 <img src={item.image} alt={item.title} />
                 <p>{item.description}</p>
@@ -47,9 +33,9 @@ const TrafficSignsPage = () => {
       label: 'Biển báo chỉ dẫn',
       children: (
         <div>
-          {bien_bao_chi_dan.map((item) => {
+          {bien_bao_chi_dan.map((item, index) => {
             return (
-              <div>
+              <div key={index}>
                 <h3>{item.title}</h3>
                 <img src={item.image} alt={item.title} />
                 <p>{item.description}</p>
@@ -64,9 +50,9 @@ const TrafficSignsPage = () => {
       label: 'Biển báo hiệu lệnh',
       children: (
         <div>
-          {bien_bao_hieu_lenh.map((item) => {
+          {bien_bao_hieu_lenh.map((item, index) => {
             return (
-              <div>
+              <div key={index}>
                 <h3>{item.title}</h3>
                 <img src={item.image} alt={item.title} />
                 <p>{item.description}</p>
@@ -81,9 +67,9 @@ const TrafficSignsPage = () => {
       label: 'Biển báo nguy hiểm',
       children: (
         <div>
-          {bien_bao_nguy_hiem.map((item) => {
+          {bien_bao_nguy_hiem.map((item, index) => {
             return (
-              <div>
+              <div key={index}>
                 <h3>{item.title}</h3>
                 <img src={item.image} alt={item.title} />
                 <p>{item.description}</p>
@@ -98,9 +84,9 @@ const TrafficSignsPage = () => {
       label: 'Biển báo phụ',
       children: (
         <div>
-          {bien_bao_phu.map((item) => {
+          {bien_bao_phu.map((item, index) => {
             return (
-              <div>
+              <div key={index}>
                 <h3>{item.title}</h3>
                 <img src={item.image} alt={item.title} />
                 <p>{item.description}</p>

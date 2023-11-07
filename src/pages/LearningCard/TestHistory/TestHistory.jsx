@@ -1,4 +1,4 @@
-import { Collapse, Table, Tag, notification, Layout } from 'antd';
+import { Table, Tag, notification, Layout, Spin, Button } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { getAllTestResult } from '../../../apis/TestResultService';
@@ -23,7 +23,7 @@ const TestHistory = () => {
       key: 'score',
     },
     {
-      title: 'Test Type',
+      title: 'Loại bằng',
       dataIndex: 'testType',
       key: 'testType',
       sorter: (a, b) => a?.testType?.localeCompare(b.testType),
@@ -37,6 +37,21 @@ const TestHistory = () => {
         </>
       ),
     },
+    {
+      title: 'Kết quả',
+      dataIndex: 'isPass',
+      key: 'isPass',
+      render: (_, { isPass }) => (
+        isPass ?
+          <Button type="primary" danger>
+            Đậu
+          </Button>
+          :
+          <Button type="primary" danger>
+            Rớt
+          </Button>
+      )
+    },
   ];
 
   useEffect(() => {
@@ -44,21 +59,19 @@ const TestHistory = () => {
       top: 0,
       behavior: 'smooth',
     });
-    getAllTestResult()
+    const user = JSON.parse(localStorage.getItem('user'));
+    getAllTestResult(user._id)
       .then((rs) => {
         const testResult = rs.data.data.TestResult;
-        const userID = JSON.parse(localStorage.getItem('user'));
-        const testHistory = testResult?.filter(
-          (item) => item.userId?._id == userID._id,
-        );
         const finalResult = [];
-        for (let i = 0; i < testHistory.length; i++) {
+        for (let i = 0; i < testResult.length; i++) {
           let sample = {};
-          sample.name = testHistory[i].sampleTestId.testName;
-          sample.testType = testHistory[i].sampleTestId.testType;
-          sample.rightAns = testHistory[i].numRightQuestion + '/35';
-          sample.score = testHistory[i].score + '/100';
-
+          sample.key = testResult[i]._id;
+          sample.name = testResult[i].sampleTestId.testName;
+          sample.testType = testResult[i].sampleTestId.testType;
+          sample.rightAns = testResult[i].numRightQuestion + '/35';
+          sample.score = testResult[i].score + '/100';
+          sample.isPass = testResult[i].isPass;
           finalResult.push(sample);
         }
         setTestHistory(finalResult);
@@ -78,7 +91,9 @@ const TestHistory = () => {
       }}
     >
       <div style={{ minHeight: '100vh' }}>
-        <Table columns={columns} dataSource={testHistory} />
+        <Spin spinning={!(testHistory.length > 0)}>
+          <Table columns={columns} dataSource={testHistory} />
+        </Spin>
       </div>
     </Layout>
   );
