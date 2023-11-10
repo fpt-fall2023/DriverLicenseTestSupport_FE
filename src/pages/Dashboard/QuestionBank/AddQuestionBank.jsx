@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import styles from './QuestionBank.module.css';
 import { useEffect, useState } from 'react';
 import { addQuestionBank, getQuestions } from '../../../apis/QuestionService';
-import { questionBankArray, questionCategoryType } from './AddPageData';
+import {
+  questionBankArray,
+  questionCategoryTypeB2,
+  questionCategoryTypeB1,
+} from './AddPageData';
 import ConfirmationPrompt from '../../../components/ConfirmationPopup/ConfirmationPrompt';
 
 const AddQuestionBank = () => {
@@ -21,8 +25,10 @@ const AddQuestionBank = () => {
   const [questionBankName, setQuestionBankName] = useState();
   const [driveType, setDriveType] = useState();
   const [questionToBank, setQuestionToBank] = useState(questionBankArray);
-  const [questionCategory, setQuestionCategory] =
-    useState(questionCategoryType);
+  const [questionCategory, setQuestionCategory] = useState(
+    questionCategoryTypeB2,
+  );
+  const [isSelectedType, setIsSelectedType] = useState(false);
 
   //Lọc từng mục
   const [khaiNiem, setKhaiNiem] = useState([]);
@@ -130,13 +136,18 @@ const AddQuestionBank = () => {
   };
 
   const handleAddQuestionToBank = (value) => {
+    let limitQuestion = 10;
+    if (driveType === 'B1') {
+      //Chọn B1 giảm còn 30 câu
+      limitQuestion = 5;
+    }
     handleQuestionToBankLogic(value, 'khái niệm', 0, 9);
     handleQuestionToBankLogic(value, 'nghiệp vụ', 1, 1);
     handleQuestionToBankLogic(value, 'văn hóa', 2, 1);
     handleQuestionToBankLogic(value, 'kỹ thuật', 3, 2);
     handleQuestionToBankLogic(value, 'cấu tạo', 4, 1);
     handleQuestionToBankLogic(value, 'hệ thống biển báo', 5, 10);
-    handleQuestionToBankLogic(value, 'sa hình', 6, 10);
+    handleQuestionToBankLogic(value, 'sa hình', 6, limitQuestion);
     handleQuestionToBankLogic(value, 'mất an toàn giao thông', 7, 1);
   };
 
@@ -190,7 +201,7 @@ const AddQuestionBank = () => {
           window.location.reload();
         }
       })
-      .catch((err) => {
+      .catch(() => {
         notification.error({
           message: 'Tạo đề thất bại. Hãy chắc là tên đề này chưa tồn tại',
         });
@@ -208,7 +219,12 @@ const AddQuestionBank = () => {
       <Spin spinning={isLoading} indicator={tohruLoading}>
         <div className={styles.questionBank__details}>
           <div className={styles.questionBank__details__line}>
-            <div className={styles.questionBank__details__title}>Tên Đề:</div>
+            <div
+              onClick={() => console.log(questionToBank)}
+              className={styles.questionBank__details__title}
+            >
+              Tên Đề:
+            </div>
             <Input
               placeholder="Nhập tên đề"
               style={{ width: '15rem' }}
@@ -232,12 +248,26 @@ const AddQuestionBank = () => {
                 },
               ]}
               onChange={(value) => {
-                setDriveType(value);
+                //Sau khi chọn loại đề thi, clear array đã add câu hỏi & mở chọn câu hỏi
+                if (value === 'B1') {
+                  setQuestionCategory(questionCategoryTypeB1);
+                  setQuestionToBank(() => questionBankArray);
+                  setIsSelectedType(true);
+                  setDriveType('B1');
+                } else if (value === 'B2') {
+                  setQuestionCategory(questionCategoryTypeB2);
+                  setQuestionToBank(() => questionBankArray);
+                  setIsSelectedType(true);
+                  setDriveType('B2');
+                }
               }}
+              disabled={isSelectedType}
             />
             <div className={styles.questionBank__details__title}>
               Mục Câu Hỏi Trong Đề:
             </div>
+            {/* Chọn mục câu hỏi, Sau khi chọn loại đề cần cập nhật drop box */}
+
             <Select
               placeholder="Chọn mục câu hỏi"
               options={questionCategory}
@@ -245,6 +275,7 @@ const AddQuestionBank = () => {
               onSelect={(value) => {
                 handleShowCategory(value);
               }}
+              disabled={!isSelectedType}
             />
 
             <div className={styles.questionBank__details__title}>
