@@ -1,6 +1,5 @@
-import React, { useEffect, useReducer, useRef, useState } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import Highlighter from 'react-highlight-words';
-
 import {
   Col,
   Row,
@@ -21,11 +20,11 @@ import { SearchOutlined } from '@ant-design/icons';
 import Sidebar from '../../../components/sidebar/Sidebar';
 import {
   deleteBooking,
-  getAllBookings,
   updateDateBooking,
 } from '../../../apis/BookingService';
 
 import BookingCss from './Booking.module.css';
+import axios from 'axios';
 
 const ManageBooking = () => {
   const dateFormat = 'YYYY-MM-DD';
@@ -81,7 +80,7 @@ const ManageBooking = () => {
     }
     setForceUpdate();
   };
-  const popCancel = () => {};
+  const popCancel = () => { };
 
   //Table settings
   const searchInput = useRef(null);
@@ -198,21 +197,21 @@ const ManageBooking = () => {
   });
   const columns = [
     {
-      title: 'Teacher',
+      title: 'Giáo viên',
       dataIndex: 'teacher',
       key: 'teacher',
       width: '20%',
       ...getColumnSearchProps('teacher'),
     },
     {
-      title: 'Course',
+      title: 'Khóa học',
       dataIndex: 'course',
       key: 'course',
       width: '20%',
       ...getColumnSearchProps('course'),
     },
     {
-      title: 'Date',
+      title: 'Ngày học',
       dataIndex: 'date',
       key: 'date',
       ...getColumnSearchProps('date'),
@@ -220,7 +219,7 @@ const ManageBooking = () => {
       // sortDirections: ['descend', 'ascend'],
     },
     {
-      title: 'Time Start',
+      title: 'Giờ học',
       dataIndex: 'timeStart',
       key: 'timeStart',
       // sorter: (a, b) => sortTime(a, b),
@@ -228,14 +227,14 @@ const ManageBooking = () => {
       ...getColumnSearchProps('timeStart'),
     },
     {
-      title: 'Student',
+      title: 'Học sinh',
       dataIndex: 'student',
       key: 'student',
       width: '15%',
       ...getColumnSearchProps('student'),
     },
     {
-      title: 'Car',
+      title: 'Xe',
       dataIndex: 'car',
       key: 'car',
       width: '15%',
@@ -245,9 +244,13 @@ const ManageBooking = () => {
 
   useEffect(() => {
     setLoading(true);
-    getAllBookings()
-      .then((rs) => {
-        const data = rs.data.data.Booking;
+
+    async function getNewBooking() {
+      const res = await axios.get('http://localhost:8800/api/v1/booking?sort=-date', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      })
+      if (res.data.status === 'success') {
+        const data = res.data.data.Booking;
         const result = [];
         for (let i = 0; i < data.length; i++) {
           if (data[i]) {
@@ -265,13 +268,14 @@ const ManageBooking = () => {
         }
         setBookingData(result);
         setLoading(false);
-      })
-      .catch(() => {
+      } else {
         notification.error({
           message: 'Error when getting the booking data',
         });
         setLoading(false);
-      });
+      }
+    }
+    getNewBooking();
   }, [forceUpdate]);
 
   // const sortTime = (a, b) => {

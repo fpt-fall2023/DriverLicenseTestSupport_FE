@@ -12,6 +12,7 @@ import ConfirmationPrompt from '../../../components/ConfirmationPopup/Confirmati
 
 const AddQuestionBank = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedQuestion, setSelectedQuestion] = useState('');
 
   const tohruLoading = (
     <div style={{ width: '25rem' }}>
@@ -330,10 +331,14 @@ const AddQuestionBank = () => {
                     width: '3rem',
                     height: '3rem',
                     margin: '0.5rem',
-                    backgroundColor: '#e6f7ff',
-                    border: '1px solid black',
+                    backgroundColor: `${selectedQuestion._id === item._id ? '#1677ff' : '#e6f7ff'}`,
+                    border: '1px solid #717171',
+                    color: `${selectedQuestion._id === item._id ? '#fff' : '#000'}`,
                   }}
-                  onClick={() => showQuestion(item)}
+                  onClick={() => {
+                    showQuestion(item)
+                    setSelectedQuestion(item)
+                  }}
                   key={item._id}
                 >
                   {index + 1}

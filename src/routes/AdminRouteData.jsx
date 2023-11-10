@@ -12,6 +12,8 @@ import Slot from '../pages/Dashboard/Slot/Slot';
 import Course from '../pages/Dashboard/Course/Course';
 import Car from '../pages/Dashboard/Car/Car';
 import Absent from '../pages/Dashboard/Absent/Absent';
+import ChangeScheduleNotice from '../pages/Dashboard/ChangeScheduleNotice/ChangeScheduleNotice';
+
 const AdminRouteData = [
   {
     title: 'QuestionPage',
@@ -82,7 +84,13 @@ const AdminRouteData = [
     title: 'AbsentPage',
     path: 'dashboard/Absent',
     element: <Absent />,
+    // element: <ChangeScheduleNotice />,
   },
+  {
+    title: 'Change Schedule Notice',
+    path: 'dashboard/ChangeSchdeduleNotice',
+    element: <ChangeScheduleNotice />,
+  }
 ];
 
 export default AdminRouteData;

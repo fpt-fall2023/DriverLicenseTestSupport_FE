@@ -6,7 +6,7 @@ import {
   BookOutlined,
   CalendarOutlined,
   CarOutlined,
-
+  SyncOutlined,
   InsertRowAboveOutlined
 
 } from '@ant-design/icons';
@@ -88,9 +88,14 @@ function Sidebar() {
           },
           {
             label: "QUẢN LÝ LỊCH NGHỈ",
-            key: "/dashboard/Absent",
+            key: "/dashboard/Absent", 
             icon: <InsertRowAboveOutlined />,
           },
+          // {
+          //   label: "THÔNG BÁO THAY ĐỔI LỊCH",
+          //   key: "/dashboard/ChangeSchdeduleNotice",
+          //   icon: <SyncOutlined />
+          // }
         ]}
       ></Menu>
     </div>

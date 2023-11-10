@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { TEST_RESULT_API_URL } from './APIConfig';
 
-const getAllTestResult = () => {
-  return axios.get(TEST_RESULT_API_URL, {
+const getAllTestResult = (id) => {
+  return axios.get(TEST_RESULT_API_URL + `?sort=-createdAt&userId=${id}`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
