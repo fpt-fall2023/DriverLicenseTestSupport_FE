@@ -117,6 +117,7 @@ const Booking = () => {
           setSlot('')
           setIsTeacherSelected(false);
           setIsCourseSelected(false);
+          setTeacherProfile('')
         }
       })
       .catch((err) => {
